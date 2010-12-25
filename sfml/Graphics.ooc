@@ -122,7 +122,7 @@ RenderWindow: cover from sfRenderWindow* {
     drawPostFX: extern(sfRenderWindow_DrawPostFX) func (postFX: PostFX)
     drawSprite: extern(sfRenderWindow_DrawSprite) func (sprite: Sprite)
     drawShape: extern(sfRenderWindow_DrawShape) func (shape: Shape)
-    drawString: extern(sfRenderWindow_DrawString) func (string: String)
+    drawString: extern(sfRenderWindow_DrawSfString) func (string: SfString)
     capture: extern(sfRenderWindow_Capture) func -> Image
     clear: extern(sfRenderWindow_Clear) func ~withColor (color: Color)
     clear: func ~defaultColor() {
@@ -137,7 +137,7 @@ RenderWindow: cover from sfRenderWindow* {
     draw: extern(sfRenderWindow_DrawPostFX) func ~postfx (postFX: PostFX)
     draw: extern(sfRenderWindow_DrawSprite) func ~sprite (sprite: Sprite)
     draw: extern(sfRenderWindow_DrawShape) func ~shape (shape: Shape)
-    draw: extern(sfRenderWindow_DrawString) func ~string (string: String)
+    draw: extern(sfRenderWindow_DrawString) func ~string (string: SfString)
 }
 
 Shape: cover from sfShape* {
@@ -223,8 +223,8 @@ Sprite: cover from sfSprite* {
     getPixel: extern(sfSprite_GetPixel) func (x: UInt, y: UInt) -> Color
 }
 
-String: cover from sfString* {
-    new: extern(sfString_Create) static func -> String
+SfString: cover from sfString* {
+    new: extern(sfString_Create) static func -> SfString
     destroy: extern(sfString_Destroy) func
     setX: extern(sfString_SetX) func (x: Float)
     setY: extern(sfString_SetY) func (y: Float)

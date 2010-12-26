@@ -23,6 +23,15 @@ FloatRect: cover from sfFloatRect {
 //    offset: extern(sfFloatRect_Offset) func (offsetX: Float, offsetY: Float)
 //    contains: extern(sfFloatRect_Contains) func (x: Float, y: Float) -> Bool
 //    intersects: extern(sfFloatRect_Intersects) func (rect2: FloatRect, overlappingRect: FloatRect) -> Bool
+
+    new : static func (.left, .top, .width, .height) -> This {
+        this: FloatRect
+        this left = left
+        this top = top
+        this width = width
+        this height = height
+        this
+    }
 }
 
 IntRect: cover from sfIntRect {
@@ -36,12 +45,12 @@ IntRect: cover from sfIntRect {
 //    contains: extern(IntRect_Contains) func (x: Int, y: Int) -> Bool
 //    intersects: extern(IntRect_Intersects) func (rect2: IntRect, overlappingRect: IntRect) -> Bool
 
-    new : static func (.left, .top, .right, .bottom) -> This {
+    new : static func (.left, .top, .width, .height) -> This {
         this: IntRect
         this left = left
         this top = top
-        this right = right
-        this bottom = bottom
+        this width = width
+        this height = height
         this
     }
 }
@@ -327,15 +336,20 @@ Text: cover from sfText* {
 View: cover from sfView* {
     new: extern(sfView_Create) static func -> View
     new: extern(sfView_CreateFromRect) static func ~fromRect (rect: FloatRect) -> View
+    copy: extern(sfView_Copy) func -> View
     destroy: extern(sfView_Destroy) func
     setCenter: extern(sfView_SetCenter) func (x: Float, y: Float)
-    setHalfSize: extern(sfView_SetHalfSize) func (halfWidth: Float, halfHeight: Float)
-    setFromRect: extern(sfView_SetFromRect) func (viewRect: FloatRect)
+    setSize: extern(sfView_SetSize) func (width,height : Float)
+    setRotation: extern(sfView_SetRotation) func (angle : Float)
+    setViewport: extern(sfView_SetViewport) func(viewport : FloatRect)
+    reset: extern(sfView_Reset) func(rectangle : FloatRect)
     getCenterX: extern(sfView_GetCenterX) func -> Float
     getCenterY: extern(sfView_GetCenterY) func -> Float
-    getHalfSizeX: extern(sfView_GetHalfSizeX) func -> Float
-    getHalfSizeY: extern(sfView_GetHalfSizeY) func -> Float
-    getRect: extern(sfView_GetRect) func -> FloatRect
+    getWidth: extern(sfView_GetWidth) func -> Float
+    getHeight: extern(sfView_GetHeight) func -> Float
+    getRotation: extern(sfView_GetRotation) func -> Float
+    getViewport: extern(sfView_GetViewport) func -> FloatRect
+    rotate: extern(sfView_Rotate) func(angle : Float)
     move: extern(sfView_Move) func (offsetX: Float, offsetY: Float)
     zoom: extern(sfView_Zoom) func (factor: Float)
 }

@@ -1,60 +1,29 @@
 import sfml/[Graphics, Windows]
  
-include unistd | (__USE_BSD)
-usleep: extern func(Int)
- 
 main: func {
-    mode := VideoMode new(600, 470)
-    win := RenderWindow new(mode, "Hello World!", Style TITLEBAR, WindowSettings new())
+    // Create a new window of 600*470 pixels, with title Hello World!.
+    //Optional arguments: style of the window and context settings of the window
+    win := RenderWindow new(VideoMode new(600,470), "Hello World!" as Char*)
+    // load an image
     image := Image new("data/cool_sprite.jpg")
+    // make a sprite and load the image into it
     sprite := Sprite new()
     sprite setImage(image)
-    box := BouncingBox new(win)
  
-    while(win isOpened()) {
+    // While the window is opened
+    while(win opened?()) {
         evt: Event
+        // we check the events to see if user wants to close window
         while(win getEvent(evt&)) {
             if(evt type == EventType closed) {
+                // if he does, close it
                 win close()
             }
         }
-        win drawSprite(sprite)
-      box update()
- 
-      win display()
+        // clear the window, draw the sprite and display it :) 
+        win clear()
+        win draw(sprite)
+        win display()
     }
 }
  
-BouncingBox: class {
- 
-   win: RenderWindow
-   velX := 1.5
-   velY := 1.5
-   sprite := Sprite new()
-   width := sprite getWidth()
-   height := sprite getHeight()
-   //halfWidth := sprite getWidth() / 2
-   //halfHeight := sprite getHeight() / 2
-   halfWidth := 75.0; halfHeight := 75.0
- 
-   init: func(=win) {
-       sprite setImage(Image new("data/cache.png"))
-      sprite move(-width / 4, -height / 4)
-   }
- 
-   update: func {
-      sprite move(velX, velY)
- 
-      x := sprite getX() + width / 2
-      y := sprite getY() + sprite getHeight() / 2
- 
-      if((x + halfWidth > win getWidth()) || (x - halfWidth < 0))
-         velX = -velX
- 
-      if((y + halfHeight > win getHeight()) || (y - halfHeight < 0))
-         velY = -velY
- 
-      win drawSprite(sprite)
-   }
- 
-}

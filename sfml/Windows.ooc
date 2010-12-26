@@ -1,10 +1,20 @@
 import sfml/System
+// SFML 2.0
 
 include SFML/Window
 
 use csfml-window
 
 WindowHandle: cover from sfWindowHandle
+
+Style: class {
+    none: extern(sfNone) static UInt
+    titleBar: extern(sfTitlebar) static UInt
+    resize: extern(sfResize) static UInt
+    close: extern(sfClose) static UInt
+    fullScreen: extern(sfFullscreen) static UInt
+    default: extern(sfDefaultStyle) static UInt
+}
 
 VideoMode: cover from sfVideoMode {
     width: extern(Width) UInt
@@ -30,14 +40,14 @@ VideoMode: cover from sfVideoMode {
 }
 
 Window: cover from sfWindow* {
-    new: extern(sfWindow_Create) static func (mode: VideoMode, title: Char*, style: ULong, params: WindowSettings) -> Window
-    new: extern(sfWindow_CreateFromHandle) static func ~fromHandle (handle: WindowHandle, params: WindowSettings) -> Window
+    new: extern(sfWindow_Create) static func (mode: VideoMode, title: Char*, style: ULong, params: ContextSettings) -> Window
+    new: extern(sfWindow_CreateFromHandle) static func ~fromHandle (handle: WindowHandle, params: ContextSettings) -> Window
     destroy: extern(sfWindow_Destroy) func
     close: extern(sfWindow_Close) func
     isOpened: extern(sfWindow_IsOpened) func -> Bool
     getWidth: extern(sfWindow_GetWidth) func -> UInt
     getHeight: extern(sfWindow_GetHeight) func -> UInt
-    getSettings: extern(sfWindow_GetSettings) func -> WindowSettings
+    getSettings: extern(sfWindow_GetSettings) func -> conSettings
     getEvent: extern(sfWindow_GetEvent) func (event: Event*) -> Bool
     useVerticalSync: extern(sfWindow_UseVerticalSync) func (enabled: Bool)
     showMouseCursor: extern(sfWindow_ShowMouseCursor) func (show: Bool)
@@ -53,33 +63,52 @@ Window: cover from sfWindow* {
     setFramerateLimit: extern(sfWindow_SetFramerateLimit) func (limit: UInt)
     getFrameTime: extern(sfWindow_GetFrameTime) func -> Float
     setJoystickThreshold: extern(sfWindow_SetJoystickThreshold) func (threshold: Float)
+    getSystemHandle: extern(sfWindow_GetSystemHandle) func -> WindowHandle
 }
 
 Input: cover from sfInput* {
     isKeyDown: extern(sfInput_IsKeyDown) func (keyCode: KeyCode) -> Bool
-    isMouseButtonDown: extern(sfInput_IsMouseButtonDown) func (button: MouseButton) -> Bool
+    isMouseButtonDown: extern(sfInput_IsMouseButtonDown) func (button: Int) -> Bool
     isJoystickButtonDown: extern(sfInput_IsJoystickButtonDown) func (joyId: UInt, button: UInt) -> Bool
     getMouseX: extern(sfInput_GetMouseX) func -> Int
     getMouseY: extern(sfInput_GetMouseY) func -> Int
-    getJoystickAxis: extern(sfInput_GetJoystickAxis) func (joyId: UInt, axis: JoyAxis) -> Float
+    getJoystickAxis: extern(sfInput_GetJoystickAxis) func (joyId: UInt, axis: Int) -> Float
 }
 
-WindowSettings: cover from sfWindowSettings {
+conSettings : cover from sfContextSettings {
     depthBits: extern(DepthBits) UInt
     stencilBits: extern(StencilBits) UInt
     antialiasingLevel: extern(AntialiasingLevel) UInt
+    majorVersion: extern(MajorVersion) UInt
+    minorVersion: extern(MinorVersion) UInt
 
-    new: static func (.depthBits, .stencilBits, .antialiasingLevel) -> This {
-        this: WindowSettings
+    new: static func (.depthBits, .stencilBits, .antialiasingLevel, .majorVersion, .minorVersion) -> This {
+        this: conSettings
         this depthBits = depthBits
         this stencilBits = stencilBits
         this antialiasingLevel = antialiasingLevel
+        this majorVersion = majorVersion
+        this minorVersion = minorVersion
         this
     }
 
     new: static func ~default -> This {
-        This new(24, 8, 0)
+        This new(24, 8, 0, 2, 0)
     }
+}
+
+ContextSettings: cover from conSettings* {
+    new: static func (depthBits, stencilBits, antialiasingLevel, majorVersion, minorVersion : UInt) -> This
+    {
+        this := gc_malloc(conSettings size)  as ContextSettings
+        this@ = conSettings new(depthBits,stencilBits,antialiasingLevel,majorVersion,minorVersion)
+        this
+    }
+
+    new: static func ~default -> This {
+        This new(24, 8, 0, 2, 0)
+    }
+    
 }
 
 Event: cover from sfEvent {
@@ -101,8 +130,15 @@ JoyButtonEvent: cover from struct sfJoyButtonEvent {
     button: extern(Button) UInt
 }
 
-JoyAxis: cover from sfJoyAxis
-/* TODO */
+JoyAxis: cover from sfJoyAxis {
+    X: extern(sfJoyAxisX) static Int
+    Y: extern(sfJoyAxisY) static Int
+    Z: extern(sfJoyAxisZ) static Int
+    R: extern(sfJoyAxisR) static Int
+    U: extern(sfJoyAxisU) static Int
+    V: extern(sfJoyAxisV) static Int
+    POV: extern(sfJoyAxisPOV) static Int
+}
 
 JoyMoveEvent: cover from struct sfJoyMoveEvent {
     type: extern(Type) Int
@@ -112,7 +148,7 @@ JoyMoveEvent: cover from struct sfJoyMoveEvent {
 }
 
 KeyCode: cover from sfKeyCode {
-    A: extern(sfKeyA) Char
+    A: extern(sfKeyA) static Char
     B: extern(sfKeyB) static Char
     C: extern(sfKeyC) static Char
     D: extern(sfKeyD) static Char
@@ -214,8 +250,14 @@ KeyEvent: cover from struct sfKeyEvent {
     shift: extern(Shift) Bool
 }
 
-MouseButton: cover from sfMouseButton
-/* TODO */
+MouseButton: cover from sfMouseButton {
+    Left: extern(sfButtonLeft) static Int
+    Right: extern(sfButtonRight) static Int
+    Middle: extern(sfButtonMiddle) static Int
+    X1: extern(sfButtonX1) static Int
+    X2: extern(sfButtonX2) static Int
+}
+
 
 MouseButtonEvent: cover from struct sfMouseButtonEvent {
     type: extern(Type) Int

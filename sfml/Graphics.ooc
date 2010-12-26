@@ -6,21 +6,20 @@ include SFML/Graphics/Font
 
 use csfml-graphics
 
-sfBlendMode: extern cover
-
-Style: class {
-    NONE: static const UInt = 0
-    TITLEBAR: static const UInt = 1
-    RESIZE: static const UInt = 2
-    CLOSE: static const UInt = 4
-    FULLSCREEN: static const UInt = 8
+BlendMode: cover from sfBlendMode {
+    alpha: extern(sfBlendAlpha) static Int
+    add: extern(sfBlendAdd) static Int
+    multiply: extern(sfBlendMultiply) static Int
+    none: extern(sfBlendNone) static Int
 }
 
 FloatRect: cover from sfFloatRect {
     left: extern(Left) Float
-    right: extern(Right) Float
     top: extern(Top) Float
-    bottom: extern(Bottom) Float
+    width: extern(Width) Float
+    height: extern(Height) Float
+    contains? : extern(sfFloatRect_Contains) func(x,y : Float) -> Bool
+    intersects? : extern(sfFloatRect_Intersects) func(rect2,intersection : FloatRect) -> Bool
 //    offset: extern(sfFloatRect_Offset) func (offsetX: Float, offsetY: Float)
 //    contains: extern(sfFloatRect_Contains) func (x: Float, y: Float) -> Bool
 //    intersects: extern(sfFloatRect_Intersects) func (rect2: FloatRect, overlappingRect: FloatRect) -> Bool
@@ -28,9 +27,11 @@ FloatRect: cover from sfFloatRect {
 
 IntRect: cover from sfIntRect {
     left: extern(Left) Int
-    right: extern(Right) Int
     top: extern(Top) Int
-    bottom: extern(Bottom) Int
+    width: extern(Width) Int
+    height: extern(Height) Int
+    contains? : extern(sfIntRect_Contains) func(x,y : Int) -> Bool
+    intersects? : extern(sfIntRect_Intersects) func(rect2,intersection : IntRect) -> Bool
 //    offset: extern(IntRect_Offset) func (offsetX: Int, offsetY: Int)
 //    contains: extern(IntRect_Contains) func (x: Int, y: Int) -> Bool
 //    intersects: extern(IntRect_Intersects) func (rect2: IntRect, overlappingRect: IntRect) -> Bool
@@ -46,8 +47,13 @@ IntRect: cover from sfIntRect {
 }
 
 Color: cover from sfColor {
-    new: extern(sfColor_FromRGB) static func ~rGB (r: UInt8, g: UInt8, b: UInt8) -> Color
-    new: extern(sfColor_FromRGBA) static func ~rGBA (r: UInt8, g: UInt8, b: UInt8, a: UInt8) -> Color
+    r: extern UInt8
+    g: extern UInt8
+    b: extern UInt8
+    a: extern UInt8
+    
+    new: extern(sfColor_FromRGB) static func ~rGB (red: UInt8, green: UInt8, blue: UInt8) -> Color
+    new: extern(sfColor_FromRGBA) static func ~rGBA (red: UInt8, green: UInt8, blue: UInt8, alpha: UInt8) -> Color
     add: extern(sfColor_Add) func (color2: Color) -> Color
     modulate: extern(sfColor_Modulate) func (color2: Color) -> Color
 }
@@ -58,12 +64,25 @@ Context: cover from sfContext* {
     setActive: extern(sfContext_SetActive) func (active: Bool)
 }
 
-Font: cover from sfFont*
+Font: cover from sfFont* {
+    new: extern(sfFont_CreateFromFile) static func ~file (filename: Char*) -> Font
+    new: extern(sfFont_CreateFromMemory) static func ~mem (data: Void*, sizeInButes: SizeT) -> Font
+    copy: extern(sfFont_Copy) func -> Font
+    destroy: extern(sfFont_Destroy) func
+    getGlyph: extern(sfFont_GetGlyph) func(codePoint: UInt32, characterSize: UInt, bold: Bool) -> Glyph
+    getKerning: extern(sfFont_GetKerning) func(first,second: UInt32, characterSize: UInt) -> Int
+    getLineSpacing: extern(sfFont_GetLineSpacing) func(characterSize: UInt) -> Int
+    getImage: extern(sfFont_GetImage) func(characterSize: UInt) -> Image
+}
+getDefaultFont: extern(sfFont_GetDefaultFont) static func -> Font
 
-Glyph: cover from sfGlyph*
+Glyph: cover from sfGlyph {
+    advance: extern(Advance) Int
+    bounds: extern(Bounds) IntRect
+    subRect: extern(SubRect) IntRect
+}
 
 Image: cover from sfImage* {
-    new: extern(sfImage_Create) static func -> Image
     new: extern(sfImage_CreateFromColor) static func ~fromColor (width: UInt, height: UInt, color: Color) -> Image
     new: extern(sfImage_CreateFromPixels) static func ~fromPixels (width: UInt, height: UInt, data: UInt8*) -> Image
     new: extern(sfImage_CreateFromFile) static func ~fromFile (filename: Char*) -> Image
@@ -71,16 +90,33 @@ Image: cover from sfImage* {
     destroy: extern(sfImage_Destroy) func
     saveToFile: extern(sfImage_SaveToFile) func (filename: Char*) -> Bool
     createMaskFromColor: extern(sfImage_CreateMaskFromColor) func (colorKey: Color, alpha: UInt8)
-    copy: extern(sfImage_Copy) func (source: Image, destX: UInt, destY: UInt, sourceRect: IntRect)
+    copy: extern(sfImage_Copy) func -> Image
+    copyImage: extern(sfImage_CopyImage) func (source: Image, destX: UInt, destY: UInt, sourceRect: IntRect)
     copyScreen: extern(sfImage_CopyScreen) func (window: RenderWindow, sourceRect: IntRect) -> Bool
     setPixel: extern(sfImage_SetPixel) func (x: UInt, y: UInt, color: Color)
     getPixel: extern(sfImage_GetPixel) func (x: UInt, y: UInt) -> Color
     getPixelsPtr: extern(sfImage_GetPixelsPtr) func -> UInt8*
+    updatePixels: extern(sfImage_UpdatePixels) func(pixels : UInt8*, rectangle : IntRect)
     bind: extern(sfImage_Bind) func
     setSmooth: extern(sfImage_SetSmooth) func (smooth: Bool)
     getWidth: extern(sfImage_GetWidth) func -> UInt
     getHeight: extern(sfImage_GetHeight) func -> UInt
     isSmooth: extern(sfImage_IsSmooth) func -> Bool
+}
+
+RenderImage : cover from sfRenderImage* {
+    new: extern(sfRenderImage_Create) static func (width,height : UInt, depthBuffer : Bool) -> RenderImage
+    destroy: extern(sfRenderImage_Destroy) func
+    getWidth: extern(sfRenderImage_GetWidth) func -> Int
+    getHeight: extern(sfRenderImage_GetHeight) func -> Int
+    setActive: extern(sfRenderImage_SetActive) func(active : Bool)
+    saveGLStates: extern(sfRenderImage_SaveGLStates) func
+    restoreGLStates: extern(sfRenderImage_RestoreGLStates) func
+    display: extern(sfRenderImage_Display) func
+    
+    drawSprite: extern(sfRenderImage_DrawSprite) func(sprite : Sprite)
+    drawShape: extern(sfRenderImage_DrawShape) func(shape : Shape)
+    drawText: extern(sfRenderImage_DrawText) func(text : Text)
 }
 
 PostFX: cover from sfPostFX* {
@@ -96,14 +132,14 @@ PostFX: cover from sfPostFX* {
 }
 
 RenderWindow: cover from sfRenderWindow* {
-    new: extern(sfRenderWindow_Create) static func (mode: VideoMode, title: Char*, style: ULong, params: WindowSettings) -> RenderWindow
-    new: extern(sfRenderWindow_CreateFromHandle) static func ~fromHandle (handle: WindowHandle, params: WindowSettings) -> RenderWindow
+    new: extern(sfRenderWindow_Create) static func (mode: VideoMode, title: Char*, style: ULong, params: ContextSettings) -> RenderWindow
+    new: extern(sfRenderWindow_CreateFromHandle) static func ~fromHandle (handle: WindowHandle, params: ContextSettings) -> RenderWindow
     destroy: extern(sfRenderWindow_Destroy) func
     close: extern(sfRenderWindow_Close) func
     isOpened: extern(sfRenderWindow_IsOpened) func -> Bool
     getWidth: extern(sfRenderWindow_GetWidth) func -> UInt
     getHeight: extern(sfRenderWindow_GetHeight) func -> UInt
-    getSettings: extern(sfRenderWindow_GetSettings) func -> WindowSettings
+    getSettings: extern(sfRenderWindow_GetSettings) func -> ContextSettings@
     getEvent: extern(sfRenderWindow_GetEvent) func (event: Event*) -> Bool
     useVerticalSync: extern(sfRenderWindow_UseVerticalSync) func (enabled: Bool)
     showMouseCursor: extern(sfRenderWindow_ShowMouseCursor) func (show: Bool)
@@ -122,7 +158,7 @@ RenderWindow: cover from sfRenderWindow* {
     drawPostFX: extern(sfRenderWindow_DrawPostFX) func (postFX: PostFX)
     drawSprite: extern(sfRenderWindow_DrawSprite) func (sprite: Sprite)
     drawShape: extern(sfRenderWindow_DrawShape) func (shape: Shape)
-    drawString: extern(sfRenderWindow_DrawSfString) func (string: SfString)
+    drawString: extern(sfRenderWindow_DrawString) func (string: SfString)
     capture: extern(sfRenderWindow_Capture) func -> Image
     clear: extern(sfRenderWindow_Clear) func ~withColor (color: Color)
     clear: func ~defaultColor() {
@@ -155,7 +191,7 @@ Shape: cover from sfShape* {
     setRotation: extern(sfShape_SetRotation) func (rotation: Float)
     setCenter: extern(sfShape_SetCenter) func (x: Float, y: Float)
     setColor: extern(sfShape_SetColor) func (color: Color)
-    setBlendMode: extern(sfShape_SetBlendMode) func (mode: sfBlendMode)
+    setBlendMode: extern(sfShape_SetBlendMode) func (mode: BlendMode)
     getX: extern(sfShape_GetX) func -> Float
     getY: extern(sfShape_GetY) func -> Float
     getScaleX: extern(sfShape_GetScaleX) func -> Float
@@ -164,7 +200,7 @@ Shape: cover from sfShape* {
     getCenterX: extern(sfShape_GetCenterX) func -> Float
     getCenterY: extern(sfShape_GetCenterY) func -> Float
     getColor: extern(sfShape_GetColor) func -> Color
-    getBlendMode: extern(sfShape_GetBlendMode) func -> sfBlendMode
+    getBlendMode: extern(sfShape_GetBlendMode) func -> BlendMode
     move: extern(sfShape_Move) func (offsetX: Float, offsetY: Float)
     scale: extern(sfShape_Scale) func (factorX: Float, factorY: Float)
     rotate: extern(sfShape_Rotate) func (angle: Float)
@@ -196,7 +232,7 @@ Sprite: cover from sfSprite* {
     setRotation: extern(sfSprite_SetRotation) func (rotation: Float)
     setCenter: extern(sfSprite_SetCenter) func (x: Float, y: Float)
     setColor: extern(sfSprite_SetColor) func (color: Color)
-    setBlendMode: extern(sfSprite_SetBlendMode) func (mode: sfBlendMode)
+    setBlendMode: extern(sfSprite_SetBlendMode) func (mode: BlendMode)
     getX: extern(sfSprite_GetX) func -> Float
     getY: extern(sfSprite_GetY) func -> Float
     getScaleX: extern(sfSprite_GetScaleX) func -> Float
@@ -205,7 +241,7 @@ Sprite: cover from sfSprite* {
     getCenterX: extern(sfSprite_GetCenterX) func -> Float
     getCenterY: extern(sfSprite_GetCenterY) func -> Float
     getColor: extern(sfSprite_GetColor) func -> Color
-    getBlendMode: extern(sfSprite_GetBlendMode) func -> sfBlendMode
+    getBlendMode: extern(sfSprite_GetBlendMode) func -> BlendMode
     move: extern(sfSprite_Move) func (offsetX: Float, offsetY: Float)
     scale: extern(sfSprite_Scale) func (factorX: Float, factorY: Float)
     rotate: extern(sfSprite_Rotate) func (angle: Float)
@@ -235,7 +271,7 @@ SfString: cover from sfString* {
     setRotation: extern(sfString_SetRotation) func (rotation: Float)
     setCenter: extern(sfString_SetCenter) func (x: Float, y: Float)
     setColor: extern(sfString_SetColor) func (color: Color)
-    setBlendMode: extern(sfString_SetBlendMode) func (mode: sfBlendMode)
+    setBlendMode: extern(sfString_SetBlendMode) func (mode: BlendMode)
     getX: extern(sfString_GetX) func -> Float
     getY: extern(sfString_GetY) func -> Float
     getScaleX: extern(sfString_GetScaleX) func -> Float
@@ -244,7 +280,7 @@ SfString: cover from sfString* {
     getCenterX: extern(sfString_GetCenterX) func -> Float
     getCenterY: extern(sfString_GetCenterY) func -> Float
     getColor: extern(sfString_GetColor) func -> Color
-    getBlendMode: extern(sfString_GetBlendMode) func -> sfBlendMode
+    getBlendMode: extern(sfString_GetBlendMode) func -> BlendMode
     move: extern(sfString_Move) func (offsetX: Float, offsetY: Float)
     scale: extern(sfString_Scale) func (factorX: Float, factorY: Float)
     rotate: extern(sfString_Rotate) func (angle: Float)

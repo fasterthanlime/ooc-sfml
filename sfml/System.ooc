@@ -1,5 +1,4 @@
 include SFML/System
-include SFML/System/Randomizer
 
 use csfml-system
 
@@ -23,6 +22,7 @@ Thread: cover from sfThread* {
 
 Clock: cover from sfClock* {
     new: extern(sfClock_Create) static func -> Clock
+    copy: extern(sfClock_Copy) func -> Clock
     destroy: extern(sfClock_Destroy) func
     getTime: extern(sfClock_GetTime) func -> Float
     reset: extern(sfClock_Reset) func

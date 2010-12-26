@@ -163,7 +163,7 @@ RenderWindow: cover from sfRenderWindow* {
     opened?: extern(sfRenderWindow_IsOpened) func -> Bool
     getWidth: extern(sfRenderWindow_GetWidth) func -> UInt
     getHeight: extern(sfRenderWindow_GetHeight) func -> UInt
-    getSettings: extern(sfRenderWindow_GetSettings) func -> conSettings
+    getSettings: extern(sfRenderWindow_GetSettings) func -> ContextSettings
     getEvent: extern(sfRenderWindow_GetEvent) func (event: Event*) -> Bool
     waitEvent: extern(sfRenderWindow_WaitEvent) func(event: Event*) -> Bool
     useVerticalSync: extern(sfRenderWindow_UseVerticalSync) func (enabled: Bool)
@@ -194,11 +194,11 @@ RenderWindow: cover from sfRenderWindow* {
 
     draw: extern(sfRenderWindow_DrawSprite) func ~sprite (sprite: Sprite)
     draw: extern(sfRenderWindow_DrawShape) func ~shape (shape: Shape)
-    draw: extern(sfRenderWindow_DrawString) func ~text (text: Text)
+    draw: extern(sfRenderWindow_DrawText) func ~text (text: Text)
     
     drawWithShader: extern(sfRenderWindow_DrawSprite) func ~sprite (sprite: Sprite, shader : Shader)
     drawWithShader: extern(sfRenderWindow_DrawShape) func ~shape (shape: Shape, shader : Shader)
-    drawWithShader: extern(sfRenderWindow_DrawString) func ~text (text: Text, shader : Shader)
+    drawWithShader: extern(sfRenderWindow_DrawText) func ~text (text: Text, shader : Shader)
 }
 
 Shape: cover from sfShape* {
@@ -247,6 +247,7 @@ Shape: cover from sfShape* {
 
 Sprite: cover from sfSprite* {
     new: extern(sfSprite_Create) static func -> Sprite
+    copy: extern(sfSprite_Copy) func -> Sprite
     destroy: extern(sfSprite_Destroy) func
     setX: extern(sfSprite_SetX) func (x: Float)
     setY: extern(sfSprite_SetY) func (y: Float)
@@ -255,7 +256,7 @@ Sprite: cover from sfSprite* {
     setScaleY: extern(sfSprite_SetScaleY) func (scale: Float)
     setScale: extern(sfSprite_SetScale) func (scaleX: Float, scaleY: Float)
     setRotation: extern(sfSprite_SetRotation) func (rotation: Float)
-    setCenter: extern(sfSprite_SetCenter) func (x: Float, y: Float)
+    setOrigin: extern(sfSprite_SetOrigin) func (x: Float, y: Float)
     setColor: extern(sfSprite_SetColor) func (color: Color)
     setBlendMode: extern(sfSprite_SetBlendMode) func (mode: BlendMode)
     getX: extern(sfSprite_GetX) func -> Float
@@ -263,8 +264,8 @@ Sprite: cover from sfSprite* {
     getScaleX: extern(sfSprite_GetScaleX) func -> Float
     getScaleY: extern(sfSprite_GetScaleY) func -> Float
     getRotation: extern(sfSprite_GetRotation) func -> Float
-    getCenterX: extern(sfSprite_GetCenterX) func -> Float
-    getCenterY: extern(sfSprite_GetCenterY) func -> Float
+    getOriginX: extern(sfSprite_GetOriginX) func -> Float
+    getOriginY: extern(sfSprite_GetOriginY) func -> Float
     getColor: extern(sfSprite_GetColor) func -> Color
     getBlendMode: extern(sfSprite_GetBlendMode) func -> BlendMode
     move: extern(sfSprite_Move) func (offsetX: Float, offsetY: Float)
@@ -272,7 +273,8 @@ Sprite: cover from sfSprite* {
     rotate: extern(sfSprite_Rotate) func (angle: Float)
     transformToLocal: extern(sfSprite_TransformToLocal) func (pointX: Float, pointY: Float, x: Float*, y: Float*)
     transformToGlobal: extern(sfSprite_TransformToGlobal) func (pointX: Float, pointY: Float, x: Float*, y: Float*)
-    setImage: extern(sfSprite_SetImage) func (image: Image)
+    setImage: extern(sfSprite_SetImage) func ~withbool(image: Image , adjustToNewSize : Bool)
+    setImage : func ~withoutbool(image : Image) { setImage(image,true) }
     setSubRect: extern(sfSprite_SetSubRect) func (subRect: IntRect)
     resize: extern(sfSprite_Resize) func (width: Float, height: Float)
     flipX: extern(sfSprite_FlipX) func (flipped: Bool)

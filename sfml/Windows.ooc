@@ -40,14 +40,20 @@ VideoMode: cover from sfVideoMode {
 }
 
 Window: cover from sfWindow* {
-    new: extern(sfWindow_Create) static func (mode: VideoMode, title: Char*, style: ULong, params: ContextSettings) -> Window
-    new: extern(sfWindow_CreateFromHandle) static func ~fromHandle (handle: WindowHandle, params: ContextSettings) -> Window
+    new: extern(sfWindow_Create) static func ~allParams(mode: VideoMode, title: Char*, style: ULong, params: ContextSettings*) -> Window
+    new: static func ~noSettings(mode: VideoMode, title: Char*, style: ULong) -> Window {
+        new(mode,title,style,null)
+    }
+    new: static func ~noStyleAndSettings(mode: VideoMode, title: Char*) -> Window {
+        new(mode,title,Style default)
+    }
+    new: extern(sfWindow_CreateFromHandle) static func ~fromHandle (handle: WindowHandle, params: ContextSettings*) -> Window
     destroy: extern(sfWindow_Destroy) func
     close: extern(sfWindow_Close) func
     opened?: extern(sfWindow_IsOpened) func -> Bool
     getWidth: extern(sfWindow_GetWidth) func -> UInt
     getHeight: extern(sfWindow_GetHeight) func -> UInt
-    getSettings: extern(sfWindow_GetSettings) func -> conSettings
+    getSettings: extern(sfWindow_GetSettings) func -> ContextSettings
     getEvent: extern(sfWindow_GetEvent) func (event: Event*) -> Bool
     useVerticalSync: extern(sfWindow_UseVerticalSync) func (enabled: Bool)
     showMouseCursor: extern(sfWindow_ShowMouseCursor) func (show: Bool)
@@ -75,7 +81,7 @@ Input: cover from sfInput* {
     getJoystickAxis: extern(sfInput_GetJoystickAxis) func (joyId: UInt, axis: Int) -> Float
 }
 
-conSettings : cover from sfContextSettings {
+ContextSettings : cover from sfContextSettings {
     depthBits: extern(DepthBits) UInt
     stencilBits: extern(StencilBits) UInt
     antialiasingLevel: extern(AntialiasingLevel) UInt
@@ -97,19 +103,6 @@ conSettings : cover from sfContextSettings {
     }
 }
 
-ContextSettings: cover from conSettings* {
-    new: static func (depthBits, stencilBits, antialiasingLevel, majorVersion, minorVersion : UInt) -> This
-    {
-        this := gc_malloc(conSettings size)  as ContextSettings
-        this@ = conSettings new(depthBits,stencilBits,antialiasingLevel,majorVersion,minorVersion)
-        this
-    }
-
-    new: static func ~default -> This {
-        This new(24, 8, 0, 2, 0)
-    }
-    
-}
 
 Event: cover from sfEvent {
     type: extern(Type) Int

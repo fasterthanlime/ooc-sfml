@@ -1,11 +1,13 @@
-SFML 1.5+ bindings for ooc
+SFML2 bindings for ooc
 ==========================
 
 http://www.sfml-dev.org/
 
 You need:
-  - SFML 1.5 (yes, the C++ version)
-  - CSFML 1.5 (yes, the C wrapper)
-  - ooc git: http://github.com/nddrylliog/ooc
+  - SFML2 (yes, the C++ version)
+  - SFML2 C binding
+  - rock git: http://github.com/nddrylliog/rock
 
 Enjoy =)
+
+Authors: fredreichbier (original code) , shamanas (sfml2 porting)

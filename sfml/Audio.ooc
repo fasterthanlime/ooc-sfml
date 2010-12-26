@@ -2,15 +2,19 @@ include SFML/Audio
 
 use csfml-audio
 
-SoundStatus: cover from sfSoundStatus
+SoundStatus: cover from sfSoundStatus {
+    stopped: extern(sfStopped) static Int
+    paused: extern(sfPaused) static Int
+    playing: extern(sfPlaying) static Int
+}
 
 Listener: cover {
     setGlobalVolume: extern(sfListener_SetGlobalVolume) static func (volume: Float)
     getGlobalVolume: extern(sfListener_GetGlobalVolume) static func -> Float
     setPosition: extern(sfListener_SetPosition) static func (posX: Float, posY: Float, posZ: Float)
     getPosition: extern(sfListener_GetPosition) static func (posX: Float*, posY: Float*, posZ: Float*)
-    setTarget: extern(sfListener_SetTarget) static func (targetX: Float, targetY: Float, targetZ: Float)
-    getTarget: extern(sfListener_GetTarget) static func (targetX: Float*, targetY: Float*, targetZ: Float*)
+    setDirection: extern(sfListener_SetDirection) static func (targetX: Float, targetY: Float, targetZ: Float)
+    getDirection: extern(sfListener_GetDirection) static func (targetX: Float*, targetY: Float*, targetZ: Float*)
 }
 
 Music: cover from sfMusic* {
@@ -36,13 +40,14 @@ Music: cover from sfMusic* {
     getPitch: extern(sfMusic_GetPitch) func -> Float
     getVolume: extern(sfMusic_GetVolume) func -> Float
     getPosition: extern(sfMusic_GetPosition) func (x: Float*, y: Float*, z: Float*)
-    isRelativeToListener: extern(sfMusic_IsRelativeToListener) func -> Bool
+    relativeToListener?: extern(sfMusic_IsRelativeToListener) func -> Bool
     getMinDistance: extern(sfMusic_GetMinDistance) func -> Float
     getAttenuation: extern(sfMusic_GetAttenuation) func -> Float
 }
 
 Sound: cover from sfSound* {
     new: extern(sfSound_Create) static func -> Sound
+    copy: extern(sfSound_Copy) func -> Sound
     destroy: extern(sfSound_Destroy) func
     play: extern(sfSound_Play) func
     pause: extern(sfSound_Pause) func
@@ -62,7 +67,7 @@ Sound: cover from sfSound* {
     getPitch: extern(sfSound_GetPitch) func -> Float
     getVolume: extern(sfSound_GetVolume) func -> Float
     getPosition: extern(sfSound_GetPosition) func (x: Float*, y: Float*, z: Float*)
-    isRelativeToListener: extern(sfSound_IsRelativeToListener) func -> Bool
+    relativeToListener?: extern(sfSound_IsRelativeToListener) func -> Bool
     getMinDistance: extern(sfSound_GetMinDistance) func -> Float
     getAttenuation: extern(sfSound_GetAttenuation) func -> Float
     getPlayingOffset: extern(sfSound_GetPlayingOffset) func -> Float
@@ -72,6 +77,7 @@ SoundBuffer: cover from sfSoundBuffer* {
     new: extern(sfSoundBuffer_CreateFromFile) static func ~fromFile (filename: Char*) -> SoundBuffer
     new: extern(sfSoundBuffer_CreateFromMemory) static func ~fromMemory (data: Char*, sizeInBytes: SizeT) -> SoundBuffer
     new: extern(sfSoundBuffer_CreateFromSamples) static func ~fromSamples (samples: Int16*, samplesCount: SizeT, channelsCount: UInt, sampleRate: UInt) -> SoundBuffer
+    copy: extern(sfSoundBuffer_Copy) func -> SoundBuffer
     destroy: extern(sfSoundBuffer_Destroy) func
     saveToFile: extern(sfSoundBuffer_SaveToFile) func (filename: Char*) -> Bool
     getSamples: extern(sfSoundBuffer_GetSamples) func -> Int16*
@@ -87,7 +93,7 @@ SoundRecorder: cover from sfSoundRecorder* {
     start: extern(sfSoundRecorder_Start) func (sampleRate: UInt)
     stop: extern(sfSoundRecorder_Stop) func
     getSampleRate: extern(sfSoundRecorder_GetSampleRate) func -> UInt
-    canCapture: extern(sfSoundRecorder_CanCapture) static func -> Bool
+    available?: extern(sfSoundRecorder_IsAvailable) func -> Bool
 }
 
 SoundBufferRecorder: cover from sfSoundBufferRecorder* {

@@ -288,7 +288,7 @@ TextStyle : cover from sfTextStyle {
     regular: extern(sfTextRegular) static Int
     bold: extern(sfTextBold) static Int
     underlined: extern(sfTextUnderlined) static Int
-    italic: extern(sfTextItalic) static int
+    italic: extern(sfTextItalic) static Int
 }
 
 Text: cover from sfText* {

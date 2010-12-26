@@ -156,7 +156,13 @@ Shader: cover from sfShader* {
 }
 
 RenderWindow: cover from sfRenderWindow* {
-    new: extern(sfRenderWindow_Create) static func (mode: VideoMode, title: Char*, style: ULong, params: ContextSettings) -> RenderWindow
+    new: extern(sfRenderWindow_Create) static func ~allParams(mode: VideoMode, title: Char*, style: ULong, params: ContextSettings*) -> RenderWindow
+    new: static func ~noSettings(mode: VideoMode, title: Char*, style: ULong) -> RenderWindow {
+        new(mode,title,style,null)
+    }
+    new: static func ~noStyleAndSettings(mode: VideoMode, title: Char*) -> RenderWindow {
+        new(mode,title,Style default)
+    }
     new: extern(sfRenderWindow_CreateFromHandle) static func ~fromHandle (handle: WindowHandle, params: ContextSettings) -> RenderWindow
     destroy: extern(sfRenderWindow_Destroy) func
     close: extern(sfRenderWindow_Close) func

@@ -89,7 +89,7 @@ ContextSettings : cover from sfContextSettings {
     minorVersion: extern(MinorVersion) UInt
 
     new: static func (.depthBits, .stencilBits, .antialiasingLevel, .majorVersion, .minorVersion) -> This {
-        this: conSettings
+        this: ContextSettings
         this depthBits = depthBits
         this stencilBits = stencilBits
         this antialiasingLevel = antialiasingLevel

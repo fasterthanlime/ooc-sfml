@@ -114,21 +114,36 @@ RenderImage : cover from sfRenderImage* {
     restoreGLStates: extern(sfRenderImage_RestoreGLStates) func
     display: extern(sfRenderImage_Display) func
     
-    drawSprite: extern(sfRenderImage_DrawSprite) func(sprite : Sprite)
-    drawShape: extern(sfRenderImage_DrawShape) func(shape : Shape)
-    drawText: extern(sfRenderImage_DrawText) func(text : Text)
+    draw: extern(sfRenderImage_DrawSprite) func ~sprite(sprite : Sprite)
+    draw: extern(sfRenderImage_DrawShape) func ~shape(shape : Shape)
+    draw: extern(sfRenderImage_DrawText) func ~text(text : Text)
+    
+    drawWithShader: extern(sfRenderImage_DrawSpriteWithShader) func ~sprite(sprite : Sprite, shader : Shader)
+    drawWithShader: extern(sfRenderImage_DrawShapeWithShader) func ~shape(shape : Shape, shader : Shader)
+    drawWithShader: extern(sfRenderImage_DrawTextWithShader) func ~text(text : Text, shader : Shader)
+    
+    clear: extern(sfRenderImage_Clear) func(color : Color)
+    setView: extern(sfRenderImage_SetView) func(view : View)
+    getView: extern(sfRenderImage_GetView) func -> View
+    getViewPort: extern(sfRenderImage_GetViewPort) func -> IntRect
+    covertCoords: extern(sfRenderImage_ConvertCoords) func(windowX,windowY : UInt, viewX,viewY : Float*, targetView : View)
+    getImage: extern(sfRenderImage_GetImage) func -> Image
+    available?: extern(sfRenderImage_IsAvailable) func -> Bool
 }
 
-PostFX: cover from sfPostFX* {
-    new: extern(sfPostFX_CreateFromFile) static func ~fromFile (filename: Char*) -> PostFX
-    new: extern(sfPostFX_CreateFromMemory) static func ~fromMemory (effect: Char*) -> PostFX
-    destroy: extern(sfPostFX_Destroy) func
-    setParameter1: extern(sfPostFX_SetParameter1) func (name: Char*, x: Float)
-    setParameter2: extern(sfPostFX_SetParameter2) func (name: Char*, x: Float, y: Float)
-    setParameter3: extern(sfPostFX_SetParameter3) func (name: Char*, x: Float, y: Float, z: Float)
-    setParameter4: extern(sfPostFX_SetParameter4) func (name: Char*, x: Float, y: Float, z: Float, w: Float)
-    setTexture: extern(sfPostFX_SetTexture) func (name: Char*, texture: Image)
-    canUsePostFX: extern(sfPostFX_CanUsePostFX) static func -> Bool
+Shader: cover from sfShader* {
+    new: extern(sfShader_CreateFromFile) static func ~fromFile (filename: Char*) -> Shader
+    new: extern(sfShader_CreateFromMemory) static func ~fromMemory (effect: Char*) -> Shader
+    copy: extern(sfShader_Copy) func -> Shader
+    destroy: extern(sfShader_Destroy) func
+    setParameter1: extern(sfShader_SetParameter1) func (name: Char*, x: Float)
+    setParameter2: extern(sfShader_SetParameter2) func (name: Char*, x: Float, y: Float)
+    setParameter3: extern(sfShader_SetParameter3) func (name: Char*, x: Float, y: Float, z: Float)
+    setParameter4: extern(sfShader_SetParameter4) func (name: Char*, x: Float, y: Float, z: Float, w: Float)
+    setTexture: extern(sfShader_SetTexture) func (name: Char*, texture: Image)
+    bind: extern(sfShader_Bind) func
+    unbind: extern(sfShader_Unbind) func
+    available?: extern(sfShader_IsAvailable) func -> Bool
 }
 
 RenderWindow: cover from sfRenderWindow* {
@@ -136,11 +151,12 @@ RenderWindow: cover from sfRenderWindow* {
     new: extern(sfRenderWindow_CreateFromHandle) static func ~fromHandle (handle: WindowHandle, params: ContextSettings) -> RenderWindow
     destroy: extern(sfRenderWindow_Destroy) func
     close: extern(sfRenderWindow_Close) func
-    isOpened: extern(sfRenderWindow_IsOpened) func -> Bool
+    opened?: extern(sfRenderWindow_IsOpened) func -> Bool
     getWidth: extern(sfRenderWindow_GetWidth) func -> UInt
     getHeight: extern(sfRenderWindow_GetHeight) func -> UInt
-    getSettings: extern(sfRenderWindow_GetSettings) func -> ContextSettings@
+    getSettings: extern(sfRenderWindow_GetSettings) func -> conSettings
     getEvent: extern(sfRenderWindow_GetEvent) func (event: Event*) -> Bool
+    waitEvent: extern(sfRenderWindow_WaitEvent) func(event: Event*) -> Bool
     useVerticalSync: extern(sfRenderWindow_UseVerticalSync) func (enabled: Bool)
     showMouseCursor: extern(sfRenderWindow_ShowMouseCursor) func (show: Bool)
     setCursorPosition: extern(sfRenderWindow_SetCursorPosition) func (left: UInt, top: UInt)
@@ -150,16 +166,14 @@ RenderWindow: cover from sfRenderWindow* {
     enableKeyRepeat: extern(sfRenderWindow_EnableKeyRepeat) func (enabled: Bool)
     setIcon: extern(sfRenderWindow_SetIcon) func (width: UInt, height: UInt, pixels: UInt8*)
     setActive: extern(sfRenderWindow_SetActive) func (active: Bool) -> Bool
+    saveGLStates: extern(sfRenderWindow_SaveGLStates) func
+    restoreGLStates: extern(sfRenderWindow_RestoreGLStates) func
     display: extern(sfRenderWindow_Display) func
     getInput: extern(sfRenderWindow_GetInput) func -> Input
     setFramerateLimit: extern(sfRenderWindow_SetFramerateLimit) func (limit: UInt)
     getFrameTime: extern(sfRenderWindow_GetFrameTime) func -> Float
     setJoystickThreshold: extern(sfRenderWindow_SetJoystickThreshold) func (threshold: Float)
-    drawPostFX: extern(sfRenderWindow_DrawPostFX) func (postFX: PostFX)
-    drawSprite: extern(sfRenderWindow_DrawSprite) func (sprite: Sprite)
-    drawShape: extern(sfRenderWindow_DrawShape) func (shape: Shape)
-    drawString: extern(sfRenderWindow_DrawString) func (string: SfString)
-    capture: extern(sfRenderWindow_Capture) func -> Image
+    getSystemHandle: extern(sfRenderWindow_GetSystemHandle) func -> WindowHandle
     clear: extern(sfRenderWindow_Clear) func ~withColor (color: Color)
     clear: func ~defaultColor() {
         this clear(Color new(0, 0, 0))
@@ -168,12 +182,14 @@ RenderWindow: cover from sfRenderWindow* {
     getView: extern(sfRenderWindow_GetView) func -> View
     getDefaultView: extern(sfRenderWindow_GetDefaultView) func -> View
     convertCoords: extern(sfRenderWindow_ConvertCoords) func (windowX: UInt, windowY: UInt, viewX: Float*, viewY: Float*, targetView: View)
-    preserveOpenGLStates: extern(sfRenderWindow_PreserveOpenGLStates) func (preserve: Bool)
 
-    draw: extern(sfRenderWindow_DrawPostFX) func ~postfx (postFX: PostFX)
     draw: extern(sfRenderWindow_DrawSprite) func ~sprite (sprite: Sprite)
     draw: extern(sfRenderWindow_DrawShape) func ~shape (shape: Shape)
-    draw: extern(sfRenderWindow_DrawString) func ~string (string: SfString)
+    draw: extern(sfRenderWindow_DrawString) func ~text (text: Text)
+    
+    drawWithShader: extern(sfRenderWindow_DrawSprite) func ~sprite (sprite: Sprite, shader : Shader)
+    drawWithShader: extern(sfRenderWindow_DrawShape) func ~shape (shape: Shape, shader : Shader)
+    drawWithShader: extern(sfRenderWindow_DrawString) func ~text (text: Text, shader : Shader)
 }
 
 Shape: cover from sfShape* {
@@ -259,45 +275,53 @@ Sprite: cover from sfSprite* {
     getPixel: extern(sfSprite_GetPixel) func (x: UInt, y: UInt) -> Color
 }
 
-SfString: cover from sfString* {
-    new: extern(sfString_Create) static func -> SfString
-    destroy: extern(sfString_Destroy) func
-    setX: extern(sfString_SetX) func (x: Float)
-    setY: extern(sfString_SetY) func (y: Float)
-    setPosition: extern(sfString_SetPosition) func (left: Float, top: Float)
-    setScaleX: extern(sfString_SetScaleX) func (scale: Float)
-    setScaleY: extern(sfString_SetScaleY) func (scale: Float)
-    setScale: extern(sfString_SetScale) func (scaleX: Float, scaleY: Float)
-    setRotation: extern(sfString_SetRotation) func (rotation: Float)
-    setCenter: extern(sfString_SetCenter) func (x: Float, y: Float)
-    setColor: extern(sfString_SetColor) func (color: Color)
-    setBlendMode: extern(sfString_SetBlendMode) func (mode: BlendMode)
-    getX: extern(sfString_GetX) func -> Float
-    getY: extern(sfString_GetY) func -> Float
-    getScaleX: extern(sfString_GetScaleX) func -> Float
-    getScaleY: extern(sfString_GetScaleY) func -> Float
-    getRotation: extern(sfString_GetRotation) func -> Float
-    getCenterX: extern(sfString_GetCenterX) func -> Float
-    getCenterY: extern(sfString_GetCenterY) func -> Float
-    getColor: extern(sfString_GetColor) func -> Color
-    getBlendMode: extern(sfString_GetBlendMode) func -> BlendMode
-    move: extern(sfString_Move) func (offsetX: Float, offsetY: Float)
-    scale: extern(sfString_Scale) func (factorX: Float, factorY: Float)
-    rotate: extern(sfString_Rotate) func (angle: Float)
-    transformToLocal: extern(sfString_TransformToLocal) func (pointX: Float, pointY: Float, x: Float*, y: Float*)
-    transformToGlobal: extern(sfString_TransformToGlobal) func (pointX: Float, pointY: Float, x: Float*, y: Float*)
-    setText: extern(sfString_SetText) func (text: Char*)
-    setUnicodeText: extern(sfString_SetUnicodeText) func (text: UInt32*)
-    setFont: extern(sfString_SetFont) func (font: Font)
-    setSize: extern(sfString_SetSize) func (size: Float)
-    setStyle: extern(sfString_SetStyle) func (style: ULong)
-    getUnicodeText: extern(sfString_GetUnicodeText) func -> UInt32*
-    getText: extern(sfString_GetText) func -> Char*
-    getFont: extern(sfString_GetFont) func -> Font
-    getSize: extern(sfString_GetSize) func -> Float
-    getStyle: extern(sfString_GetStyle) func -> ULong
-    getCharacterPos: extern(sfString_GetCharacterPos) func (index: SizeT, x: Float*, y: Float*)
-    getRect: extern(sfString_GetRect) func -> FloatRect
+TextStyle : cover from sfTextStyle {
+    regular: extern(sfTextRegular) static Int
+    bold: extern(sfTextBold) static Int
+    underlined: extern(sfTextUnderlined) static Int
+    italic: extern(sfTextItalic) static int
+}
+
+Text: cover from sfText* {
+    new: extern(sfText_Create) static func -> Text
+    copy: extern(sfText_Copy) func -> Text
+    destroy: extern(sfText_Destroy) func
+    setX: extern(sfText_SetX) func (x: Float)
+    setY: extern(sfText_SetY) func (y: Float)
+    setPosition: extern(sfText_SetPosition) func (left: Float, top: Float)
+    setScaleX: extern(sfText_SetScaleX) func (scale: Float)
+    setScaleY: extern(sfText_SetScaleY) func (scale: Float)
+    setScale: extern(sfText_SetScale) func (scaleX: Float, scaleY: Float)
+    setRotation: extern(sfText_SetRotation) func (rotation: Float)
+    setOrigin: extern(sfText_SetOrigin) func (x: Float, y: Float)
+    setColor: extern(sfText_SetColor) func (color: Color)
+    setBlendMode: extern(sfText_SetBlendMode) func (mode: BlendMode)
+    getX: extern(sfText_GetX) func -> Float
+    getY: extern(sfText_GetY) func -> Float
+    getScaleX: extern(sfText_GetScaleX) func -> Float
+    getScaleY: extern(sfText_GetScaleY) func -> Float
+    getRotation: extern(sfText_GetRotation) func -> Float
+    getOriginX: extern(sfText_GetOriginX) func -> Float
+    getOriginY: extern(sfText_GetOriginY) func -> Float
+    getColor: extern(sfText_GetColor) func -> Color
+    getBlendMode: extern(sfText_GetBlendMode) func -> BlendMode
+    move: extern(sfText_Move) func (offsetX: Float, offsetY: Float)
+    scale: extern(sfText_Scale) func (factorX: Float, factorY: Float)
+    rotate: extern(sfText_Rotate) func (angle: Float)
+    transformToLocal: extern(sfText_TransformToLocal) func (pointX: Float, pointY: Float, x: Float*, y: Float*)
+    transformToGlobal: extern(sfText_TransformToGlobal) func (pointX: Float, pointY: Float, x: Float*, y: Float*)
+    setString: extern(sfText_SetString) func (string: Char*)
+    setUnicodeString: extern(sfText_SetUnicodeString) func (string: UInt32*)
+    setFont: extern(sfText_SetFont) func (font: Font)
+    setCharacterSize: extern(sfText_SetCharacterSize) func (size: Float)
+    setStyle: extern(sfText_SetStyle) func (style: ULong)
+    getUnicodeString: extern(sfText_GetUnicodeString) func -> UInt32*
+    getString: extern(sfText_GetString) func -> Char*
+    getFont: extern(sfText_GetFont) func -> Font
+    getCharacterSize: extern(sfText_GetCharacterSize) func -> Float
+    getStyle: extern(sfText_GetStyle) func -> ULong
+    getCharacterPos: extern(sfText_GetCharacterPos) func (index: SizeT, x: Float*, y: Float*)
+    getRect: extern(sfText_GetRect) func -> FloatRect
 }
 
 View: cover from sfView* {

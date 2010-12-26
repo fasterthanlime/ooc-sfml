@@ -44,7 +44,7 @@ Window: cover from sfWindow* {
     new: extern(sfWindow_CreateFromHandle) static func ~fromHandle (handle: WindowHandle, params: ContextSettings) -> Window
     destroy: extern(sfWindow_Destroy) func
     close: extern(sfWindow_Close) func
-    isOpened: extern(sfWindow_IsOpened) func -> Bool
+    opened?: extern(sfWindow_IsOpened) func -> Bool
     getWidth: extern(sfWindow_GetWidth) func -> UInt
     getHeight: extern(sfWindow_GetHeight) func -> UInt
     getSettings: extern(sfWindow_GetSettings) func -> conSettings

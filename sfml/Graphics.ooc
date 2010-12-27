@@ -18,11 +18,12 @@ FloatRect: cover from sfFloatRect {
     top: extern(Top) Float
     width: extern(Width) Float
     height: extern(Height) Float
-    contains? : extern(sfFloatRect_Contains) func(x,y : Float) -> Bool
-    intersects? : extern(sfFloatRect_Intersects) func(rect2,intersection : FloatRect) -> Bool
-//    offset: extern(sfFloatRect_Offset) func (offsetX: Float, offsetY: Float)
-//    contains: extern(sfFloatRect_Contains) func (x: Float, y: Float) -> Bool
-//    intersects: extern(sfFloatRect_Intersects) func (rect2: FloatRect, overlappingRect: FloatRect) -> Bool
+    contains?: func(x,y : Float) -> Bool {
+        (x >= left && x <= left+width && y >= top && y <= top+height)
+    }
+    //contains? : extern(sfFloatRect_Contains) func(x,y : Float) -> Bool
+    //intersects? : extern(sfFloatRect_Intersects) func(rect2,intersection : FloatRect) -> Bool
+    //These take pointers to FloatRect :/ 
 
     new : static func (.left, .top, .width, .height) -> This {
         this: FloatRect
@@ -39,11 +40,11 @@ IntRect: cover from sfIntRect {
     top: extern(Top) Int
     width: extern(Width) Int
     height: extern(Height) Int
-    contains? : extern(sfIntRect_Contains) func(x,y : Int) -> Bool
-    intersects? : extern(sfIntRect_Intersects) func(rect2,intersection : IntRect) -> Bool
-//    offset: extern(IntRect_Offset) func (offsetX: Int, offsetY: Int)
-//    contains: extern(IntRect_Contains) func (x: Int, y: Int) -> Bool
-//    intersects: extern(IntRect_Intersects) func (rect2: IntRect, overlappingRect: IntRect) -> Bool
+    contains?: func(x,y : Int) -> Bool {
+        (x >= left && x <= left+width && y >= top && y <= top+height)
+    }
+    //contains? : extern(sfIntRect_Contains) func(x,y : Int) -> Bool
+    //intersects? : extern(sfIntRect_Intersects) func(rect2,intersection : IntRect) -> Bool
 
     new : static func (.left, .top, .width, .height) -> This {
         this: IntRect
@@ -253,6 +254,11 @@ Shape: cover from sfShape* {
 
 Sprite: cover from sfSprite* {
     new: extern(sfSprite_Create) static func -> Sprite
+    new: static func ~withImage(img : Image) -> Sprite {
+        this := new()
+        this setImage(img)
+        this
+    }
     copy: extern(sfSprite_Copy) func -> Sprite
     destroy: extern(sfSprite_Destroy) func
     setX: extern(sfSprite_SetX) func (x: Float)

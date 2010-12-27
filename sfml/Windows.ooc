@@ -73,9 +73,9 @@ Window: cover from sfWindow* {
 }
 
 Input: cover from sfInput* {
-    isKeyDown: extern(sfInput_IsKeyDown) func (keyCode: KeyCode) -> Bool
-    isMouseButtonDown: extern(sfInput_IsMouseButtonDown) func (button: Int) -> Bool
-    isJoystickButtonDown: extern(sfInput_IsJoystickButtonDown) func (joyId: UInt, button: UInt) -> Bool
+    keyDown?: extern(sfInput_IsKeyDown) func (keyCode: Char) -> Bool
+    mouseButtonDown?: extern(sfInput_IsMouseButtonDown) func (button: Int) -> Bool
+    joystickButtonDown?: extern(sfInput_IsJoystickButtonDown) func (joyId: UInt, button: UInt) -> Bool
     getMouseX: extern(sfInput_GetMouseX) func -> Int
     getMouseY: extern(sfInput_GetMouseY) func -> Int
     getJoystickAxis: extern(sfInput_GetJoystickAxis) func (joyId: UInt, axis: Int) -> Float

@@ -14,12 +14,31 @@ BlendMode: cover from sfBlendMode {
 }
 
 FloatRect: cover from sfFloatRect {
+    zero : const static FloatRect = FloatRect new(0,0,0,0) 
+
     left: extern(Left) Float
     top: extern(Top) Float
     width: extern(Width) Float
     height: extern(Height) Float
+    
     contains?: func(x,y : Float) -> Bool {
         (x >= left && x <= left+width && y >= top && y <= top+height)
+    }
+    
+    intersection: func(other : FloatRect) -> FloatRect {
+        if(other contains?(left,top)) {
+            return FloatRect new(left,top,other left + other width - left, other height + other top - top)
+        }
+        else if(other contains?(left+width,top+height)) {
+            return FloatRect new(other left, other top, left + width - other left, height + top - other top)
+        }
+        else if(other contains?(left+width,top)) {
+            return FloatRect new(other left, top, left + width - other left, other height + other top - top)
+        }
+        else if(other contains?(left,top+height)) {
+            return FloatRect new(left, other top, other left + other width - left, height + top - other top)
+        }
+        FloatRect zero
     }
     //contains? : extern(sfFloatRect_Contains) func(x,y : Float) -> Bool
     //intersects? : extern(sfFloatRect_Intersects) func(rect2,intersection : FloatRect) -> Bool
@@ -35,13 +54,40 @@ FloatRect: cover from sfFloatRect {
     }
 }
 
+operator == (left , right : FloatRect) -> Bool {
+    (left top == right top && left left == right left && left width == right width && left height == right height)
+}
+
+operator != (left , right : FloatRect) -> Bool {
+    !(left == right)
+}
+
 IntRect: cover from sfIntRect {
+    zero : const static IntRect = IntRect new(0,0,0,0) 
+    
     left: extern(Left) Int
     top: extern(Top) Int
     width: extern(Width) Int
     height: extern(Height) Int
+    
     contains?: func(x,y : Int) -> Bool {
         (x >= left && x <= left+width && y >= top && y <= top+height)
+    }
+    
+    intersection: func(other : IntRect) -> IntRect {
+        if(other contains?(left,top)) {
+            return IntRect new(left,top,other left + other width - left, other height + other top - top)
+        }
+        else if(other contains?(left+width,top+height)) {
+            return IntRect new(other left, other top, left + width - other left, height + top - other top)
+        }
+        else if(other contains?(left+width,top)) {
+            return IntRect new(other left, top, left + width - other left, other height + other top - top)
+        }
+        else if(other contains?(left,top+height)) {
+            return IntRect new(left, other top, other left + other width - left, height + top - other top)
+        }
+        IntRect zero
     }
     //contains? : extern(sfIntRect_Contains) func(x,y : Int) -> Bool
     //intersects? : extern(sfIntRect_Intersects) func(rect2,intersection : IntRect) -> Bool
@@ -54,6 +100,14 @@ IntRect: cover from sfIntRect {
         this height = height
         this
     }
+}
+
+operator == (left , right : IntRect) -> Bool {
+    (left top == right top && left left == right left && left width == right width && left height == right height)
+}
+
+operator != (left , right : IntRect) -> Bool {
+    !(left == right)
 }
 
 Color: cover from sfColor {

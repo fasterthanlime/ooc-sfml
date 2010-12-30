@@ -156,7 +156,10 @@ Image: cover from sfImage* {
     createMaskFromColor: extern(sfImage_CreateMaskFromColor) func (colorKey: Color, alpha: UInt8)
     copy: extern(sfImage_Copy) func -> Image
     copyImage: extern(sfImage_CopyImage) func (source: Image, destX: UInt, destY: UInt, sourceRect: IntRect)
-    copyScreen: extern(sfImage_CopyScreen) func (window: RenderWindow, sourceRect: IntRect) -> Bool
+    copyScreen: extern(sfImage_CopyScreen) func ~allparams (window: RenderWindow, sourceRect: IntRect) -> Bool
+    copyScreen : func ~norect (window : RenderWindow) -> Bool {
+        copyScreen(window,IntRect new(0,0,window getWidth(),window getHeight()))
+    }
     setPixel: extern(sfImage_SetPixel) func (x: UInt, y: UInt, color: Color)
     getPixel: extern(sfImage_GetPixel) func (x: UInt, y: UInt) -> Color
     getPixelsPtr: extern(sfImage_GetPixelsPtr) func -> UInt8*

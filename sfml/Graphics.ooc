@@ -6,6 +6,13 @@ include SFML/Graphics/Font
 
 use csfml-graphics
 
+Vector2 : class <T> {
+    x : T
+    y : T
+    
+    init : func(=x,=y)
+}
+
 BlendMode: cover from sfBlendMode {
     alpha: extern(sfBlendAlpha) static Int
     add: extern(sfBlendAdd) static Int
@@ -193,9 +200,15 @@ RenderImage : cover from sfRenderImage* {
     setView: extern(sfRenderImage_SetView) func(view : View)
     getView: extern(sfRenderImage_GetView) func -> View
     getViewPort: extern(sfRenderImage_GetViewPort) func -> IntRect
-    covertCoords: extern(sfRenderImage_ConvertCoords) func(windowX,windowY : UInt, viewX,viewY : Float*, targetView : View)
+    covertCoords: extern(sfRenderImage_ConvertCoords) func ~pointer(windowX,windowY : UInt, viewX,viewY : Float*, targetView : View)
     getImage: extern(sfRenderImage_GetImage) func -> Image
     available?: extern(sfRenderImage_IsAvailable) func -> Bool
+    
+    covertCoords : func ~vec(wPoint : Vector2<UInt>, targetView : View) -> Vector2<Float> {
+        x,y : Float
+        covertCoords(wPoint x as UInt, wPoint y as UInt, x&, y&, targetView)
+        Vector2<Float> new(x,y)
+    }
 }
 
 Shader: cover from sfShader* {
@@ -278,7 +291,6 @@ Shape: cover from sfShape* {
     setScaleY: extern(sfShape_SetScaleY) func (scale: Float)
     setScale: extern(sfShape_SetScale) func (scaleX: Float, scaleY: Float)
     setRotation: extern(sfShape_SetRotation) func (rotation: Float)
-    setCenter: extern(sfShape_SetCenter) func (x: Float, y: Float)
     setColor: extern(sfShape_SetColor) func (color: Color)
     setBlendMode: extern(sfShape_SetBlendMode) func (mode: BlendMode)
     getX: extern(sfShape_GetX) func -> Float
@@ -286,8 +298,6 @@ Shape: cover from sfShape* {
     getScaleX: extern(sfShape_GetScaleX) func -> Float
     getScaleY: extern(sfShape_GetScaleY) func -> Float
     getRotation: extern(sfShape_GetRotation) func -> Float
-    getCenterX: extern(sfShape_GetCenterX) func -> Float
-    getCenterY: extern(sfShape_GetCenterY) func -> Float
     getColor: extern(sfShape_GetColor) func -> Color
     getBlendMode: extern(sfShape_GetBlendMode) func -> BlendMode
     move: extern(sfShape_Move) func (offsetX: Float, offsetY: Float)
@@ -301,12 +311,34 @@ Shape: cover from sfShape* {
     setOutlineWidth: extern(sfShape_SetOutlineWidth) func (width: Float)
     getOutlineWidth: extern(sfShape_GetOutlineWidth) func -> Float
     getNbPoints: extern(sfShape_GetNbPoints) func -> UInt
-    getPointPosition: extern(sfShape_GetPointPosition) func (index: UInt, x: Float*, y: Float*)
+    getPointPosition: extern(sfShape_GetPointPosition) func ~pointers(index: UInt, x: Float*, y: Float*)
     getPointColor: extern(sfShape_GetPointColor) func (index: UInt) -> Color
     getPointOutlineColor: extern(sfShape_GetPointOutlineColor) func (index: UInt) -> Color
-    setPointPosition: extern(sfShape_SetPointPosition) func (index: UInt, x: Float, y: Float)
+    setPointPosition: extern(sfShape_SetPointPosition) func ~xy(index: UInt, x: Float, y: Float)
     setPointColor: extern(sfShape_SetPointColor) func (index: UInt, color: Color)
     setPointOutlineColor: extern(sfShape_SetPointOutlineColor) func (index: UInt, color: Color)
+    
+    setPosition: func ~vec(vec : Vector2<Float>) { setPosition(vec x as Float, vec y as Float) }
+    setScale: func ~vec(vec : Vector2<Float>) { setScale(vec x as Float, vec y as Float) }
+    setPointPosition: func ~vec(index : UInt, vec : Vector2<Float>) { setPointPosition(index,vec x as Float, vec y as Float) }
+    getScale : func -> Vector2<Float> {
+        Vector2<Float> new(getScaleX(),getScaleY())
+    }
+    transformToLocal : func ~vec(point : Vector2<Float>) -> Vector2<Float> {
+        x,y : Float
+        transformToLocal(point x as Float, point y as Float, x&, y&)
+        Vector2<Float> new(x,y)
+    }
+    transformToGlobal : func ~vec(point : Vector2<Float>) -> Vector2<Float> {
+        x,y : Float
+        transformToGlobal(point x as Float, point y as Float, x&, y&)
+        Vector2<Float> new(x,y)
+    }
+    getPointPosition : func ~vec(index : UInt) -> Vector2<Float> {
+        x,y : Float
+        getPointPosition(index,x&,y&)
+        Vector2<Float> new(x,y)
+    }
 }
 
 Sprite: cover from sfSprite* {
@@ -320,12 +352,12 @@ Sprite: cover from sfSprite* {
     destroy: extern(sfSprite_Destroy) func
     setX: extern(sfSprite_SetX) func (x: Float)
     setY: extern(sfSprite_SetY) func (y: Float)
-    setPosition: extern(sfSprite_SetPosition) func (x: Float, y: Float)
+    setPosition: extern(sfSprite_SetPosition) func ~xy(x: Float, y: Float)
     setScaleX: extern(sfSprite_SetScaleX) func (scale: Float)
     setScaleY: extern(sfSprite_SetScaleY) func (scale: Float)
-    setScale: extern(sfSprite_SetScale) func (scaleX: Float, scaleY: Float)
+    setScale: extern(sfSprite_SetScale) func ~xy(scaleX: Float, scaleY: Float)
     setRotation: extern(sfSprite_SetRotation) func (rotation: Float)
-    setOrigin: extern(sfSprite_SetOrigin) func (x: Float, y: Float)
+    setOrigin: extern(sfSprite_SetOrigin) func ~xy(x: Float, y: Float)
     setColor: extern(sfSprite_SetColor) func (color: Color)
     setBlendMode: extern(sfSprite_SetBlendMode) func (mode: BlendMode)
     getX: extern(sfSprite_GetX) func -> Float
@@ -340,8 +372,8 @@ Sprite: cover from sfSprite* {
     move: extern(sfSprite_Move) func (offsetX: Float, offsetY: Float)
     scale: extern(sfSprite_Scale) func (factorX: Float, factorY: Float)
     rotate: extern(sfSprite_Rotate) func (angle: Float)
-    transformToLocal: extern(sfSprite_TransformToLocal) func (pointX: Float, pointY: Float, x: Float*, y: Float*)
-    transformToGlobal: extern(sfSprite_TransformToGlobal) func (pointX: Float, pointY: Float, x: Float*, y: Float*)
+    transformToLocal: extern(sfSprite_TransformToLocal) func ~pointers(pointX: Float, pointY: Float, x: Float*, y: Float*)
+    transformToGlobal: extern(sfSprite_TransformToGlobal) func ~pointers(pointX: Float, pointY: Float, x: Float*, y: Float*)
     setImage: extern(sfSprite_SetImage) func ~withbool(image: Image , adjustToNewSize : Bool)
     setImage : func ~withoutbool(image : Image) { setImage(image,true) }
     setSubRect: extern(sfSprite_SetSubRect) func (subRect: IntRect)
@@ -353,6 +385,26 @@ Sprite: cover from sfSprite* {
     getWidth: extern(sfSprite_GetWidth) func -> Float
     getHeight: extern(sfSprite_GetHeight) func -> Float
     getPixel: extern(sfSprite_GetPixel) func (x: UInt, y: UInt) -> Color
+    
+    setPosition: func ~vec(vec : Vector2<Float>) { setPosition(vec x as Float, vec y as Float) }
+    setScale: func ~vec(vec : Vector2<Float>) { setScale(vec x as Float, vec y as Float) }
+    setOrigin: func ~vec(vec : Vector2<Float>) { setOrigin(vec x as Float, vec y as Float) }
+    getScale : func -> Vector2<Float> {
+        Vector2<Float> new(getScaleX(),getScaleY())
+    }
+    getOrgin : func -> Vector2<Float> {
+        Vector2<Float> new(getOriginX(),getOriginY())
+    }
+    transformToLocal : func ~vec(point : Vector2<Float>) -> Vector2<Float> {
+        x,y : Float
+        transformToLocal(point x as Float, point y as Float, x&, y&)
+        Vector2<Float> new(x,y)
+    }
+    transformToGlobal : func ~vec(point : Vector2<Float>) -> Vector2<Float> {
+        x,y : Float
+        transformToGlobal(point x as Float, point y as Float, x&, y&)
+        Vector2<Float> new(x,y)
+    }
 }
 
 TextStyle : cover from sfTextStyle {
@@ -402,6 +454,26 @@ Text: cover from sfText* {
     getStyle: extern(sfText_GetStyle) func -> ULong
     getCharacterPos: extern(sfText_GetCharacterPos) func (index: SizeT, x: Float*, y: Float*)
     getRect: extern(sfText_GetRect) func -> FloatRect
+    
+    setPosition: func ~vec(vec : Vector2<Float>) { setPosition(vec x as Float, vec y as Float) }
+    setScale: func ~vec(vec : Vector2<Float>) { setScale(vec x as Float, vec y as Float) }
+    setOrigin: func ~vec(vec : Vector2<Float>) { setOrigin(vec x as Float, vec y as Float) }
+    getScale : func -> Vector2<Float> {
+        Vector2<Float> new(getScaleX(),getScaleY())
+    }
+    getOrgin : func -> Vector2<Float> {
+        Vector2<Float> new(getOriginX(),getOriginY())
+    }
+    transformToLocal : func ~vec(point : Vector2<Float>) -> Vector2<Float> {
+        x,y : Float
+        transformToLocal(point x as Float, point y as Float, x&, y&)
+        Vector2<Float> new(x,y)
+    }
+    transformToGlobal : func ~vec(point : Vector2<Float>) -> Vector2<Float> {
+        x,y : Float
+        transformToGlobal(point x as Float, point y as Float, x&, y&)
+        Vector2<Float> new(x,y)
+    }
 }
 
 View: cover from sfView* {

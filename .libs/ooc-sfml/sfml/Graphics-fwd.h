@@ -1,0 +1,678 @@
+/* sfml/Graphics header-forward file, generated with rock, the ooc compiler written in ooc */
+
+#ifndef ___sfml_Graphics_fwd___
+#define ___sfml_Graphics_fwd___
+
+#include <SFML/Graphics.h>
+#include <SFML/Graphics/Glyph.h>
+#include <SFML/Graphics/Font.h>
+
+struct _sfml_Graphics__Vector2;
+typedef struct _sfml_Graphics__Vector2 sfml_Graphics__Vector2;
+typedef sfBlendMode sfml_Graphics__BlendMode;
+typedef sfFloatRect sfml_Graphics__FloatRect;
+typedef sfIntRect sfml_Graphics__IntRect;
+typedef sfColor sfml_Graphics__Color;
+typedef sfContext* sfml_Graphics__Context;
+typedef sfFont* sfml_Graphics__Font;
+typedef sfGlyph sfml_Graphics__Glyph;
+typedef sfImage* sfml_Graphics__Image;
+typedef sfRenderImage* sfml_Graphics__RenderImage;
+typedef sfShader* sfml_Graphics__Shader;
+typedef sfRenderWindow* sfml_Graphics__RenderWindow;
+typedef sfShape* sfml_Graphics__Shape;
+typedef sfSprite* sfml_Graphics__Sprite;
+typedef sfTextStyle sfml_Graphics__TextStyle;
+typedef sfText* sfml_Graphics__Text;
+typedef sfView* sfml_Graphics__View;
+struct _sfml_Graphics__Vector2Class;
+typedef struct _sfml_Graphics__Vector2Class sfml_Graphics__Vector2Class;
+struct _sfml_Graphics__BlendModeClass;
+typedef struct _sfml_Graphics__BlendModeClass sfml_Graphics__BlendModeClass;
+struct _sfml_Graphics__FloatRectClass;
+typedef struct _sfml_Graphics__FloatRectClass sfml_Graphics__FloatRectClass;
+struct _sfml_Graphics__IntRectClass;
+typedef struct _sfml_Graphics__IntRectClass sfml_Graphics__IntRectClass;
+struct _sfml_Graphics__ColorClass;
+typedef struct _sfml_Graphics__ColorClass sfml_Graphics__ColorClass;
+struct _sfml_Graphics__ContextClass;
+typedef struct _sfml_Graphics__ContextClass sfml_Graphics__ContextClass;
+struct _sfml_Graphics__FontClass;
+typedef struct _sfml_Graphics__FontClass sfml_Graphics__FontClass;
+struct _sfml_Graphics__GlyphClass;
+typedef struct _sfml_Graphics__GlyphClass sfml_Graphics__GlyphClass;
+struct _sfml_Graphics__ImageClass;
+typedef struct _sfml_Graphics__ImageClass sfml_Graphics__ImageClass;
+struct _sfml_Graphics__RenderImageClass;
+typedef struct _sfml_Graphics__RenderImageClass sfml_Graphics__RenderImageClass;
+struct _sfml_Graphics__ShaderClass;
+typedef struct _sfml_Graphics__ShaderClass sfml_Graphics__ShaderClass;
+struct _sfml_Graphics__RenderWindowClass;
+typedef struct _sfml_Graphics__RenderWindowClass sfml_Graphics__RenderWindowClass;
+struct _sfml_Graphics__ShapeClass;
+typedef struct _sfml_Graphics__ShapeClass sfml_Graphics__ShapeClass;
+struct _sfml_Graphics__SpriteClass;
+typedef struct _sfml_Graphics__SpriteClass sfml_Graphics__SpriteClass;
+struct _sfml_Graphics__TextStyleClass;
+typedef struct _sfml_Graphics__TextStyleClass sfml_Graphics__TextStyleClass;
+struct _sfml_Graphics__TextClass;
+typedef struct _sfml_Graphics__TextClass sfml_Graphics__TextClass;
+struct _sfml_Graphics__ViewClass;
+typedef struct _sfml_Graphics__ViewClass sfml_Graphics__ViewClass;
+
+#include <sdk/lang/String-fwd.h>
+#include <sdk/lang/BufferIterator-fwd.h>
+#include <sdk/lang/Character-fwd.h>
+#include <sdk/lang/Exception-fwd.h>
+#include <sdk/lang/System-fwd.h>
+#include <sdk/lang/Format-fwd.h>
+#include <sdk/lang/Numbers-fwd.h>
+#include <sdk/lang/VarArgs-fwd.h>
+#include <sdk/lang/Abstractions-fwd.h>
+#include <sdk/lang/Iterators-fwd.h>
+#include <sdk/lang/Memory-fwd.h>
+#include <sdk/lang/types-fwd.h>
+#include <sdk/lang/IO-fwd.h>
+#include <sdk/lang/Buffer-fwd.h>
+#include <./sfml/Windows-fwd.h>
+sfml_Graphics__Vector2Class *sfml_Graphics__Vector2_class();
+sfml_Graphics__Vector2* sfml_Graphics__Vector2_new(lang_types__Class* T, uint8_t* x, uint8_t* y);
+void sfml_Graphics__Vector2_init(sfml_Graphics__Vector2* this, uint8_t* x, uint8_t* y);
+void sfml_Graphics__Vector2___defaults__(sfml_Graphics__Vector2* this);
+void sfml_Graphics__Vector2___defaults___impl(sfml_Graphics__Vector2* this);
+void sfml_Graphics__Vector2___load__();
+sfml_Graphics__BlendModeClass *sfml_Graphics__BlendMode_class();
+void sfml_Graphics__BlendMode___load__();
+sfml_Graphics__FloatRectClass *sfml_Graphics__FloatRect_class();
+lang_types__Bool sfml_Graphics__FloatRect_contains__quest(sfml_Graphics__FloatRect this, lang_Numbers__Float x, lang_Numbers__Float y);
+sfml_Graphics__FloatRect sfml_Graphics__FloatRect_intersection(sfml_Graphics__FloatRect this, sfml_Graphics__FloatRect other);
+sfml_Graphics__FloatRect sfml_Graphics__FloatRect_new(lang_Numbers__Float left, lang_Numbers__Float top, lang_Numbers__Float width, lang_Numbers__Float height);
+void sfml_Graphics__FloatRect___load__();
+sfml_Graphics__IntRectClass *sfml_Graphics__IntRect_class();
+lang_types__Bool sfml_Graphics__IntRect_contains__quest(sfml_Graphics__IntRect this, lang_Numbers__Int x, lang_Numbers__Int y);
+sfml_Graphics__IntRect sfml_Graphics__IntRect_intersection(sfml_Graphics__IntRect this, sfml_Graphics__IntRect other);
+sfml_Graphics__IntRect sfml_Graphics__IntRect_new(lang_Numbers__Int left, lang_Numbers__Int top, lang_Numbers__Int width, lang_Numbers__Int height);
+void sfml_Graphics__IntRect___load__();
+sfml_Graphics__ColorClass *sfml_Graphics__Color_class();
+#define sfml_Graphics__Color_new_rGB sfColor_FromRGB
+
+#define sfml_Graphics__Color_new_rGBA sfColor_FromRGBA
+
+#define sfml_Graphics__Color_add sfColor_Add
+
+#define sfml_Graphics__Color_modulate sfColor_Modulate
+
+void sfml_Graphics__Color___load__();
+#define sfml_Graphics__Color_new_rGB sfColor_FromRGB
+
+#define sfml_Graphics__Color_new_rGBA sfColor_FromRGBA
+
+sfml_Graphics__ContextClass *sfml_Graphics__Context_class();
+#define sfml_Graphics__Context_new sfContext_Create
+
+#define sfml_Graphics__Context_destroy sfContext_Destroy
+
+#define sfml_Graphics__Context_setActive sfContext_SetActive
+
+void sfml_Graphics__Context___load__();
+#define sfml_Graphics__Context_new sfContext_Create
+
+sfml_Graphics__FontClass *sfml_Graphics__Font_class();
+#define sfml_Graphics__Font_new_file sfFont_CreateFromFile
+
+#define sfml_Graphics__Font_new_mem sfFont_CreateFromMemory
+
+#define sfml_Graphics__Font_copy sfFont_Copy
+
+#define sfml_Graphics__Font_destroy sfFont_Destroy
+
+#define sfml_Graphics__Font_getGlyph sfFont_GetGlyph
+
+#define sfml_Graphics__Font_getKerning sfFont_GetKerning
+
+#define sfml_Graphics__Font_getLineSpacing sfFont_GetLineSpacing
+
+#define sfml_Graphics__Font_getImage sfFont_GetImage
+
+void sfml_Graphics__Font___load__();
+#define sfml_Graphics__Font_new_file sfFont_CreateFromFile
+
+#define sfml_Graphics__Font_new_mem sfFont_CreateFromMemory
+
+sfml_Graphics__GlyphClass *sfml_Graphics__Glyph_class();
+void sfml_Graphics__Glyph___load__();
+sfml_Graphics__ImageClass *sfml_Graphics__Image_class();
+#define sfml_Graphics__Image_new_fromColor sfImage_CreateFromColor
+
+#define sfml_Graphics__Image_new_fromPixels sfImage_CreateFromPixels
+
+#define sfml_Graphics__Image_new_fromFile sfImage_CreateFromFile
+
+#define sfml_Graphics__Image_new_fromMemory sfImage_CreateFromMemory
+
+#define sfml_Graphics__Image_destroy sfImage_Destroy
+
+#define sfml_Graphics__Image_saveToFile sfImage_SaveToFile
+
+#define sfml_Graphics__Image_createMaskFromColor sfImage_CreateMaskFromColor
+
+#define sfml_Graphics__Image_copy sfImage_Copy
+
+#define sfml_Graphics__Image_copyImage sfImage_CopyImage
+
+#define sfml_Graphics__Image_copyScreen_allparams sfImage_CopyScreen
+
+lang_types__Bool sfml_Graphics__Image_copyScreen_norect(sfml_Graphics__Image this, sfml_Graphics__RenderWindow window);
+#define sfml_Graphics__Image_setPixel sfImage_SetPixel
+
+#define sfml_Graphics__Image_getPixel sfImage_GetPixel
+
+#define sfml_Graphics__Image_getPixelsPtr sfImage_GetPixelsPtr
+
+#define sfml_Graphics__Image_updatePixels sfImage_UpdatePixels
+
+#define sfml_Graphics__Image_bind sfImage_Bind
+
+#define sfml_Graphics__Image_setSmooth sfImage_SetSmooth
+
+#define sfml_Graphics__Image_getWidth sfImage_GetWidth
+
+#define sfml_Graphics__Image_getHeight sfImage_GetHeight
+
+#define sfml_Graphics__Image_isSmooth sfImage_IsSmooth
+
+void sfml_Graphics__Image___load__();
+#define sfml_Graphics__Image_new_fromColor sfImage_CreateFromColor
+
+#define sfml_Graphics__Image_new_fromPixels sfImage_CreateFromPixels
+
+#define sfml_Graphics__Image_new_fromFile sfImage_CreateFromFile
+
+#define sfml_Graphics__Image_new_fromMemory sfImage_CreateFromMemory
+
+sfml_Graphics__RenderImageClass *sfml_Graphics__RenderImage_class();
+#define sfml_Graphics__RenderImage_new sfRenderImage_Create
+
+#define sfml_Graphics__RenderImage_destroy sfRenderImage_Destroy
+
+#define sfml_Graphics__RenderImage_getWidth sfRenderImage_GetWidth
+
+#define sfml_Graphics__RenderImage_getHeight sfRenderImage_GetHeight
+
+#define sfml_Graphics__RenderImage_setActive sfRenderImage_SetActive
+
+#define sfml_Graphics__RenderImage_saveGLStates sfRenderImage_SaveGLStates
+
+#define sfml_Graphics__RenderImage_restoreGLStates sfRenderImage_RestoreGLStates
+
+#define sfml_Graphics__RenderImage_display sfRenderImage_Display
+
+#define sfml_Graphics__RenderImage_draw_sprite sfRenderImage_DrawSprite
+
+#define sfml_Graphics__RenderImage_draw_shape sfRenderImage_DrawShape
+
+#define sfml_Graphics__RenderImage_draw_text sfRenderImage_DrawText
+
+#define sfml_Graphics__RenderImage_drawWithShader_sprite sfRenderImage_DrawSpriteWithShader
+
+#define sfml_Graphics__RenderImage_drawWithShader_shape sfRenderImage_DrawShapeWithShader
+
+#define sfml_Graphics__RenderImage_drawWithShader_text sfRenderImage_DrawTextWithShader
+
+#define sfml_Graphics__RenderImage_clear sfRenderImage_Clear
+
+#define sfml_Graphics__RenderImage_setView sfRenderImage_SetView
+
+#define sfml_Graphics__RenderImage_getView sfRenderImage_GetView
+
+#define sfml_Graphics__RenderImage_getViewPort sfRenderImage_GetViewPort
+
+#define sfml_Graphics__RenderImage_covertCoords_pointer sfRenderImage_ConvertCoords
+
+#define sfml_Graphics__RenderImage_getImage sfRenderImage_GetImage
+
+#define sfml_Graphics__RenderImage_available__quest sfRenderImage_IsAvailable
+
+sfml_Graphics__Vector2* sfml_Graphics__RenderImage_covertCoords_vec(sfml_Graphics__RenderImage this, sfml_Graphics__Vector2* wPoint, sfml_Graphics__View targetView);
+void sfml_Graphics__RenderImage___load__();
+#define sfml_Graphics__RenderImage_new sfRenderImage_Create
+
+sfml_Graphics__ShaderClass *sfml_Graphics__Shader_class();
+#define sfml_Graphics__Shader_new_fromFile sfShader_CreateFromFile
+
+#define sfml_Graphics__Shader_new_fromMemory sfShader_CreateFromMemory
+
+#define sfml_Graphics__Shader_copy sfShader_Copy
+
+#define sfml_Graphics__Shader_destroy sfShader_Destroy
+
+#define sfml_Graphics__Shader_setParameter1 sfShader_SetParameter1
+
+#define sfml_Graphics__Shader_setParameter2 sfShader_SetParameter2
+
+#define sfml_Graphics__Shader_setParameter3 sfShader_SetParameter3
+
+#define sfml_Graphics__Shader_setParameter4 sfShader_SetParameter4
+
+#define sfml_Graphics__Shader_setTexture sfShader_SetTexture
+
+#define sfml_Graphics__Shader_bind sfShader_Bind
+
+#define sfml_Graphics__Shader_unbind sfShader_Unbind
+
+#define sfml_Graphics__Shader_available__quest sfShader_IsAvailable
+
+void sfml_Graphics__Shader___load__();
+#define sfml_Graphics__Shader_new_fromFile sfShader_CreateFromFile
+
+#define sfml_Graphics__Shader_new_fromMemory sfShader_CreateFromMemory
+
+sfml_Graphics__RenderWindowClass *sfml_Graphics__RenderWindow_class();
+#define sfml_Graphics__RenderWindow_new_allParams sfRenderWindow_Create
+
+sfml_Graphics__RenderWindow sfml_Graphics__RenderWindow_new_noSettings(sfml_Windows__VideoMode mode, lang_Character__Char* title, lang_Numbers__ULong style);
+sfml_Graphics__RenderWindow sfml_Graphics__RenderWindow_new_noStyleAndSettings(sfml_Windows__VideoMode mode, lang_Character__Char* title);
+#define sfml_Graphics__RenderWindow_new_fromHandle sfRenderWindow_CreateFromHandle
+
+#define sfml_Graphics__RenderWindow_destroy sfRenderWindow_Destroy
+
+#define sfml_Graphics__RenderWindow_close sfRenderWindow_Close
+
+#define sfml_Graphics__RenderWindow_opened__quest sfRenderWindow_IsOpened
+
+#define sfml_Graphics__RenderWindow_getWidth sfRenderWindow_GetWidth
+
+#define sfml_Graphics__RenderWindow_getHeight sfRenderWindow_GetHeight
+
+#define sfml_Graphics__RenderWindow_getSettings sfRenderWindow_GetSettings
+
+#define sfml_Graphics__RenderWindow_pollEvent sfRenderWindow_PollEvent
+
+#define sfml_Graphics__RenderWindow_waitEvent sfRenderWindow_WaitEvent
+
+#define sfml_Graphics__RenderWindow_useVerticalSync sfRenderWindow_UseVerticalSync
+
+#define sfml_Graphics__RenderWindow_showMouseCursor sfRenderWindow_ShowMouseCursor
+
+#define sfml_Graphics__RenderWindow_setCursorPosition sfRenderWindow_SetCursorPosition
+
+#define sfml_Graphics__RenderWindow_setPosition sfRenderWindow_SetPosition
+
+#define sfml_Graphics__RenderWindow_setSize sfRenderWindow_SetSize
+
+#define sfml_Graphics__RenderWindow_show sfRenderWindow_Show
+
+#define sfml_Graphics__RenderWindow_enableKeyRepeat sfRenderWindow_EnableKeyRepeat
+
+#define sfml_Graphics__RenderWindow_setIcon sfRenderWindow_SetIcon
+
+#define sfml_Graphics__RenderWindow_setActive sfRenderWindow_SetActive
+
+#define sfml_Graphics__RenderWindow_saveGLStates sfRenderWindow_SaveGLStates
+
+#define sfml_Graphics__RenderWindow_restoreGLStates sfRenderWindow_RestoreGLStates
+
+#define sfml_Graphics__RenderWindow_display sfRenderWindow_Display
+
+#define sfml_Graphics__RenderWindow_getInput sfRenderWindow_GetInput
+
+#define sfml_Graphics__RenderWindow_setFramerateLimit sfRenderWindow_SetFramerateLimit
+
+#define sfml_Graphics__RenderWindow_getFrameTime sfRenderWindow_GetFrameTime
+
+#define sfml_Graphics__RenderWindow_setJoystickThreshold sfRenderWindow_SetJoystickThreshold
+
+#define sfml_Graphics__RenderWindow_getSystemHandle sfRenderWindow_GetSystemHandle
+
+#define sfml_Graphics__RenderWindow_clear_withColor sfRenderWindow_Clear
+
+void sfml_Graphics__RenderWindow_clear_defaultColor(sfml_Graphics__RenderWindow this);
+#define sfml_Graphics__RenderWindow_setView sfRenderWindow_SetView
+
+#define sfml_Graphics__RenderWindow_getView sfRenderWindow_GetView
+
+#define sfml_Graphics__RenderWindow_getDefaultView sfRenderWindow_GetDefaultView
+
+#define sfml_Graphics__RenderWindow_convertCoords sfRenderWindow_ConvertCoords
+
+#define sfml_Graphics__RenderWindow_draw_sprite sfRenderWindow_DrawSprite
+
+#define sfml_Graphics__RenderWindow_draw_shape sfRenderWindow_DrawShape
+
+#define sfml_Graphics__RenderWindow_draw_text sfRenderWindow_DrawText
+
+#define sfml_Graphics__RenderWindow_drawWithShader_sprite sfRenderWindow_DrawSprite
+
+#define sfml_Graphics__RenderWindow_drawWithShader_shape sfRenderWindow_DrawShape
+
+#define sfml_Graphics__RenderWindow_drawWithShader_text sfRenderWindow_DrawText
+
+void sfml_Graphics__RenderWindow___load__();
+#define sfml_Graphics__RenderWindow_new_allParams sfRenderWindow_Create
+
+#define sfml_Graphics__RenderWindow_new_fromHandle sfRenderWindow_CreateFromHandle
+
+sfml_Graphics__ShapeClass *sfml_Graphics__Shape_class();
+#define sfml_Graphics__Shape_new sfShape_Create
+
+#define sfml_Graphics__Shape_new_line sfShape_CreateLine
+
+#define sfml_Graphics__Shape_new_rectangle sfShape_CreateRectangle
+
+#define sfml_Graphics__Shape_new_circle sfShape_CreateCircle
+
+#define sfml_Graphics__Shape_destroy sfShape_Destroy
+
+#define sfml_Graphics__Shape_setX sfShape_SetX
+
+#define sfml_Graphics__Shape_setY sfShape_SetY
+
+#define sfml_Graphics__Shape_setPosition sfShape_SetPosition
+
+#define sfml_Graphics__Shape_setScaleX sfShape_SetScaleX
+
+#define sfml_Graphics__Shape_setScaleY sfShape_SetScaleY
+
+#define sfml_Graphics__Shape_setScale sfShape_SetScale
+
+#define sfml_Graphics__Shape_setRotation sfShape_SetRotation
+
+#define sfml_Graphics__Shape_setColor sfShape_SetColor
+
+#define sfml_Graphics__Shape_setBlendMode sfShape_SetBlendMode
+
+#define sfml_Graphics__Shape_getX sfShape_GetX
+
+#define sfml_Graphics__Shape_getY sfShape_GetY
+
+#define sfml_Graphics__Shape_getScaleX sfShape_GetScaleX
+
+#define sfml_Graphics__Shape_getScaleY sfShape_GetScaleY
+
+#define sfml_Graphics__Shape_getRotation sfShape_GetRotation
+
+#define sfml_Graphics__Shape_getColor sfShape_GetColor
+
+#define sfml_Graphics__Shape_getBlendMode sfShape_GetBlendMode
+
+#define sfml_Graphics__Shape_move sfShape_Move
+
+#define sfml_Graphics__Shape_scale sfShape_Scale
+
+#define sfml_Graphics__Shape_rotate sfShape_Rotate
+
+#define sfml_Graphics__Shape_transformToLocal sfShape_TransformToLocal
+
+#define sfml_Graphics__Shape_transformToGlobal sfShape_TransformToGlobal
+
+#define sfml_Graphics__Shape_addPoint sfShape_AddPoint
+
+#define sfml_Graphics__Shape_enableFill sfShape_EnableFill
+
+#define sfml_Graphics__Shape_enableOutline sfShape_EnableOutline
+
+#define sfml_Graphics__Shape_setOutlineWidth sfShape_SetOutlineWidth
+
+#define sfml_Graphics__Shape_getOutlineWidth sfShape_GetOutlineWidth
+
+#define sfml_Graphics__Shape_getNbPoints sfShape_GetNbPoints
+
+#define sfml_Graphics__Shape_getPointPosition_pointers sfShape_GetPointPosition
+
+#define sfml_Graphics__Shape_getPointColor sfShape_GetPointColor
+
+#define sfml_Graphics__Shape_getPointOutlineColor sfShape_GetPointOutlineColor
+
+#define sfml_Graphics__Shape_setPointPosition_xy sfShape_SetPointPosition
+
+#define sfml_Graphics__Shape_setPointColor sfShape_SetPointColor
+
+#define sfml_Graphics__Shape_setPointOutlineColor sfShape_SetPointOutlineColor
+
+void sfml_Graphics__Shape_setPosition_vec(sfml_Graphics__Shape this, sfml_Graphics__Vector2* vec);
+void sfml_Graphics__Shape_setScale_vec(sfml_Graphics__Shape this, sfml_Graphics__Vector2* vec);
+void sfml_Graphics__Shape_setPointPosition_vec(sfml_Graphics__Shape this, lang_Numbers__UInt index, sfml_Graphics__Vector2* vec);
+sfml_Graphics__Vector2* sfml_Graphics__Shape_getScale(sfml_Graphics__Shape this);
+sfml_Graphics__Vector2* sfml_Graphics__Shape_transformToLocal_vec(sfml_Graphics__Shape this, sfml_Graphics__Vector2* point);
+sfml_Graphics__Vector2* sfml_Graphics__Shape_transformToGlobal_vec(sfml_Graphics__Shape this, sfml_Graphics__Vector2* point);
+sfml_Graphics__Vector2* sfml_Graphics__Shape_getPointPosition_vec(sfml_Graphics__Shape this, lang_Numbers__UInt index);
+void sfml_Graphics__Shape___load__();
+#define sfml_Graphics__Shape_new sfShape_Create
+
+#define sfml_Graphics__Shape_new_line sfShape_CreateLine
+
+#define sfml_Graphics__Shape_new_rectangle sfShape_CreateRectangle
+
+#define sfml_Graphics__Shape_new_circle sfShape_CreateCircle
+
+sfml_Graphics__SpriteClass *sfml_Graphics__Sprite_class();
+#define sfml_Graphics__Sprite_new sfSprite_Create
+
+sfml_Graphics__Sprite sfml_Graphics__Sprite_new_withImage(sfml_Graphics__Image img);
+#define sfml_Graphics__Sprite_copy sfSprite_Copy
+
+#define sfml_Graphics__Sprite_destroy sfSprite_Destroy
+
+#define sfml_Graphics__Sprite_setX sfSprite_SetX
+
+#define sfml_Graphics__Sprite_setY sfSprite_SetY
+
+#define sfml_Graphics__Sprite_setPosition_xy sfSprite_SetPosition
+
+#define sfml_Graphics__Sprite_setScaleX sfSprite_SetScaleX
+
+#define sfml_Graphics__Sprite_setScaleY sfSprite_SetScaleY
+
+#define sfml_Graphics__Sprite_setScale_xy sfSprite_SetScale
+
+#define sfml_Graphics__Sprite_setRotation sfSprite_SetRotation
+
+#define sfml_Graphics__Sprite_setOrigin_xy sfSprite_SetOrigin
+
+#define sfml_Graphics__Sprite_setColor sfSprite_SetColor
+
+#define sfml_Graphics__Sprite_setBlendMode sfSprite_SetBlendMode
+
+#define sfml_Graphics__Sprite_getX sfSprite_GetX
+
+#define sfml_Graphics__Sprite_getY sfSprite_GetY
+
+#define sfml_Graphics__Sprite_getScaleX sfSprite_GetScaleX
+
+#define sfml_Graphics__Sprite_getScaleY sfSprite_GetScaleY
+
+#define sfml_Graphics__Sprite_getRotation sfSprite_GetRotation
+
+#define sfml_Graphics__Sprite_getOriginX sfSprite_GetOriginX
+
+#define sfml_Graphics__Sprite_getOriginY sfSprite_GetOriginY
+
+#define sfml_Graphics__Sprite_getColor sfSprite_GetColor
+
+#define sfml_Graphics__Sprite_getBlendMode sfSprite_GetBlendMode
+
+#define sfml_Graphics__Sprite_move sfSprite_Move
+
+#define sfml_Graphics__Sprite_scale sfSprite_Scale
+
+#define sfml_Graphics__Sprite_rotate sfSprite_Rotate
+
+#define sfml_Graphics__Sprite_transformToLocal_pointers sfSprite_TransformToLocal
+
+#define sfml_Graphics__Sprite_transformToGlobal_pointers sfSprite_TransformToGlobal
+
+#define sfml_Graphics__Sprite_setImage_withbool sfSprite_SetImage
+
+void sfml_Graphics__Sprite_setImage_withoutbool(sfml_Graphics__Sprite this, sfml_Graphics__Image image);
+#define sfml_Graphics__Sprite_setSubRect sfSprite_SetSubRect
+
+#define sfml_Graphics__Sprite_resize sfSprite_Resize
+
+#define sfml_Graphics__Sprite_flipX sfSprite_FlipX
+
+#define sfml_Graphics__Sprite_flipY sfSprite_FlipY
+
+#define sfml_Graphics__Sprite_getImage sfSprite_GetImage
+
+#define sfml_Graphics__Sprite_getSubRect sfSprite_GetSubRect
+
+#define sfml_Graphics__Sprite_getWidth sfSprite_GetWidth
+
+#define sfml_Graphics__Sprite_getHeight sfSprite_GetHeight
+
+#define sfml_Graphics__Sprite_getPixel sfSprite_GetPixel
+
+void sfml_Graphics__Sprite_setPosition_vec(sfml_Graphics__Sprite this, sfml_Graphics__Vector2* vec);
+void sfml_Graphics__Sprite_setScale_vec(sfml_Graphics__Sprite this, sfml_Graphics__Vector2* vec);
+void sfml_Graphics__Sprite_setOrigin_vec(sfml_Graphics__Sprite this, sfml_Graphics__Vector2* vec);
+sfml_Graphics__Vector2* sfml_Graphics__Sprite_getScale(sfml_Graphics__Sprite this);
+sfml_Graphics__Vector2* sfml_Graphics__Sprite_getOrgin(sfml_Graphics__Sprite this);
+sfml_Graphics__Vector2* sfml_Graphics__Sprite_transformToLocal_vec(sfml_Graphics__Sprite this, sfml_Graphics__Vector2* point);
+sfml_Graphics__Vector2* sfml_Graphics__Sprite_transformToGlobal_vec(sfml_Graphics__Sprite this, sfml_Graphics__Vector2* point);
+void sfml_Graphics__Sprite___load__();
+#define sfml_Graphics__Sprite_new sfSprite_Create
+
+sfml_Graphics__TextStyleClass *sfml_Graphics__TextStyle_class();
+void sfml_Graphics__TextStyle___load__();
+sfml_Graphics__TextClass *sfml_Graphics__Text_class();
+#define sfml_Graphics__Text_new sfText_Create
+
+#define sfml_Graphics__Text_copy sfText_Copy
+
+#define sfml_Graphics__Text_destroy sfText_Destroy
+
+#define sfml_Graphics__Text_setX sfText_SetX
+
+#define sfml_Graphics__Text_setY sfText_SetY
+
+#define sfml_Graphics__Text_setPosition sfText_SetPosition
+
+#define sfml_Graphics__Text_setScaleX sfText_SetScaleX
+
+#define sfml_Graphics__Text_setScaleY sfText_SetScaleY
+
+#define sfml_Graphics__Text_setScale sfText_SetScale
+
+#define sfml_Graphics__Text_setRotation sfText_SetRotation
+
+#define sfml_Graphics__Text_setOrigin sfText_SetOrigin
+
+#define sfml_Graphics__Text_setColor sfText_SetColor
+
+#define sfml_Graphics__Text_setBlendMode sfText_SetBlendMode
+
+#define sfml_Graphics__Text_getX sfText_GetX
+
+#define sfml_Graphics__Text_getY sfText_GetY
+
+#define sfml_Graphics__Text_getScaleX sfText_GetScaleX
+
+#define sfml_Graphics__Text_getScaleY sfText_GetScaleY
+
+#define sfml_Graphics__Text_getRotation sfText_GetRotation
+
+#define sfml_Graphics__Text_getOriginX sfText_GetOriginX
+
+#define sfml_Graphics__Text_getOriginY sfText_GetOriginY
+
+#define sfml_Graphics__Text_getColor sfText_GetColor
+
+#define sfml_Graphics__Text_getBlendMode sfText_GetBlendMode
+
+#define sfml_Graphics__Text_move sfText_Move
+
+#define sfml_Graphics__Text_scale sfText_Scale
+
+#define sfml_Graphics__Text_rotate sfText_Rotate
+
+#define sfml_Graphics__Text_transformToLocal sfText_TransformToLocal
+
+#define sfml_Graphics__Text_transformToGlobal sfText_TransformToGlobal
+
+#define sfml_Graphics__Text_setString sfText_SetString
+
+#define sfml_Graphics__Text_setUnicodeString sfText_SetUnicodeString
+
+#define sfml_Graphics__Text_setFont sfText_SetFont
+
+#define sfml_Graphics__Text_setCharacterSize sfText_SetCharacterSize
+
+#define sfml_Graphics__Text_setStyle sfText_SetStyle
+
+#define sfml_Graphics__Text_getUnicodeString sfText_GetUnicodeString
+
+#define sfml_Graphics__Text_getString sfText_GetString
+
+#define sfml_Graphics__Text_getFont sfText_GetFont
+
+#define sfml_Graphics__Text_getCharacterSize sfText_GetCharacterSize
+
+#define sfml_Graphics__Text_getStyle sfText_GetStyle
+
+#define sfml_Graphics__Text_getCharacterPos sfText_GetCharacterPos
+
+#define sfml_Graphics__Text_getRect sfText_GetRect
+
+void sfml_Graphics__Text_setPosition_vec(sfml_Graphics__Text this, sfml_Graphics__Vector2* vec);
+void sfml_Graphics__Text_setScale_vec(sfml_Graphics__Text this, sfml_Graphics__Vector2* vec);
+void sfml_Graphics__Text_setOrigin_vec(sfml_Graphics__Text this, sfml_Graphics__Vector2* vec);
+sfml_Graphics__Vector2* sfml_Graphics__Text_getScale(sfml_Graphics__Text this);
+sfml_Graphics__Vector2* sfml_Graphics__Text_getOrgin(sfml_Graphics__Text this);
+sfml_Graphics__Vector2* sfml_Graphics__Text_transformToLocal_vec(sfml_Graphics__Text this, sfml_Graphics__Vector2* point);
+sfml_Graphics__Vector2* sfml_Graphics__Text_transformToGlobal_vec(sfml_Graphics__Text this, sfml_Graphics__Vector2* point);
+void sfml_Graphics__Text___load__();
+#define sfml_Graphics__Text_new sfText_Create
+
+sfml_Graphics__ViewClass *sfml_Graphics__View_class();
+#define sfml_Graphics__View_new sfView_Create
+
+#define sfml_Graphics__View_new_fromRect sfView_CreateFromRect
+
+#define sfml_Graphics__View_copy sfView_Copy
+
+#define sfml_Graphics__View_destroy sfView_Destroy
+
+#define sfml_Graphics__View_setCenter sfView_SetCenter
+
+#define sfml_Graphics__View_setSize sfView_SetSize
+
+#define sfml_Graphics__View_setRotation sfView_SetRotation
+
+#define sfml_Graphics__View_setViewport sfView_SetViewport
+
+#define sfml_Graphics__View_reset sfView_Reset
+
+#define sfml_Graphics__View_getCenterX sfView_GetCenterX
+
+#define sfml_Graphics__View_getCenterY sfView_GetCenterY
+
+#define sfml_Graphics__View_getWidth sfView_GetWidth
+
+#define sfml_Graphics__View_getHeight sfView_GetHeight
+
+#define sfml_Graphics__View_getRotation sfView_GetRotation
+
+#define sfml_Graphics__View_getViewport sfView_GetViewport
+
+#define sfml_Graphics__View_rotate sfView_Rotate
+
+#define sfml_Graphics__View_move sfView_Move
+
+#define sfml_Graphics__View_zoom sfView_Zoom
+
+void sfml_Graphics__View___load__();
+#define sfml_Graphics__View_new sfView_Create
+
+#define sfml_Graphics__View_new_fromRect sfView_CreateFromRect
+
+void sfml_Graphics_load();
+#define sfml_Graphics__getDefaultFont sfFont_GetDefaultFont
+
+#define sfml_Graphics__sleep sfSleep
+
+lang_types__Bool sfml_Graphics____OP_EQ_FloatRect_FloatRect__Bool(sfml_Graphics__FloatRect left, sfml_Graphics__FloatRect right);
+lang_types__Bool sfml_Graphics____OP_NE_FloatRect_FloatRect__Bool(sfml_Graphics__FloatRect left, sfml_Graphics__FloatRect right);
+lang_types__Bool sfml_Graphics____OP_EQ_IntRect_IntRect__Bool(sfml_Graphics__IntRect left, sfml_Graphics__IntRect right);
+lang_types__Bool sfml_Graphics____OP_NE_IntRect_IntRect__Bool(sfml_Graphics__IntRect left, sfml_Graphics__IntRect right);
+
+#endif // ___sfml_Graphics_fwd___

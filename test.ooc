@@ -15,7 +15,7 @@ main: func {
     while(win opened?()) {
         evt: Event
         // we check the events to see if user wants to close window
-        while(win getEvent(evt&)) {
+        while(win pollEvent(evt&)) {
             if(evt type == EventType closed) {
                 // if he does, close it
                 win close()

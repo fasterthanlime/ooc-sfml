@@ -241,7 +241,7 @@ RenderWindow: cover from sfRenderWindow* {
     getWidth: extern(sfRenderWindow_GetWidth) func -> UInt
     getHeight: extern(sfRenderWindow_GetHeight) func -> UInt
     getSettings: extern(sfRenderWindow_GetSettings) func -> ContextSettings
-    getEvent: extern(sfRenderWindow_GetEvent) func (event: Event*) -> Bool
+    pollEvent: extern(sfRenderWindow_PollEvent) func (event: Event*) -> Bool
     waitEvent: extern(sfRenderWindow_WaitEvent) func(event: Event*) -> Bool
     useVerticalSync: extern(sfRenderWindow_UseVerticalSync) func (enabled: Bool)
     showMouseCursor: extern(sfRenderWindow_ShowMouseCursor) func (show: Bool)

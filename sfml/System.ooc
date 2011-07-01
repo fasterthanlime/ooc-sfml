@@ -28,12 +28,14 @@ Clock: cover from sfClock* {
     reset: extern(sfClock_Reset) func
 }
 
+/*
 Random: cover {
     setSeed: extern(sfRandom_SetSeed) static func (seed: UInt)
     getSeed: extern(sfRandom_GetSeed) static func -> UInt
     float_: extern(sfRandom_Float) static func (begin: Float, end: Float) -> Float
     int_: extern(sfRandom_Int) static func (begin: Int, end: Int) -> Int
 }
+*/
 
 sleep: extern(sfSleep) func (duration: Float)
 

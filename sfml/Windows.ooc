@@ -1,4 +1,5 @@
 import sfml/System
+import structs/ArrayList
 // SFML 2.0
 
 include SFML/Window
@@ -21,10 +22,14 @@ VideoMode: cover from sfVideoMode {
     height: extern(Height) UInt
     bitsPerPixel: extern(BitsPerPixel) UInt
 
+    getFullScreenModes: extern(sfVideoMode_GetFullscreenModes) static func ~pointers (SizeT*) -> This*
+    getFullScreenModes: static func ~arrayList -> ArrayList<This> {
+        num: SizeT
+        arr := getFullScreenModes(num&)
+        ArrayList<This> new(arr,num)
+    }
     getDesktopMode: extern(sfVideoMode_GetDesktopMode) static func -> VideoMode
-    getMode: extern(sfVideoMode_GetMode) static func (index: SizeT) -> VideoMode
-    getModesCount: extern(sfVideoMode_GetModesCount) static func -> SizeT
-    isValid: extern(sfVideoMode_IsValid) func -> Bool
+    valid?: extern(sfVideoMode_IsValid) func -> Bool
 
     new: static func ~with_bpp (.width, .height, .bitsPerPixel) -> This {
         mode: VideoMode
@@ -47,6 +52,9 @@ Window: cover from sfWindow* {
     new: static func ~noStyleAndSettings(mode: VideoMode, title: Char*) -> Window {
         new(mode,title,Style default)
     }
+    new: static func ~noStyleAndSettingsString(mode: VideoMode, title: String) -> Window {
+        new(mode,title toCString())
+    }
     new: extern(sfWindow_CreateFromHandle) static func ~fromHandle (handle: WindowHandle, params: ContextSettings*) -> Window
     destroy: extern(sfWindow_Destroy) func
     close: extern(sfWindow_Close) func
@@ -54,12 +62,17 @@ Window: cover from sfWindow* {
     getWidth: extern(sfWindow_GetWidth) func -> UInt
     getHeight: extern(sfWindow_GetHeight) func -> UInt
     getSettings: extern(sfWindow_GetSettings) func -> ContextSettings
-    getEvent: extern(sfWindow_GetEvent) func (event: Event*) -> Bool
-    useVerticalSync: extern(sfWindow_UseVerticalSync) func (enabled: Bool)
+    pollEvent: extern(sfWindow_PollEvent) func (event: Event*) -> Bool
+    waitEvent: extern(sfWindow_WaitEvent) func (event: Event*) -> Bool
+    enableVerticalSync: extern(sfWindow_EnableVerticalSync) func (enabled: Bool)
     showMouseCursor: extern(sfWindow_ShowMouseCursor) func (show: Bool)
     setCursorPosition: extern(sfWindow_SetCursorPosition) func (left: UInt, top: UInt)
     setPosition: extern(sfWindow_SetPosition) func (left: Int, top: Int)
     setSize: extern(sfWindow_SetSize) func (width: UInt, height: UInt)
+    setTitle: extern(sfWindow_SetTitle) func ~charPtr (Char*)
+    setTitle: func ~str (str: String) {
+        setTitle(str toCString())
+    }
     show: extern(sfWindow_Show) func (state: Bool)
     enableKeyRepeat: extern(sfWindow_EnableKeyRepeat) func (enabled: Bool)
     setIcon: extern(sfWindow_SetIcon) func (width: UInt, height: UInt, pixels: UInt8*)
@@ -67,7 +80,7 @@ Window: cover from sfWindow* {
     display: extern(sfWindow_Display) func
     getInput: extern(sfWindow_GetInput) func -> Input
     setFramerateLimit: extern(sfWindow_SetFramerateLimit) func (limit: UInt)
-    getFrameTime: extern(sfWindow_GetFrameTime) func -> Float
+    getFrameTime: extern(sfWindow_GetFrameTime) func -> UInt8
     setJoystickThreshold: extern(sfWindow_SetJoystickThreshold) func (threshold: Float)
     getSystemHandle: extern(sfWindow_GetSystemHandle) func -> WindowHandle
 }

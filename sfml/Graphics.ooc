@@ -1,17 +1,11 @@
 import sfml/Windows
+import sfml/Drawable
 
 include SFML/Graphics
 include SFML/Graphics/Glyph
 include SFML/Graphics/Font
 
 use csfml-graphics
-
-Vector2 : class <T> {
-    x : T
-    y : T
-    
-    init : func(=x,=y)
-}
 
 BlendMode: cover from sfBlendMode {
     alpha: extern(sfBlendAlpha) static Int
@@ -337,7 +331,7 @@ RenderWindow: cover from sfRenderWindow* {
     drawWithShader: extern(sfRenderWindow_DrawText) func ~text (text: Text, shader : Shader)
 }
 
-Shape: cover from sfShape* {
+Shape: cover from sfShape* extends Drawable {
     new: extern(sfShape_Create) static func -> This
     new: extern(sfShape_CreateLine) static func ~line (p1X: Float, p1Y: Float, p2X: Float, p2Y: Float, thickness: Float, col: Color, outline: Float, outlineCol: Color) -> This
     new: extern(sfShape_CreateRectangle) static func ~rectangle (p1X: Float, p1Y: Float, p2X: Float, p2Y: Float, col: Color, outline: Float, outlineCol: Color) -> This
@@ -346,12 +340,12 @@ Shape: cover from sfShape* {
     destroy: extern(sfShape_Destroy) func
     setX: extern(sfShape_SetX) func (x: Float)
     setY: extern(sfShape_SetY) func (y: Float)
-    setPosition: extern(sfShape_SetPosition) func ~xy (x: Float, y: Float)
+    setPosition: extern(sfShape_SetPosition) func (x: Float, y: Float)
     setScaleX: extern(sfShape_SetScaleX) func (scale: Float)
     setScaleY: extern(sfShape_SetScaleY) func (scale: Float)
-    setScale: extern(sfShape_SetScale) func ~xy (scaleX: Float, scaleY: Float)
+    setScale: extern(sfShape_SetScale) func (scaleX: Float, scaleY: Float)
     setRotation: extern(sfShape_SetRotation) func (rotation: Float)
-    setOrigin: extern(sfShape_SetOrigin) func ~xy (Float,Float)
+    setOrigin: extern(sfShape_SetOrigin) func (Float,Float)
     setColor: extern(sfShape_SetColor) func (color: Color)
     setBlendMode: extern(sfShape_SetBlendMode) func (mode: BlendMode)
     getX: extern(sfShape_GetX) func -> Float
@@ -363,8 +357,8 @@ Shape: cover from sfShape* {
     getOriginX: extern(sfShape_GetOriginX) func -> Float
     getOriginY: extern(sfShape_GetOriginY) func -> Float
     getBlendMode: extern(sfShape_GetBlendMode) func -> BlendMode
-    move: extern(sfShape_Move) func ~xy (offsetX: Float, offsetY: Float)
-    scale: extern(sfShape_Scale) func ~xy (factorX: Float, factorY: Float)
+    move: extern(sfShape_Move) func (offsetX: Float, offsetY: Float)
+    scale: extern(sfShape_Scale) func (factorX: Float, factorY: Float)
     rotate: extern(sfShape_Rotate) func (angle: Float)
     transformToLocal: extern(sfShape_TransformToLocal) func (pointX: Float, pointY: Float, x: Float*, y: Float*)
     transformToGlobal: extern(sfShape_TransformToGlobal) func (pointX: Float, pointY: Float, x: Float*, y: Float*)
@@ -381,48 +375,15 @@ Shape: cover from sfShape* {
     setPointColor: extern(sfShape_SetPointColor) func (index: UInt, color: Color)
     setPointOutlineColor: extern(sfShape_SetPointOutlineColor) func (index: UInt, color: Color)
     
-    setPosition: func ~vec(vec : Vector2<Float>) { setPosition(vec x as Float, vec y as Float) }
-    setScale: func ~vec(vec : Vector2<Float>) { setScale(vec x as Float, vec y as Float) }
     setPointPosition: func ~vec(index : UInt, vec : Vector2<Float>) { setPointPosition(index,vec x as Float, vec y as Float) }
-    getScale : func -> Vector2<Float> {
-        Vector2<Float> new(getScaleX(),getScaleY())
-    }
-    transformToLocal : func ~vec(point : Vector2<Float>) -> Vector2<Float> {
-        x,y : Float
-        transformToLocal(point x as Float, point y as Float, x&, y&)
-        Vector2<Float> new(x,y)
-    }
-    transformToGlobal : func ~vec(point : Vector2<Float>) -> Vector2<Float> {
-        x,y : Float
-        transformToGlobal(point x as Float, point y as Float, x&, y&)
-        Vector2<Float> new(x,y)
-    }
     getPointPosition : func ~vec(index : UInt) -> Vector2<Float> {
         x,y : Float
         getPointPosition(index,x&,y&)
         Vector2<Float> new(x,y)
     }
-    setPosition: func ~v (v: Vector2<Float>) {
-        setPosition(v x as Float, v y as Float)
-    }
-    setOrigin: func ~v (v: Vector2<Float>) {
-        setOrigin(v x as Float, v y as Float)
-    }
-    getPosition: func -> Vector2<Float> {
-        Vector2<Float> new(getX(),getY())
-    }
-    move: func ~v (v: Vector2<Float>) {
-        move(v x as Float,v y as Float)
-    }
-    getOrigin: func -> Vector2<Float> {
-        Vector2<Float> new(getOriginX(),getOriginY())
-    }
-    scale: func ~v (v: Vector2<Float>) {
-        scale(v x as Float,v y as Float)
-    }
 }
 
-Sprite: cover from sfSprite* {
+Sprite: cover from sfSprite* extends Drawable {
     new: extern(sfSprite_Create) static func -> Sprite
     new: static func ~withImage(img : Image) -> Sprite {
         this := new()
@@ -433,12 +394,12 @@ Sprite: cover from sfSprite* {
     destroy: extern(sfSprite_Destroy) func
     setX: extern(sfSprite_SetX) func (x: Float)
     setY: extern(sfSprite_SetY) func (y: Float)
-    setPosition: extern(sfSprite_SetPosition) func ~xy(x: Float, y: Float)
+    setPosition: extern(sfSprite_SetPosition) func (x: Float, y: Float)
     setScaleX: extern(sfSprite_SetScaleX) func (scale: Float)
     setScaleY: extern(sfSprite_SetScaleY) func (scale: Float)
-    setScale: extern(sfSprite_SetScale) func ~xy(scaleX: Float, scaleY: Float)
+    setScale: extern(sfSprite_SetScale) func (scaleX: Float, scaleY: Float)
     setRotation: extern(sfSprite_SetRotation) func (rotation: Float)
-    setOrigin: extern(sfSprite_SetOrigin) func ~xy(x: Float, y: Float)
+    setOrigin: extern(sfSprite_SetOrigin) func (x: Float, y: Float)
     setColor: extern(sfSprite_SetColor) func (color: Color)
     setBlendMode: extern(sfSprite_SetBlendMode) func (mode: BlendMode)
     getX: extern(sfSprite_GetX) func -> Float
@@ -453,8 +414,8 @@ Sprite: cover from sfSprite* {
     move: extern(sfSprite_Move) func (offsetX: Float, offsetY: Float)
     scale: extern(sfSprite_Scale) func (factorX: Float, factorY: Float)
     rotate: extern(sfSprite_Rotate) func (angle: Float)
-    transformToLocal: extern(sfSprite_TransformToLocal) func ~pointers(pointX: Float, pointY: Float, x: Float*, y: Float*)
-    transformToGlobal: extern(sfSprite_TransformToGlobal) func ~pointers(pointX: Float, pointY: Float, x: Float*, y: Float*)
+    transformToLocal: extern(sfSprite_TransformToLocal) func (pointX: Float, pointY: Float, x: Float*, y: Float*)
+    transformToGlobal: extern(sfSprite_TransformToGlobal) func (pointX: Float, pointY: Float, x: Float*, y: Float*)
     setImage: extern(sfSprite_SetImage) func ~withbool(image: Image , adjustToNewSize : Bool)
     setImage : func ~withoutbool(image : Image) { setImage(image,true) }
     setSubRect: extern(sfSprite_SetSubRect) func (subRect: IntRect)
@@ -466,43 +427,6 @@ Sprite: cover from sfSprite* {
     getWidth: extern(sfSprite_GetWidth) func -> Float
     getHeight: extern(sfSprite_GetHeight) func -> Float
     getPixel: extern(sfSprite_GetPixel) func (x: UInt, y: UInt) -> Color
-    
-    setPosition: func ~vec(vec : Vector2<Float>) { setPosition(vec x as Float, vec y as Float) }
-    setScale: func ~vec(vec : Vector2<Float>) { setScale(vec x as Float, vec y as Float) }
-    getScale : func -> Vector2<Float> {
-        Vector2<Float> new(getScaleX(),getScaleY())
-    }
-    transformToLocal : func ~vec(point : Vector2<Float>) -> Vector2<Float> {
-        x,y : Float
-        transformToLocal(point x as Float, point y as Float, x&, y&)
-        Vector2<Float> new(x,y)
-    }
-    transformToGlobal : func ~vec(point : Vector2<Float>) -> Vector2<Float> {
-        x,y : Float
-        transformToGlobal(point x as Float, point y as Float, x&, y&)
-        Vector2<Float> new(x,y)
-    }
-    setPosition: func ~v (v: Vector2<Float>) {
-        setPosition(v x as Float, v y as Float)
-    }
-    setOrigin: func ~v (v: Vector2<Float>) {
-        setOrigin(v x as Float, v y as Float)
-    }
-    getPosition: func -> Vector2<Float> {
-        Vector2<Float> new(getX(),getY())
-    }
-    move: func ~v (v: Vector2<Float>) {
-        move(v x as Float,v y as Float)
-    }
-    getOrigin: func -> Vector2<Float> {
-        Vector2<Float> new(getOriginX(),getOriginY())
-    }
-    scale: func ~v (v: Vector2<Float>) {
-        scale(v x as Float,v y as Float)
-    }
-    getSize: func ~v -> Vector2<Float> {
-        Vector2<Float> new(getWidth(),getHeight())
-    }
 }
 
 TextStyle : cover from sfTextStyle {
@@ -512,7 +436,7 @@ TextStyle : cover from sfTextStyle {
     italic: extern(sfTextItalic) static Int
 }
 
-Text: cover from sfText* {
+Text: cover from sfText* extends Drawable {
     new: extern(sfText_Create) static func -> Text
     copy: extern(sfText_Copy) func -> Text
     destroy: extern(sfText_Destroy) func
@@ -563,39 +487,6 @@ Text: cover from sfText* {
         x,y : Float
         getCharacterPos(index,x&,y&)
         Vector2<Float> new(x,y)
-    }
-    setPosition: func ~vec(vec : Vector2<Float>) { setPosition(vec x as Float, vec y as Float) }
-    setScale: func ~vec(vec : Vector2<Float>) { setScale(vec x as Float, vec y as Float) }
-    getScale : func -> Vector2<Float> {
-        Vector2<Float> new(getScaleX(),getScaleY())
-    }
-    transformToLocal : func ~vec(point : Vector2<Float>) -> Vector2<Float> {
-        x,y : Float
-        transformToLocal(point x as Float, point y as Float, x&, y&)
-        Vector2<Float> new(x,y)
-    }
-    transformToGlobal : func ~vec(point : Vector2<Float>) -> Vector2<Float> {
-        x,y : Float
-        transformToGlobal(point x as Float, point y as Float, x&, y&)
-        Vector2<Float> new(x,y)
-    }
-    setPosition: func ~v (v: Vector2<Float>) {
-        setPosition(v x as Float, v y as Float)
-    }
-    setOrigin: func ~v (v: Vector2<Float>) {
-        setOrigin(v x as Float, v y as Float)
-    }
-    getPosition: func -> Vector2<Float> {
-        Vector2<Float> new(getX(),getY())
-    }
-    move: func ~v (v: Vector2<Float>) {
-        move(v x as Float,v y as Float)
-    }
-    getOrigin: func -> Vector2<Float> {
-        Vector2<Float> new(getOriginX(),getOriginY())
-    }
-    scale: func ~v (v: Vector2<Float>) {
-        scale(v x as Float,v y as Float)
     }
 }
 

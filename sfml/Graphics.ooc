@@ -1,5 +1,6 @@
 import sfml/Windows
 import sfml/Drawable
+import sfml/RenderTarget
 
 include SFML/Graphics
 include SFML/Graphics/Glyph
@@ -198,7 +199,7 @@ Image: cover from sfImage* {
     smooth?: extern(sfImage_IsSmooth) func -> Bool
 }
 
-RenderImage : cover from sfRenderImage* {
+RenderImage : cover from sfRenderImage* extends RenderTarget {
     new: extern(sfRenderImage_Create) static func (width,height : UInt, depthBuffer : Bool) -> RenderImage
     destroy: extern(sfRenderImage_Destroy) func
     getWidth: extern(sfRenderImage_GetWidth) func -> UInt
@@ -212,26 +213,17 @@ RenderImage : cover from sfRenderImage* {
     draw: extern(sfRenderImage_DrawShape) func ~shape(shape : Shape)
     draw: extern(sfRenderImage_DrawText) func ~text(text : Text)
     
-    drawWithShader: extern(sfRenderImage_DrawSpriteWithShader) func ~sprite(sprite : Sprite, shader : Shader)
-    drawWithShader: extern(sfRenderImage_DrawShapeWithShader) func ~shape(shape : Shape, shader : Shader)
-    drawWithShader: extern(sfRenderImage_DrawTextWithShader) func ~text(text : Text, shader : Shader)
+    draw: extern(sfRenderImage_DrawSpriteWithShader) func ~spriteShader (sprite : Sprite, shader : Shader)
+    draw: extern(sfRenderImage_DrawShapeWithShader) func ~shapeShader (shape : Shape, shader : Shader)
+    draw: extern(sfRenderImage_DrawTextWithShader) func ~textShader (text : Text, shader : Shader)
     
-    clear: extern(sfRenderImage_Clear) func ~withColor (color : Color)
-    clear: func ~black {
-        clear(Color Black)
-    }
+    clear: extern(sfRenderImage_Clear) func (color : Color)
     setView: extern(sfRenderImage_SetView) func(view : View)
     getView: extern(sfRenderImage_GetView) func -> View
     getDefaultView: extern(sfRenderImage_GetDefaultView) func -> View
-    getViewPort: extern(sfRenderImage_GetViewPort) func (View) -> IntRect
-    convertCoords: extern(sfRenderImage_ConvertCoords) func ~pointer(windowX,windowY : UInt, viewX,viewY : Float*, targetView : View)
+    getViewport: extern(sfRenderImage_GetViewPort) func (v: View) -> IntRect
+    convertCoords: extern(sfRenderImage_ConvertCoords) func (windowX,windowY : UInt, viewX,viewY : Float*, targetView : View)
     getImage: extern(sfRenderImage_GetImage) func -> Image
-    
-    convertCoords : func ~vec(wPoint : Vector2<UInt>, targetView : View) -> Vector2<Float> {
-        x,y : Float
-        convertCoords(wPoint x as UInt, wPoint y as UInt, x&, y&, targetView)
-        Vector2<Float> new(x,y)
-    }
 }
 
 Shader: cover from sfShader* {
@@ -262,10 +254,10 @@ Shader: cover from sfShader* {
     setCurrentTexture: extern(sfShader_SetCurrentTexture) func (name: Char*)
     bind: extern(sfShader_Bind) func
     unbind: extern(sfShader_Unbind) func
-    available?: extern(sfShader_IsAvailable) func -> Bool
+    available?: extern(sfShader_IsAvailagetViewportble) func -> Bool
 }
 
-RenderWindow: cover from sfRenderWindow* {
+RenderWindow: cover from sfRenderWindow* extends RenderTarget {
     new: extern(sfRenderWindow_Create) static func ~allParams(mode: VideoMode, title: Char*, style: ULong, params: ContextSettings*) -> RenderWindow
     new: static func ~noSettings(mode: VideoMode, title: Char*, style: ULong) -> RenderWindow {
         new(mode,title,style,null)
@@ -306,29 +298,20 @@ RenderWindow: cover from sfRenderWindow* {
     getFrameTime: extern(sfRenderWindow_GetFrameTime) func -> UInt32
     setJoystickThreshold: extern(sfRenderWindow_SetJoystickThreshold) func (threshold: Float)
     getSystemHandle: extern(sfRenderWindow_GetSystemHandle) func -> WindowHandle
-    clear: extern(sfRenderWindow_Clear) func ~withColor (color: Color)
-    clear: func ~defaultColor {
-        this clear(Color Black)
-    }
+    clear: extern(sfRenderWindow_Clear) func (color: Color)
     setView: extern(sfRenderWindow_SetView) func (view: View)
     getView: extern(sfRenderWindow_GetView) func -> View
     getDefaultView: extern(sfRenderWindow_GetDefaultView) func -> View
     getViewport: extern(sfRenderWindow_GetViewport) func(View) -> IntRect
     convertCoords: extern(sfRenderWindow_ConvertCoords) func (windowX: UInt, windowY: UInt, viewX: Float*, viewY: Float*, targetView: View)
-    
-    convertCoords : func ~vec(wPoint : Vector2<UInt>, targetView : View) -> Vector2<Float> {
-        x,y : Float
-        convertCoords(wPoint x as UInt, wPoint y as UInt, x&, y&, targetView)
-        Vector2<Float> new(x,y)
-    }
 
     draw: extern(sfRenderWindow_DrawSprite) func ~sprite (sprite: Sprite)
     draw: extern(sfRenderWindow_DrawShape) func ~shape (shape: Shape)
     draw: extern(sfRenderWindow_DrawText) func ~text (text: Text)
     
-    drawWithShader: extern(sfRenderWindow_DrawSprite) func ~sprite (sprite: Sprite, shader : Shader)
-    drawWithShader: extern(sfRenderWindow_DrawShape) func ~shape (shape: Shape, shader : Shader)
-    drawWithShader: extern(sfRenderWindow_DrawText) func ~text (text: Text, shader : Shader)
+    draw: extern(sfRenderWindow_DrawSprite) func ~spriteShader (sprite: Sprite, shader : Shader)
+    draw: extern(sfRenderWindow_DrawShape) func ~shapeShader (shape: Shape, shader : Shader)
+    draw: extern(sfRenderWindow_DrawText) func ~textShader (text: Text, shader : Shader)
 }
 
 Shape: cover from sfShape* extends Drawable {

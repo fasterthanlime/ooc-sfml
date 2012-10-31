@@ -18,17 +18,17 @@ Style: class {
 }
 
 VideoMode: cover from sfVideoMode {
-    width: extern(Width) UInt
-    height: extern(Height) UInt
-    bitsPerPixel: extern(BitsPerPixel) UInt
+    width: extern UInt
+    height: extern UInt
+    bitsPerPixel: extern UInt
 
-    getFullScreenModes: extern(sfVideoMode_GetFullscreenModes) static func ~pointers (SizeT*) -> This*
+    getFullScreenModes: extern(sfVideoMode_getFullscreenModes) static func ~pointers (SizeT*) -> This*
     getFullScreenModes: static func ~arrayList -> ArrayList<This> {
         num: SizeT
         arr := getFullScreenModes(num&)
-        ArrayList<This> new(arr,num)
+        ArrayList<This> new(arr, num)
     }
-    getDesktopMode: extern(sfVideoMode_GetDesktopMode) static func -> VideoMode
+    getDesktopMode: extern(sfVideoMode_getDesktopMode) static func -> VideoMode
     valid?: extern(sfVideoMode_IsValid) func -> Bool
 
     new: static func ~with_bpp (.width, .height, .bitsPerPixel) -> This {
@@ -45,7 +45,7 @@ VideoMode: cover from sfVideoMode {
 }
 
 Window: cover from sfWindow* {
-    new: extern(sfWindow_Create) static func ~allParams(mode: VideoMode, title: Char*, style: ULong, params: ContextSettings*) -> Window
+    new: extern(sfWindow_create) static func ~allParams(mode: VideoMode, title: Char*, style: ULong, params: ContextSettings*) -> Window
     new: static func ~noSettings(mode: VideoMode, title: Char*, style: ULong) -> Window {
         new(mode,title,style,null)
     }
@@ -55,10 +55,9 @@ Window: cover from sfWindow* {
     new: static func ~noStyleAndSettingsString(mode: VideoMode, title: String) -> Window {
         new(mode,title toCString())
     }
-    new: extern(sfWindow_CreateFromHandle) static func ~fromHandle (handle: WindowHandle, params: ContextSettings*) -> Window
+    new: extern(sfWindow_createFromHandle) static func ~fromHandle (handle: WindowHandle, params: ContextSettings*) -> Window
     destroy: extern(sfWindow_Destroy) func
     close: extern(sfWindow_Close) func
-    opened?: extern(sfWindow_IsOpened) func -> Bool
     getWidth: extern(sfWindow_GetWidth) func -> UInt
     getHeight: extern(sfWindow_GetHeight) func -> UInt
     getSettings: extern(sfWindow_GetSettings) func -> ContextSettings
@@ -67,9 +66,9 @@ Window: cover from sfWindow* {
     enableVerticalSync: extern(sfWindow_EnableVerticalSync) func (enabled: Bool)
     showMouseCursor: extern(sfWindow_ShowMouseCursor) func (show: Bool)
     setCursorPosition: extern(sfWindow_SetCursorPosition) func (left: UInt, top: UInt)
-    setPosition: extern(sfWindow_SetPosition) func (left: Int, top: Int)
-    setSize: extern(sfWindow_SetSize) func (width: UInt, height: UInt)
-    setTitle: extern(sfWindow_SetTitle) func ~charPtr (Char*)
+    setPosition: extern(sfWindow_setPosition) func (left: Int, top: Int)
+    setSize: extern(sfWindow_setSize) func (width: UInt, height: UInt)
+    setTitle: extern(sfWindow_setTitle) func ~charPtr (Char*)
     setTitle: func ~str (str: String) {
         setTitle(str toCString())
     }
@@ -78,28 +77,18 @@ Window: cover from sfWindow* {
     setIcon: extern(sfWindow_SetIcon) func (width: UInt, height: UInt, pixels: UInt8*)
     setActive: extern(sfWindow_SetActive) func (active: Bool) -> Bool
     display: extern(sfWindow_Display) func
-    getInput: extern(sfWindow_GetInput) func -> Input
     setFramerateLimit: extern(sfWindow_SetFramerateLimit) func (limit: UInt)
     getFrameTime: extern(sfWindow_GetFrameTime) func -> UInt8
     setJoystickThreshold: extern(sfWindow_SetJoystickThreshold) func (threshold: Float)
     getSystemHandle: extern(sfWindow_GetSystemHandle) func -> WindowHandle
 }
 
-Input: cover from sfInput* {
-    keyDown?: extern(sfInput_IsKeyDown) func (keyCode: Char) -> Bool
-    mouseButtonDown?: extern(sfInput_IsMouseButtonDown) func (button: Int) -> Bool
-    joystickButtonDown?: extern(sfInput_IsJoystickButtonDown) func (joyId: UInt, button: UInt) -> Bool
-    getMouseX: extern(sfInput_GetMouseX) func -> Int
-    getMouseY: extern(sfInput_GetMouseY) func -> Int
-    getJoystickAxis: extern(sfInput_GetJoystickAxis) func (joyId: UInt, axis: Int) -> Float
-}
-
 ContextSettings : cover from sfContextSettings {
-    depthBits: extern(DepthBits) UInt
-    stencilBits: extern(StencilBits) UInt
-    antialiasingLevel: extern(AntialiasingLevel) UInt
-    majorVersion: extern(MajorVersion) UInt
-    minorVersion: extern(MinorVersion) UInt
+    depthBits: extern UInt
+    stencilBits: extern UInt
+    antialiasingLevel: extern UInt
+    majorVersion: extern UInt
+    minorVersion: extern UInt
 
     new: static func (.depthBits, .stencilBits, .antialiasingLevel, .majorVersion, .minorVersion) -> This {
         this: ContextSettings
@@ -130,26 +119,15 @@ Event: cover from sfEvent {
     sizeEvent: extern(Size) SizeEvent
 }
 
-JoyButtonEvent: cover from struct sfJoyButtonEvent {
+JoyButtonEvent: extern cover from struct sfJoyButtonEvent {
     type: extern(Type) Int
     joystickId: extern(JoystickId) UInt
     button: extern(Button) UInt
 }
 
-JoyAxis: cover from sfJoyAxis {
-    X: extern(sfJoyAxisX) static Int
-    Y: extern(sfJoyAxisY) static Int
-    Z: extern(sfJoyAxisZ) static Int
-    R: extern(sfJoyAxisR) static Int
-    U: extern(sfJoyAxisU) static Int
-    V: extern(sfJoyAxisV) static Int
-    POV: extern(sfJoyAxisPOV) static Int
-}
-
-JoyMoveEvent: cover from struct sfJoyMoveEvent {
+JoyMoveEvent: extern cover from struct sfJoyMoveEvent {
     type: extern(Type) Int
     joystickId: extern(JoystickId) UInt
-    axis: extern(Axis) JoyAxis
     position: extern(Position) Float
 }
 

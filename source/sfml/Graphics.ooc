@@ -18,10 +18,10 @@ BlendMode: cover from sfBlendMode {
 FloatRect: cover from sfFloatRect {
     zero : const static FloatRect = FloatRect new(0,0,0,0) 
 
-    left: extern(Left) Float
-    top: extern(Top) Float
-    width: extern(Width) Float
-    height: extern(Height) Float
+    left: extern Float
+    top: extern Float
+    width: extern Float
+    height: extern Float
     
     contains?: func(x,y : Float) -> Bool {
         (x >= left && x <= left+width && y >= top && y <= top+height)
@@ -67,10 +67,10 @@ operator != (left , right : FloatRect) -> Bool {
 IntRect: cover from sfIntRect {
     zero : const static IntRect = IntRect new(0,0,0,0) 
     
-    left: extern(Left) Int
-    top: extern(Top) Int
-    width: extern(Width) Int
-    height: extern(Height) Int
+    left: extern Int
+    top: extern Int
+    width: extern Int
+    height: extern Int
     
     contains?: func(x,y : Int) -> Bool {
         (x >= left && x <= left+width && y >= top && y <= top+height)
@@ -91,8 +91,8 @@ IntRect: cover from sfIntRect {
         }
         IntRect zero
     }
-    //contains? : extern(sfIntRect_Contains) func(x,y : Int) -> Bool
-    //intersects? : extern(sfIntRect_Intersects) func(rect2,intersection : IntRect) -> Bool
+    //contains? : extern(sfIntRect_contains) func(x,y : Int) -> Bool
+    //intersects? : extern(sfIntRect_intersects) func(rect2,intersection : IntRect) -> Bool
 
     new : static func (.left, .top, .width, .height) -> This {
         this: IntRect
@@ -127,10 +127,10 @@ Color: cover from sfColor {
     Magenta: extern(sfMagenta) static const This
     Cyan: extern(sfCyan) static const This
     
-    new: extern(sfColor_FromRGB) static func ~rGB (red: UInt8, green: UInt8, blue: UInt8) -> Color
-    new: extern(sfColor_FromRGBA) static func ~rGBA (red: UInt8, green: UInt8, blue: UInt8, alpha: UInt8) -> Color
-    add: extern(sfColor_Add) func (color2: Color) -> Color
-    modulate: extern(sfColor_Modulate) func (color2: Color) -> Color
+    new: extern(sfColor_fromRGB) static func ~rGB (red: UInt8, green: UInt8, blue: UInt8) -> Color
+    new: extern(sfColor_fromRGBA) static func ~rGBA (red: UInt8, green: UInt8, blue: UInt8, alpha: UInt8) -> Color
+    add: extern(sfColor_add) func (color2: Color) -> Color
+    modulate: extern(sfColor_modulate) func (color2: Color) -> Color
 }
 
 operator + (left,right : Color) -> Color {
@@ -148,18 +148,18 @@ Context: cover from sfContext* {
 }
 
 Font: cover from sfFont* {
-    new: extern(sfFont_CreateFromFile) static func ~fileCharPtr (filename: Char*) -> This
+    new: extern(sfFont_createFromFile) static func ~fileCharPtr (filename: Char*) -> This
     new: static func ~fileStr (filename: String) -> This {
         new(filename toCString())
     }
-    new: extern(sfFont_CreateFromMemory) static func ~mem (data: Void*, sizeInButes: SizeT) -> This
-    copy: extern(sfFont_Copy) func -> This
-    destroy: extern(sfFont_Destroy) func
-    getGlyph: extern(sfFont_GetGlyph) func(codePoint: UInt32, characterSize: UInt, bold: Bool) -> Glyph
-    getKerning: extern(sfFont_GetKerning) func(first,second: UInt32, characterSize: UInt) -> Int
-    getLineSpacing: extern(sfFont_GetLineSpacing) func(characterSize: UInt) -> Int
-    getImage: extern(sfFont_GetImage) func(characterSize: UInt) -> Image
-    getDefault: extern(sfFont_GetDefaultFont) static func -> This
+    new: extern(sfFont_createFromMemory) static func ~mem (data: Void*, sizeInButes: SizeT) -> This
+    copy: extern(sfFont_copy) func -> This
+    destroy: extern(sfFont_destroy) func
+    getGlyph: extern(sfFont_getGlyph) func(codePoint: UInt32, characterSize: UInt, bold: Bool) -> Glyph
+    getKerning: extern(sfFont_getKerning) func(first,second: UInt32, characterSize: UInt) -> Int
+    getLineSpacing: extern(sfFont_getLineSpacing) func(characterSize: UInt) -> Int
+    getImage: extern(sfFont_getImage) func(characterSize: UInt) -> Image
+    getDefault: extern(sfFont_getDefaultFont) static func -> This
 }
 
 Glyph: cover from sfGlyph {
@@ -169,96 +169,57 @@ Glyph: cover from sfGlyph {
 }
 
 Image: cover from sfImage* {
-    new: extern(sfImage_CreateFromColor) static func ~fromColor (width: UInt, height: UInt, color: Color) -> This
-    new: extern(sfImage_CreateFromPixels) static func ~fromPixels (width: UInt, height: UInt, data: UInt8*) -> This
-    new: extern(sfImage_CreateFromFile) static func ~fromFileCharPTr (filename: Char*) -> This
+    new: extern(sfImage_createFromColor) static func ~fromColor (width: UInt, height: UInt, color: Color) -> This
+    new: extern(sfImage_createFromPixels) static func ~fromPixels (width: UInt, height: UInt, data: UInt8*) -> This
+    new: extern(sfImage_createFromFile) static func ~fromFileCharPTr (filename: Char*) -> This
     new: static func ~fromFileStr (str: String) -> This {
         new(str toCString())
     }
-    new: extern(sfImage_CreateFromMemory) static func ~fromMemory (data: Char*, sizeInBytes: SizeT) -> This
-    destroy: extern(sfImage_Destroy) func
-    saveToFile: extern(sfImage_SaveToFile) func ~CharPtr (filename: Char*) -> Bool
+    new: extern(sfImage_createFromMemory) static func ~fromMemory (data: Char*, sizeInBytes: SizeT) -> This
+    destroy: extern(sfImage_destroy) func
+    saveToFile: extern(sfImage_saveToFile) func ~CharPtr (filename: Char*) -> Bool
     saveToFile: func ~str (str: String) -> Bool {
         saveToFile(str toCString())
     }
-    createMaskFromColor: extern(sfImage_CreateMaskFromColor) func (colorKey: Color, alpha: UInt8)
-    copy: extern(sfImage_Copy) func -> Image
-    copyImage: extern(sfImage_CopyImage) func (source: Image, destX: UInt, destY: UInt, sourceRect: IntRect)
-    copyScreen: extern(sfImage_CopyScreen) func ~allparams (window: RenderWindow, sourceRect: IntRect) -> Bool
+    createMaskFromColor: extern(sfImage_createMaskFromColor) func (colorKey: Color, alpha: UInt8)
+    copy: extern(sfImage_copy) func -> Image
+    copyImage: extern(sfImage_copyImage) func (source: Image, destX: UInt, destY: UInt, sourceRect: IntRect)
+    copyScreen: extern(sfImage_copyScreen) func ~allparams (window: RenderWindow, sourceRect: IntRect) -> Bool
     copyScreen : func ~norect (window : RenderWindow) -> Bool {
         copyScreen(window,IntRect new(0,0,window getWidth(),window getHeight()))
     }
-    setPixel: extern(sfImage_SetPixel) func (x: UInt, y: UInt, color: Color)
-    getPixel: extern(sfImage_GetPixel) func (x: UInt, y: UInt) -> Color
-    getPixelsPtr: extern(sfImage_GetPixelsPtr) func -> UInt8*
-    updatePixels: extern(sfImage_UpdatePixels) func(pixels : UInt8*, rectangle : IntRect)
-    bind: extern(sfImage_Bind) func
-    setSmooth: extern(sfImage_SetSmooth) func (smooth: Bool)
-    getWidth: extern(sfImage_GetWidth) func -> UInt
-    getHeight: extern(sfImage_GetHeight) func -> UInt
-    smooth?: extern(sfImage_IsSmooth) func -> Bool
-}
-
-RenderImage : cover from sfRenderImage* extends RenderTarget {
-    new: extern(sfRenderImage_Create) static func (width,height : UInt, depthBuffer : Bool) -> RenderImage
-    destroy: extern(sfRenderImage_Destroy) func
-    getWidth: extern(sfRenderImage_GetWidth) func -> UInt
-    getHeight: extern(sfRenderImage_GetHeight) func -> UInt
-    setActive: extern(sfRenderImage_SetActive) func(active : Bool)
-    saveGLStates: extern(sfRenderImage_SaveGLStates) func
-    restoreGLStates: extern(sfRenderImage_RestoreGLStates) func
-    display: extern(sfRenderImage_Display) func
-    
-    draw: extern(sfRenderImage_DrawSprite) func ~sprite(sprite : Sprite)
-    draw: extern(sfRenderImage_DrawShape) func ~shape(shape : Shape)
-    draw: extern(sfRenderImage_DrawText) func ~text(text : Text)
-    
-    draw: extern(sfRenderImage_DrawSpriteWithShader) func ~spriteShader (sprite : Sprite, shader : Shader)
-    draw: extern(sfRenderImage_DrawShapeWithShader) func ~shapeShader (shape : Shape, shader : Shader)
-    draw: extern(sfRenderImage_DrawTextWithShader) func ~textShader (text : Text, shader : Shader)
-    
-    clear: extern(sfRenderImage_Clear) func (color : Color)
-    setView: extern(sfRenderImage_SetView) func(view : View)
-    getView: extern(sfRenderImage_GetView) func -> View
-    getDefaultView: extern(sfRenderImage_GetDefaultView) func -> View
-    getViewport: extern(sfRenderImage_GetViewPort) func (v: View) -> IntRect
-    convertCoords: extern(sfRenderImage_ConvertCoords) func (windowX,windowY : UInt, viewX,viewY : Float*, targetView : View)
-    getImage: extern(sfRenderImage_GetImage) func -> Image
+    setPixel: extern(sfImage_setPixel) func (x: UInt, y: UInt, color: Color)
+    getPixel: extern(sfImage_getPixel) func (x: UInt, y: UInt) -> Color
+    getPixelsPtr: extern(sfImage_getPixelsPtr) func -> UInt8*
+    updatePixels: extern(sfImage_updatePixels) func(pixels : UInt8*, rectangle : IntRect)
+    bind: extern(sfImage_bind) func
+    setSmooth: extern(sfImage_setSmooth) func (smooth: Bool)
+    getWidth: extern(sfImage_getWidth) func -> UInt
+    getHeight: extern(sfImage_getHeight) func -> UInt
+    smooth?: extern(sfImage_isSmooth) func -> Bool
 }
 
 Shader: cover from sfShader* {
-    new: extern(sfShader_CreateFromFile) static func ~fromFileCharPtr (filename: Char*) -> This
+    new: extern(sfShader_createFromFile) static func ~fromFileCharPtr (filename: Char*) -> This
     new: static func ~fromFileStr (str: String) -> This {
         new(str toCString())
     }
-    new: extern(sfShader_CreateFromMemory) static func ~fromMemory (effect: Char*) -> This
-    copy: extern(sfShader_Copy) func -> This
-    destroy: extern(sfShader_Destroy) func
-    setParameter1: extern(sfShader_SetParameter1) func ~c (name: Char*, x: Float)
-    setParameter1: func ~s (name: String, x: Float) {
-        setParameter1(name toCString(),x)
-    }
-    setParameter2: extern(sfShader_SetParameter2) func ~c (name: Char*, x: Float, y: Float)
-    setParameter2: func ~s (name: String, x,y: Float) {
-        setParameter2(name toCString(),x,y)
-    }
-    setParameter3: extern(sfShader_SetParameter3) func ~c (name: Char*, x: Float, y: Float, z: Float)
-    setParameter3: func ~s (name: String, x,y,z: Float) {
-        setParameter3(name toCString(),x,y,z)
-    }
-    setParameter4: extern(sfShader_SetParameter4) func ~c (name: Char*, x: Float, y: Float, z: Float, w: Float)
-    setParameter4: func ~s (name: String, x,y,z,w: Float) {
-        setParameter4(name toCString(),x,y,z,w)
-    }
-    setTexture: extern(sfShader_SetTexture) func (name: Char*, texture: Image)
-    setCurrentTexture: extern(sfShader_SetCurrentTexture) func (name: Char*)
-    bind: extern(sfShader_Bind) func
-    unbind: extern(sfShader_Unbind) func
-    available?: extern(sfShader_IsAvailagetViewportble) func -> Bool
+    new: extern(sfShader_createFromMemory) static func ~fromMemory (effect: Char*) -> This
+    copy: extern(sfShader_copy) func -> This
+    destroy: extern(sfShader_destroy) func
+    setFloatParameter: extern(sfShader_setFloatParameter) func ~c (name: CString, x: Float)
+    setFloat2Parameter: extern(sfShader_setFloat2Parameter) func ~c (name: CString, x: Float, y: Float)
+    setFloat3Parameter: extern(sfShader_setFloat3Parameter) func ~c (name: CString, x: Float, y: Float, z: Float)
+    setFloat4Parameter: extern(sfShader_setFloat4Parameter) func ~c (name: CString, x: Float, y: Float, z: Float, w: Float)
+    setTexture: extern(sfShader_setTexture) func (name: Char*, texture: Image)
+    setCurrentTexture: extern(sfShader_setCurrentTexture) func (name: Char*)
+    bind: extern(sfShader_bind) func
+    unbind: extern(sfShader_unbind) func
+    available?: extern(sfShader_isAvailable) func -> Bool
 }
 
 RenderWindow: cover from sfRenderWindow* extends RenderTarget {
-    new: extern(sfRenderWindow_Create) static func ~allParams(mode: VideoMode, title: Char*, style: ULong, params: ContextSettings*) -> RenderWindow
+    new: extern(sfRenderWindow_create) static func ~allParams(mode: VideoMode, title: Char*, style: ULong, params: ContextSettings*) -> RenderWindow
     new: static func ~noSettings(mode: VideoMode, title: Char*, style: ULong) -> RenderWindow {
         new(mode,title,style,null)
     }
@@ -268,50 +229,48 @@ RenderWindow: cover from sfRenderWindow* extends RenderTarget {
     new: static func ~noStyleAndSettingsStr(mode: VideoMode, title: String) -> RenderWindow {
         new(mode,title toCString())
     }
-    new: extern(sfRenderWindow_CreateFromHandle) static func ~fromHandle (handle: WindowHandle, params: ContextSettings) -> RenderWindow
-    destroy: extern(sfRenderWindow_Destroy) func
-    close: extern(sfRenderWindow_Close) func
-    opened?: extern(sfRenderWindow_IsOpened) func -> Bool
-    getWidth: extern(sfRenderWindow_GetWidth) func -> UInt
-    getHeight: extern(sfRenderWindow_GetHeight) func -> UInt
-    getSettings: extern(sfRenderWindow_GetSettings) func -> ContextSettings
-    pollEvent: extern(sfRenderWindow_PollEvent) func (event: Event*) -> Bool
-    waitEvent: extern(sfRenderWindow_WaitEvent) func(event: Event*) -> Bool
-    enableVerticalSync: extern(sfRenderWindow_EnableVerticalSync) func (enabled: Bool)
-    showMouseCursor: extern(sfRenderWindow_ShowMouseCursor) func (show: Bool)
-    setCursorPosition: extern(sfRenderWindow_SetCursorPosition) func (left: UInt, top: UInt)
-    setPosition: extern(sfRenderWindow_SetPosition) func (left: Int, top: Int)
-    setSize: extern(sfRenderWindow_SetSize) func (width: UInt, height: UInt)
-    setTitle: extern(sfRenderWindow_SetTitle) func ~charPtr (Char*)
+    new: extern(sfRenderWindow_createFromHandle) static func ~fromHandle (handle: WindowHandle, params: ContextSettings) -> RenderWindow
+    destroy: extern(sfRenderWindow_destroy) func
+    close: extern(sfRenderWindow_close) func
+    opened?: extern(sfRenderWindow_isOpened) func -> Bool
+    getSize: extern(sfRenderWindow_getSize) func -> UInt
+    getSettings: extern(sfRenderWindow_getSettings) func -> ContextSettings
+    pollEvent: extern(sfRenderWindow_pollEvent) func (event: Event*) -> Bool
+    waitEvent: extern(sfRenderWindow_waitEvent) func(event: Event*) -> Bool
+    enableVerticalSync: extern(sfRenderWindow_enableVerticalSync) func (enabled: Bool)
+    showMouseCursor: extern(sfRenderWindow_showMouseCursor) func (show: Bool)
+    setCursorPosition: extern(sfRenderWindow_setCursorPosition) func (left: UInt, top: UInt)
+    setPosition: extern(sfRenderWindow_setPosition) func (left: Int, top: Int)
+    setSize: extern(sfRenderWindow_setSize) func (width: UInt, height: UInt)
+    setTitle: extern(sfRenderWindow_setTitle) func ~charPtr (Char*)
     setTitle: func ~str (str: String) {
         setTitle(str toCString())
     }
-    show: extern(sfRenderWindow_Show) func (state: Bool)
-    enableKeyRepeat: extern(sfRenderWindow_EnableKeyRepeat) func (enabled: Bool)
-    setIcon: extern(sfRenderWindow_SetIcon) func (width: UInt, height: UInt, pixels: UInt8*)
-    setActive: extern(sfRenderWindow_SetActive) func (active: Bool) -> Bool
-    saveGLStates: extern(sfRenderWindow_SaveGLStates) func
-    restoreGLStates: extern(sfRenderWindow_RestoreGLStates) func
-    display: extern(sfRenderWindow_Display) func
-    getInput: extern(sfRenderWindow_GetInput) func -> Input
-    setFramerateLimit: extern(sfRenderWindow_SetFramerateLimit) func (limit: UInt)
-    getFrameTime: extern(sfRenderWindow_GetFrameTime) func -> UInt32
-    setJoystickThreshold: extern(sfRenderWindow_SetJoystickThreshold) func (threshold: Float)
-    getSystemHandle: extern(sfRenderWindow_GetSystemHandle) func -> WindowHandle
-    clear: extern(sfRenderWindow_Clear) func (color: Color)
-    setView: extern(sfRenderWindow_SetView) func (view: View)
-    getView: extern(sfRenderWindow_GetView) func -> View
-    getDefaultView: extern(sfRenderWindow_GetDefaultView) func -> View
-    getViewport: extern(sfRenderWindow_GetViewport) func(View) -> IntRect
-    convertCoords: extern(sfRenderWindow_ConvertCoords) func (windowX: UInt, windowY: UInt, viewX: Float*, viewY: Float*, targetView: View)
+    show: extern(sfRenderWindow_show) func (state: Bool)
+    enableKeyRepeat: extern(sfRenderWindow_enableKeyRepeat) func (enabled: Bool)
+    setIcon: extern(sfRenderWindow_setIcon) func (width: UInt, height: UInt, pixels: UInt8*)
+    setActive: extern(sfRenderWindow_setActive) func (active: Bool) -> Bool
+    saveGLStates: extern(sfRenderWindow_saveGLStates) func
+    restoreGLStates: extern(sfRenderWindow_restoreGLStates) func
+    display: extern(sfRenderWindow_display) func
+    setFramerateLimit: extern(sfRenderWindow_setFramerateLimit) func (limit: UInt)
+    getFrameTime: extern(sfRenderWindow_getFrameTime) func -> UInt32
+    setJoystickThreshold: extern(sfRenderWindow_setJoystickThreshold) func (threshold: Float)
+    getSystemHandle: extern(sfRenderWindow_getSystemHandle) func -> WindowHandle
+    clear: extern(sfRenderWindow_clear) func (color: Color)
+    setView: extern(sfRenderWindow_setView) func (view: View)
+    getView: extern(sfRenderWindow_getView) func -> View
+    getDefaultView: extern(sfRenderWindow_getDefaultView) func -> View
+    getViewport: extern(sfRenderWindow_getViewport) func(View) -> IntRect
+    convertCoords: extern(sfRenderWindow_convertCoords) func (windowX: UInt, windowY: UInt, viewX: Float*, viewY: Float*, targetView: View)
 
-    draw: extern(sfRenderWindow_DrawSprite) func ~sprite (sprite: Sprite)
-    draw: extern(sfRenderWindow_DrawShape) func ~shape (shape: Shape)
-    draw: extern(sfRenderWindow_DrawText) func ~text (text: Text)
+    draw: extern(sfRenderWindow_drawSprite) func ~sprite (sprite: Sprite)
+    draw: extern(sfRenderWindow_drawShape) func ~shape (shape: Shape)
+    draw: extern(sfRenderWindow_drawText) func ~text (text: Text)
     
-    draw: extern(sfRenderWindow_DrawSprite) func ~spriteShader (sprite: Sprite, shader : Shader)
-    draw: extern(sfRenderWindow_DrawShape) func ~shapeShader (shape: Shape, shader : Shader)
-    draw: extern(sfRenderWindow_DrawText) func ~textShader (text: Text, shader : Shader)
+    draw: extern(sfRenderWindow_drawSprite) func ~spriteShader (sprite: Sprite, shader : Shader)
+    draw: extern(sfRenderWindow_drawShape) func ~shapeShader (shape: Shape, shader : Shader)
+    draw: extern(sfRenderWindow_drawText) func ~textShader (text: Text, shader : Shader)
 }
 
 Shape: cover from sfShape* extends Drawable {
@@ -501,9 +460,6 @@ View: cover from sfView* {
     }
     getCenter: func ~v -> Vector2<Float> {
         Vector2<Float> new(getCenterX(),getCenterY())
-    }
-    getSize: func ~v -> Vector2<Float> {
-        Vector2<Float> new(getWidth(),getHeight())
     }
 }
 

@@ -5,6 +5,16 @@ use csfml-system
 UInt32: cover from sfUint32
 UInt8: cover from sfUint8
 
+Vector2i: cover from sfVector2i {
+    x: extern Int
+    y: extern Int
+}
+
+Vector2u: cover from sfVector2u {
+    x: extern UInt
+    y: extern UInt
+}
+
 Mutex: cover from sfMutex* {
     new: extern(sfMutex_Create) static func -> Mutex
     destroy: extern(sfMutex_Destroy) func

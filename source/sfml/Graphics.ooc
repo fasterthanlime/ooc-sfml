@@ -184,10 +184,6 @@ Image: cover from sfImage* {
     createMaskFromColor: extern(sfImage_createMaskFromColor) func (colorKey: Color, alpha: UInt8)
     copy: extern(sfImage_copy) func -> Image
     copyImage: extern(sfImage_copyImage) func (source: Image, destX: UInt, destY: UInt, sourceRect: IntRect)
-    copyScreen: extern(sfImage_copyScreen) func ~allparams (window: RenderWindow, sourceRect: IntRect) -> Bool
-    copyScreen : func ~norect (window : RenderWindow) -> Bool {
-        copyScreen(window,IntRect new(0,0,window getWidth(),window getHeight()))
-    }
     setPixel: extern(sfImage_setPixel) func (x: UInt, y: UInt, color: Color)
     getPixel: extern(sfImage_getPixel) func (x: UInt, y: UInt) -> Color
     getPixelsPtr: extern(sfImage_getPixelsPtr) func -> UInt8*
@@ -200,11 +196,8 @@ Image: cover from sfImage* {
 }
 
 Shader: cover from sfShader* {
-    new: extern(sfShader_createFromFile) static func ~fromFileCharPtr (filename: Char*) -> This
-    new: static func ~fromFileStr (str: String) -> This {
-        new(str toCString())
-    }
-    new: extern(sfShader_createFromMemory) static func ~fromMemory (effect: Char*) -> This
+    new: extern(sfShader_createFromFile) static func ~fromFileCharPtr (vertexShaderFileName, fragmentShaderFileName: CString) -> This
+    new: extern(sfShader_createFromMemory) static func ~fromMemory (vertexShader, fragmentShader: CString) -> This
     copy: extern(sfShader_copy) func -> This
     destroy: extern(sfShader_destroy) func
     setFloatParameter: extern(sfShader_setFloatParameter) func ~c (name: CString, x: Float)
@@ -232,7 +225,7 @@ RenderWindow: cover from sfRenderWindow* extends RenderTarget {
     new: extern(sfRenderWindow_createFromHandle) static func ~fromHandle (handle: WindowHandle, params: ContextSettings) -> RenderWindow
     destroy: extern(sfRenderWindow_destroy) func
     close: extern(sfRenderWindow_close) func
-    opened?: extern(sfRenderWindow_isOpened) func -> Bool
+    open?: extern(sfRenderWindow_isOpen) func -> Bool
     getSize: extern(sfRenderWindow_getSize) func -> UInt
     getSettings: extern(sfRenderWindow_getSettings) func -> ContextSettings
     pollEvent: extern(sfRenderWindow_pollEvent) func (event: Event*) -> Bool
@@ -316,13 +309,6 @@ Shape: cover from sfShape* extends Drawable {
     setPointPosition: extern(sfShape_SetPointPosition) func ~xy(index: UInt, x: Float, y: Float)
     setPointColor: extern(sfShape_SetPointColor) func (index: UInt, color: Color)
     setPointOutlineColor: extern(sfShape_SetPointOutlineColor) func (index: UInt, color: Color)
-    
-    setPointPosition: func ~vec(index : UInt, vec : Vector2<Float>) { setPointPosition(index,vec x as Float, vec y as Float) }
-    getPointPosition : func ~vec(index : UInt) -> Vector2<Float> {
-        x,y : Float
-        getPointPosition(index,x&,y&)
-        Vector2<Float> new(x,y)
-    }
 }
 
 Sprite: cover from sfSprite* extends Drawable {
@@ -424,12 +410,6 @@ Text: cover from sfText* extends Drawable {
     getStyle: extern(sfText_GetStyle) func -> ULong
     getCharacterPos: extern(sfText_GetCharacterPos) func (index: SizeT, x: Float*, y: Float*)
     getRect: extern(sfText_GetRect) func -> FloatRect
-    
-    getCharacterPos: func ~vec(index: SizeT) -> Vector2<Float> {
-        x,y : Float
-        getCharacterPos(index,x&,y&)
-        Vector2<Float> new(x,y)
-    }
 }
 
 View: cover from sfView* {
@@ -451,19 +431,7 @@ View: cover from sfView* {
     rotate: extern(sfView_Rotate) func(angle : Float)
     move: extern(sfView_Move) func (offsetX: Float, offsetY: Float)
     zoom: extern(sfView_Zoom) func (factor: Float)
-    
-    setCenter: func ~v (v: Vector2<Float>) {
-        setCenter(v x as Float, v y as Float)
-    }
-    setSize: func ~v (v: Vector2<Float>) {
-        setSize(v x as Float, v y as Float)
-    }
-    getCenter: func ~v -> Vector2<Float> {
-        Vector2<Float> new(getCenterX(),getCenterY())
-    }
 }
-
-
 
 sleep: extern(sfSleep) func (duration: Float)
 

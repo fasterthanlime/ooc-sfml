@@ -24,7 +24,7 @@ main: func {
     // Note the "?"
     // It is a legal character in ooc 
     // All is[Something] c++ calls become something? in ooc
-    while(win opened?()) {
+    while(win open?()) {
         evt: Event
         // we check the events to see if user wants to close window
         while(win pollEvent(evt&)) {

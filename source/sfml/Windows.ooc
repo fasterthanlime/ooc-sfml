@@ -107,9 +107,9 @@ ContextSettings : cover from sfContextSettings {
 
 
 Event: cover from sfEvent {
-    type: extern(Type) Int
+    type: extern Int
 
-    keyEvent: extern(Key) KeyEvent
+    keyEvent: extern KeyEvent
     textEvent: extern(Text) TextEvent
     mouseMoveEvent: extern(MouseMove) MouseMoveEvent
     mouseButtonEvent: extern(MouseButton) MouseButtonEvent

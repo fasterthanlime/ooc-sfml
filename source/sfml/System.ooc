@@ -15,6 +15,11 @@ Vector2u: cover from sfVector2u {
     y: extern UInt
 }
 
+Vector2f: cover from sfVector2f {
+    x: extern Float
+    y: extern Float
+}
+
 Mutex: cover from sfMutex* {
     new: extern(sfMutex_Create) static func -> Mutex
     destroy: extern(sfMutex_Destroy) func

@@ -1,9 +1,7 @@
-import sfml/Drawable
-import sfml/Graphics
+import sfml/[Drawable, Graphics, System]
 
 RenderTarget: abstract class {
-    getWidth: abstract func -> UInt
-    getHeight: abstract func -> UInt
+    getSize: abstract func -> Vector2u
     saveGLStates: abstract func
     restoreGLStates: abstract func
     clear: abstract func (color: Color)
@@ -22,11 +20,6 @@ RenderTarget: abstract class {
     clear: func ~defaultColor {
         this clear(Color Black)
     }
-    convertCoords : func ~vec(wPoint : Vector2<UInt>, targetView : View) -> Vector2<Float> {
-        x,y : Float
-        convertCoords(wPoint x as UInt, wPoint y as UInt, x&, y&, targetView)
-        Vector2<Float> new(x,y)
-    }
     draw: func ~drawable (d: Drawable) {
         match (d class) {
             case Sprite => draw(d as Sprite)
@@ -36,9 +29,9 @@ RenderTarget: abstract class {
     }
     draw: func ~drawableShader (d: Drawable, shader: Shader) {
         match (d class) {
-            case Sprite => draw(d as Sprite,shader)
-            case Shape => draw(d as Shape,shader)
-            case Text => draw(d as Text,shader)
+            case Sprite => draw(d as Sprite, shader)
+            case Shape => draw(d as Shape, shader)
+            case Text => draw(d as Text, shader)
         }
     }
 }

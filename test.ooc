@@ -32,7 +32,7 @@ main: func {
                 // if he does, close it
                 win close()
             }
-            else if(evt type == EventType keyPressed && evt keyEvent code == KeyCode P) {
+            else if(evt type == EventType keyPressed && evt key code == KeyCode P) {
                 if(clock paused?) { clock start() }
                 else { clock pause() }
             }

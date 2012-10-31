@@ -109,8 +109,8 @@ ContextSettings : cover from sfContextSettings {
 Event: cover from sfEvent {
     type: extern Int
 
-    keyEvent: extern KeyEvent
-    textEvent: extern(Text) TextEvent
+    key: extern KeyEvent
+    text: extern TextEvent
     mouseMoveEvent: extern(MouseMove) MouseMoveEvent
     mouseButtonEvent: extern(MouseButton) MouseButtonEvent
     mouseWheelEvent: extern(MouseWheel) MouseWheelEvent
@@ -227,11 +227,11 @@ KeyCode: cover from sfKeyCode {
 }
 
 KeyEvent: cover from struct sfKeyEvent {
-    type: extern(Type) Int
-    code: extern(Code) KeyCode
-    alt: extern(Alt) Bool
-    control: extern(Control) Bool
-    shift: extern(Shift) Bool
+    type: extern Int
+    code: extern KeyCode
+    alt: extern Bool
+    control: extern Bool
+    shift: extern Bool
 }
 
 MouseButton: cover from sfMouseButton {

@@ -211,6 +211,13 @@ Shader: cover from sfShader* {
     available?: extern(sfShader_isAvailable) func -> Bool
 }
 
+RenderStates: cover from sfRenderStates* {
+    blendMode: extern BlendMode 
+    //transform: extern Transform
+    //texture: extern Texture
+    shader: extern Shader
+}
+
 RenderWindow: cover from sfRenderWindow* extends RenderTarget {
     new: extern(sfRenderWindow_create) static func ~allParams(mode: VideoMode, title: Char*, style: ULong, params: ContextSettings*) -> RenderWindow
     new: static func ~noSettings(mode: VideoMode, title: Char*, style: ULong) -> RenderWindow {
@@ -257,13 +264,9 @@ RenderWindow: cover from sfRenderWindow* extends RenderTarget {
     getViewport: extern(sfRenderWindow_getViewport) func(View) -> IntRect
     convertCoords: extern(sfRenderWindow_convertCoords) func (windowX: UInt, windowY: UInt, viewX: Float*, viewY: Float*, targetView: View)
 
-    draw: extern(sfRenderWindow_drawSprite) func ~sprite (sprite: Sprite)
-    draw: extern(sfRenderWindow_drawShape) func ~shape (shape: Shape)
-    draw: extern(sfRenderWindow_drawText) func ~text (text: Text)
-    
-    draw: extern(sfRenderWindow_drawSprite) func ~spriteShader (sprite: Sprite, shader : Shader)
-    draw: extern(sfRenderWindow_drawShape) func ~shapeShader (shape: Shape, shader : Shader)
-    draw: extern(sfRenderWindow_drawText) func ~textShader (text: Text, shader : Shader)
+    draw: extern(sfRenderWindow_drawSprite) func ~sprite (sprite: Sprite, renderStates: RenderStates)
+    draw: extern(sfRenderWindow_drawShape) func ~shape (shape: Shape, renderStates: RenderStates)
+    draw: extern(sfRenderWindow_drawText) func ~text (text: Text, renderStates: RenderStates)
 }
 
 Shape: cover from sfShape* extends Drawable {

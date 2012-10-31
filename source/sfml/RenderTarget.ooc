@@ -10,12 +10,9 @@ RenderTarget: abstract class {
     getDefaultView: abstract func -> View
     getViewport: abstract func(v: View) -> IntRect
     convertCoords: abstract func (windowX: UInt, windowY: UInt, viewX: Float*, viewY: Float*, targetView: View)
-    draw: abstract func ~sprite (sprite: Sprite)
-    draw: abstract func ~shape (shape: Shape)
-    draw: abstract func ~text (text: Text)
-    draw: abstract func ~spriteShader (sprite: Sprite, shader : Shader)
-    draw: abstract func ~shapeShader (shape: Shape, shader : Shader)
-    draw: abstract func ~textShader (text: Text, shader : Shader)
+    draw: abstract func ~sprite (sprite: Sprite, renderStates: RenderStates)
+    draw: abstract func ~shape (shape: Shape, renderStates: RenderStates)
+    draw: abstract func ~text (text: Text, renderStates: RenderStates)
     
     clear: func ~defaultColor {
         this clear(Color Black)

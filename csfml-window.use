@@ -4,4 +4,4 @@ Description: Simple and Fast Multimedia Library, C bindings
 Requires: 
 Version: 2.0
 Libs: -lcsfml-window
-SourcePath: .
+SourcePath: source

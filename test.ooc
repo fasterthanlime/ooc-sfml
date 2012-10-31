@@ -1,3 +1,5 @@
+use csfml-system, csfml-graphics
+
 import sfml/[Graphics, Windows, PausableClock]
  
 main: func {

@@ -21,34 +21,38 @@ Vector2f: cover from sfVector2f {
 }
 
 Mutex: cover from sfMutex* {
-    new: extern(sfMutex_Create) static func -> Mutex
-    destroy: extern(sfMutex_Destroy) func
-    lock: extern(sfMutex_Lock) func
-    unlock: extern(sfMutex_Unlock) func
+    new: extern(sfMutex_create) static func -> Mutex
+    destroy: extern(sfMutex_destroy) func
+    lock: extern(sfMutex_lock) func
+    unlock: extern(sfMutex_unlock) func
 }
 
 Thread: cover from sfThread* {
-    new: extern(sfThread_Create) static func (function: Func, userData: Void*) -> Thread
-    destroy: extern(sfThread_Destroy) func
-    launch: extern(sfThread_Launch) func
-    wait: extern(sfThread_Wait) func
-    terminate: extern(sfThread_Terminate) func
+    new: extern(sfThread_create) static func (function: Func, userData: Void*) -> Thread
+    destroy: extern(sfThread_destroy) func
+    launch: extern(sfThread_launch) func
+    wait: extern(sfThread_wait) func
+    terminate: extern(sfThread_terminate) func
+}
+
+Time: cover from sfTime {
+    microseconds: extern UInt64
 }
 
 Clock: cover from sfClock* {
-    new: extern(sfClock_Create) static func -> Clock
-    copy: extern(sfClock_Copy) func -> Clock
-    destroy: extern(sfClock_Destroy) func
-    getTime: extern(sfClock_GetTime) func -> Float
-    reset: extern(sfClock_Reset) func
+    new: extern(sfClock_create) static func -> Clock
+    copy: extern(sfClock_copy) func -> Clock
+    destroy: extern(sfClock_destroy) func
+    getElapsedTime: extern(sfClock_getElapsedTime) func -> Time
+    restart: extern(sfClock_restart) func
 }
 
 /*
 Random: cover {
-    setSeed: extern(sfRandom_SetSeed) static func (seed: UInt)
-    getSeed: extern(sfRandom_GetSeed) static func -> UInt
-    float_: extern(sfRandom_Float) static func (begin: Float, end: Float) -> Float
-    int_: extern(sfRandom_Int) static func (begin: Int, end: Int) -> Int
+    setSeed: extern(sfRandom_setSeed) static func (seed: UInt)
+    getSeed: extern(sfRandom_getSeed) static func -> UInt
+    float_: extern(sfRandom_float) static func (begin: Float, end: Float) -> Float
+    int_: extern(sfRandom_int) static func (begin: Int, end: Int) -> Int
 }
 */
 

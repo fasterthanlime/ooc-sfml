@@ -76,7 +76,7 @@ IntRect: cover from sfIntRect {
         (x >= left && x <= left+width && y >= top && y <= top+height)
     }
     
-    intersection: func(other : IntRect) -> IntRect {
+    intersection: func(other: IntRect) -> IntRect {
         if(other contains?(left,top)) {
             return IntRect new(left,top,other left + other width - left, other height + other top - top)
         }
@@ -270,61 +270,64 @@ RenderWindow: cover from sfRenderWindow* extends RenderTarget {
 }
 
 Shape: cover from sfShape* extends Drawable {
-    new: extern(sfShape_Create) static func -> This
-    new: extern(sfShape_CreateLine) static func ~line (p1X: Float, p1Y: Float, p2X: Float, p2Y: Float, thickness: Float, col: Color, outline: Float, outlineCol: Color) -> This
-    new: extern(sfShape_CreateRectangle) static func ~rectangle (p1X: Float, p1Y: Float, p2X: Float, p2Y: Float, col: Color, outline: Float, outlineCol: Color) -> This
-    new: extern(sfShape_CreateCircle) static func ~circle (x: Float, y: Float, radius: Float, col: Color, outline: Float, outlineCol: Color) -> This
-    copy: extern(sfShape_Copy) func -> This
-    destroy: extern(sfShape_Destroy) func
-    setX: extern(sfShape_SetX) func (x: Float)
-    setY: extern(sfShape_SetY) func (y: Float)
-    setPosition: extern(sfShape_SetPosition) func (x: Float, y: Float)
-    setScaleX: extern(sfShape_SetScaleX) func (scale: Float)
-    setScaleY: extern(sfShape_SetScaleY) func (scale: Float)
-    setScale: extern(sfShape_SetScale) func (scaleX: Float, scaleY: Float)
-    setRotation: extern(sfShape_SetRotation) func (rotation: Float)
-    setOrigin: extern(sfShape_SetOrigin) func (Float,Float)
-    setColor: extern(sfShape_SetColor) func (color: Color)
-    setBlendMode: extern(sfShape_SetBlendMode) func (mode: BlendMode)
-    getX: extern(sfShape_GetX) func -> Float
-    getY: extern(sfShape_GetY) func -> Float
-    getScaleX: extern(sfShape_GetScaleX) func -> Float
-    getScaleY: extern(sfShape_GetScaleY) func -> Float
-    getRotation: extern(sfShape_GetRotation) func -> Float
-    getColor: extern(sfShape_GetColor) func -> Color
-    getOriginX: extern(sfShape_GetOriginX) func -> Float
-    getOriginY: extern(sfShape_GetOriginY) func -> Float
-    getBlendMode: extern(sfShape_GetBlendMode) func -> BlendMode
-    move: extern(sfShape_Move) func (offsetX: Float, offsetY: Float)
-    scale: extern(sfShape_Scale) func (factorX: Float, factorY: Float)
-    rotate: extern(sfShape_Rotate) func (angle: Float)
-    transformToLocal: extern(sfShape_TransformToLocal) func (pointX: Float, pointY: Float, x: Float*, y: Float*)
-    transformToGlobal: extern(sfShape_TransformToGlobal) func (pointX: Float, pointY: Float, x: Float*, y: Float*)
-    addPoint: extern(sfShape_AddPoint) func (x: Float, y: Float, col: Color, outlineCol: Color)
-    enableFill: extern(sfShape_EnableFill) func (enable: Bool)
-    enableOutline: extern(sfShape_EnableOutline) func (enable: Bool)
-    setOutlineeThickness: extern(sfShape_SetOutlineeThickness) func (width: Float)
-    getOutlineeThickness: extern(sfShape_GetOutlineeThickness) func -> Float
-    getPointsCount: extern(sfShape_GetPointsCount) func -> UInt
-    getPointPosition: extern(sfShape_GetPointPosition) func ~pointers(index: UInt, x: Float*, y: Float*)
-    getPointColor: extern(sfShape_GetPointColor) func (index: UInt) -> Color
-    getPointOutlineColor: extern(sfShape_GetPointOutlineColor) func (index: UInt) -> Color
-    setPointPosition: extern(sfShape_SetPointPosition) func ~xy(index: UInt, x: Float, y: Float)
-    setPointColor: extern(sfShape_SetPointColor) func (index: UInt, color: Color)
-    setPointOutlineColor: extern(sfShape_SetPointOutlineColor) func (index: UInt, color: Color)
+    new: extern(sfShape_create) static func -> This
+    new: extern(sfShape_createLine) static func ~line (p1X: Float, p1Y: Float, p2X: Float, p2Y: Float, thickness: Float, col: Color, outline: Float, outlineCol: Color) -> This
+    new: extern(sfShape_createRectangle) static func ~rectangle (p1X: Float, p1Y: Float, p2X: Float, p2Y: Float, col: Color, outline: Float, outlineCol: Color) -> This
+    new: extern(sfShape_createCircle) static func ~circle (x: Float, y: Float, radius: Float, col: Color, outline: Float, outlineCol: Color) -> This
+    copy: extern(sfShape_copy) func -> This
+    destroy: extern(sfShape_destroy) func
+    setX: extern(sfShape_setX) func (x: Float)
+    setY: extern(sfShape_setY) func (y: Float)
+    setPosition: extern(sfShape_setPosition) func (x: Float, y: Float)
+    setScaleX: extern(sfShape_setScaleX) func (scale: Float)
+    setScaleY: extern(sfShape_setScaleY) func (scale: Float)
+    setScale: extern(sfShape_setScale) func (scaleX: Float, scaleY: Float)
+    setRotation: extern(sfShape_setRotation) func (rotation: Float)
+    setOrigin: extern(sfShape_setOrigin) func (Float,Float)
+    setColor: extern(sfShape_setColor) func (color: Color)
+    setBlendMode: extern(sfShape_setBlendMode) func (mode: BlendMode)
+    getX: extern(sfShape_getX) func -> Float
+    getY: extern(sfShape_getY) func -> Float
+    getScaleX: extern(sfShape_getScaleX) func -> Float
+    getScaleY: extern(sfShape_getScaleY) func -> Float
+    getRotation: extern(sfShape_getRotation) func -> Float
+    getColor: extern(sfShape_getColor) func -> Color
+    getOriginX: extern(sfShape_getOriginX) func -> Float
+    getOriginY: extern(sfShape_getOriginY) func -> Float
+    getBlendMode: extern(sfShape_getBlendMode) func -> BlendMode
+    move: extern(sfShape_move) func (offsetX: Float, offsetY: Float)
+    scale: extern(sfShape_scale) func (factorX: Float, factorY: Float)
+    rotate: extern(sfShape_rotate) func (angle: Float)
+    transformToLocal: extern(sfShape_transformToLocal) func (pointX: Float, pointY: Float, x: Float*, y: Float*)
+    transformToGlobal: extern(sfShape_transformToGlobal) func (pointX: Float, pointY: Float, x: Float*, y: Float*)
+    addPoint: extern(sfShape_addPoint) func (x: Float, y: Float, col: Color, outlineCol: Color)
+    enableFill: extern(sfShape_enableFill) func (enable: Bool)
+    enableOutline: extern(sfShape_enableOutline) func (enable: Bool)
+    setOutlineeThickness: extern(sfShape_setOutlineeThickness) func (width: Float)
+    getOutlineeThickness: extern(sfShape_getOutlineeThickness) func -> Float
+    getPointsCount: extern(sfShape_getPointsCount) func -> UInt
+    getPointPosition: extern(sfShape_getPointPosition) func ~pointers(index: UInt, x: Float*, y: Float*)
+    getPointColor: extern(sfShape_getPointColor) func (index: UInt) -> Color
+    getPointOutlineColor: extern(sfShape_getPointOutlineColor) func (index: UInt) -> Color
+    setPointPosition: extern(sfShape_setPointPosition) func ~xy(index: UInt, x: Float, y: Float)
+    setPointColor: extern(sfShape_setPointColor) func (index: UInt, color: Color)
+    setPointOutlineColor: extern(sfShape_setPointOutlineColor) func (index: UInt, color: Color)
+}
+
+Texture: cover from sfTexture* {
+    new: extern(sfTexture_create) static func (width, height: Uint) -> Texture
+    new: extern(sfTexture_createFromFile) static func (path: CString, area: IntRect*) -> Texture
+    // new: static func (path: CString) -> Texture { new(path, null as IntRect*) }
+    // TODO: from memory / from stream
 }
 
 Sprite: cover from sfSprite* extends Drawable {
     new: extern(sfSprite_create) static func -> Sprite
-    new: static func ~withImage(img : Image) -> Sprite {
-        this := new()
-        this setImage(img)
-        this
-    }
     copy: extern(sfSprite_copy) func -> Sprite
     destroy: extern(sfSprite_destroy) func
     setX: extern(sfSprite_setX) func (x: Float)
     setY: extern(sfSprite_setY) func (y: Float)
+    setTexture: extern(sfSprite_setTexture) func (tex: Texture)
     setPosition: extern(sfSprite_setPosition) func (x: Float, y: Float)
     setScaleX: extern(sfSprite_setScaleX) func (scale: Float)
     setScaleY: extern(sfSprite_setScaleY) func (scale: Float)
@@ -347,8 +350,6 @@ Sprite: cover from sfSprite* extends Drawable {
     rotate: extern(sfSprite_rotate) func (angle: Float)
     transformToLocal: extern(sfSprite_transformToLocal) func (pointX: Float, pointY: Float, x: Float*, y: Float*)
     transformToGlobal: extern(sfSprite_transformToGlobal) func (pointX: Float, pointY: Float, x: Float*, y: Float*)
-    setImage: extern(sfSprite_setImage) func ~withbool(image: Image , adjustToNewSize : Bool)
-    setImage : func ~withoutbool(image : Image) { setImage(image,true) }
     setSubRect: extern(sfSprite_setSubRect) func (subRect: IntRect)
     resize: extern(sfSprite_resize) func (width: Float, height: Float)
     flipX: extern(sfSprite_flipX) func (flipped: Bool)
@@ -368,72 +369,72 @@ TextStyle : cover from sfTextStyle {
 }
 
 Text: cover from sfText* extends Drawable {
-    new: extern(sfText_Create) static func -> Text
-    copy: extern(sfText_Copy) func -> Text
-    destroy: extern(sfText_Destroy) func
-    setX: extern(sfText_SetX) func (x: Float)
-    setY: extern(sfText_SetY) func (y: Float)
-    setPosition: extern(sfText_SetPosition) func (left: Float, top: Float)
-    setScaleX: extern(sfText_SetScaleX) func (scale: Float)
-    setScaleY: extern(sfText_SetScaleY) func (scale: Float)
-    setScale: extern(sfText_SetScale) func (scaleX: Float, scaleY: Float)
-    setRotation: extern(sfText_SetRotation) func (rotation: Float)
-    setOrigin: extern(sfText_SetOrigin) func (x: Float, y: Float)
-    setColor: extern(sfText_SetColor) func (color: Color)
-    setBlendMode: extern(sfText_SetBlendMode) func (mode: BlendMode)
-    getX: extern(sfText_GetX) func -> Float
-    getY: extern(sfText_GetY) func -> Float
-    getScaleX: extern(sfText_GetScaleX) func -> Float
-    getScaleY: extern(sfText_GetScaleY) func -> Float
-    getRotation: extern(sfText_GetRotation) func -> Float
-    getOriginX: extern(sfText_GetOriginX) func -> Float
-    getOriginY: extern(sfText_GetOriginY) func -> Float
-    getColor: extern(sfText_GetColor) func -> Color
-    getBlendMode: extern(sfText_GetBlendMode) func -> BlendMode
-    move: extern(sfText_Move) func (offsetX: Float, offsetY: Float)
-    scale: extern(sfText_Scale) func (factorX: Float, factorY: Float)
-    rotate: extern(sfText_Rotate) func (angle: Float)
-    transformToLocal: extern(sfText_TransformToLocal) func (pointX: Float, pointY: Float, x: Float*, y: Float*)
-    transformToGlobal: extern(sfText_TransformToGlobal) func (pointX: Float, pointY: Float, x: Float*, y: Float*)
-    setString: extern(sfText_SetString) func ~c (string: Char*)
+    new: extern(sfText_create) static func -> Text
+    copy: extern(sfText_copy) func -> Text
+    destroy: extern(sfText_destroy) func
+    setX: extern(sfText_setX) func (x: Float)
+    setY: extern(sfText_setY) func (y: Float)
+    setPosition: extern(sfText_setPosition) func (left: Float, top: Float)
+    setScaleX: extern(sfText_setScaleX) func (scale: Float)
+    setScaleY: extern(sfText_setScaleY) func (scale: Float)
+    setScale: extern(sfText_setScale) func (scaleX: Float, scaleY: Float)
+    setRotation: extern(sfText_setRotation) func (rotation: Float)
+    setOrigin: extern(sfText_setOrigin) func (x: Float, y: Float)
+    setColor: extern(sfText_setColor) func (color: Color)
+    setBlendMode: extern(sfText_setBlendMode) func (mode: BlendMode)
+    getX: extern(sfText_getX) func -> Float
+    getY: extern(sfText_getY) func -> Float
+    getScaleX: extern(sfText_getScaleX) func -> Float
+    getScaleY: extern(sfText_getScaleY) func -> Float
+    getRotation: extern(sfText_getRotation) func -> Float
+    getOriginX: extern(sfText_getOriginX) func -> Float
+    getOriginY: extern(sfText_getOriginY) func -> Float
+    getColor: extern(sfText_getColor) func -> Color
+    getBlendMode: extern(sfText_getBlendMode) func -> BlendMode
+    move: extern(sfText_move) func (offsetX: Float, offsetY: Float)
+    scale: extern(sfText_scale) func (factorX: Float, factorY: Float)
+    rotate: extern(sfText_rotate) func (angle: Float)
+    transformToLocal: extern(sfText_transformToLocal) func (pointX: Float, pointY: Float, x: Float*, y: Float*)
+    transformToGlobal: extern(sfText_transformToGlobal) func (pointX: Float, pointY: Float, x: Float*, y: Float*)
+    setString: extern(sfText_setString) func ~c (string: Char*)
     setString: func ~s (str: String) {
         setString(str toCString())
     }
-    setUnicodeString: extern(sfText_SetUnicodeString) func (string: UInt32*)
-    setFont: extern(sfText_SetFont) func (font: Font)
-    setCharacterSize: extern(sfText_SetCharacterSize) func (size: UInt)
-    setStyle: extern(sfText_SetStyle) func (style: ULong)
-    getUnicodeString: extern(sfText_GetUnicodeString) func -> UInt32*
-    getString: extern(sfText_GetString) func ~c -> Char*
+    setUnicodeString: extern(sfText_setUnicodeString) func (string: UInt32*)
+    setFont: extern(sfText_setFont) func (font: Font)
+    setCharacterSize: extern(sfText_setCharacterSize) func (size: UInt)
+    setStyle: extern(sfText_setStyle) func (style: ULong)
+    getUnicodeString: extern(sfText_getUnicodeString) func -> UInt32*
+    getString: extern(sfText_getString) func ~c -> Char*
     getString: func ~s -> String {
         String new(getString~c())
     }
-    getFont: extern(sfText_GetFont) func -> Font
-    getCharacterSize: extern(sfText_GetCharacterSize) func -> UInt
-    getStyle: extern(sfText_GetStyle) func -> ULong
-    getCharacterPos: extern(sfText_GetCharacterPos) func (index: SizeT, x: Float*, y: Float*)
-    getRect: extern(sfText_GetRect) func -> FloatRect
+    getFont: extern(sfText_getFont) func -> Font
+    getCharacterSize: extern(sfText_getCharacterSize) func -> UInt
+    getStyle: extern(sfText_getStyle) func -> ULong
+    getCharacterPos: extern(sfText_getCharacterPos) func (index: SizeT, x: Float*, y: Float*)
+    getRect: extern(sfText_getRect) func -> FloatRect
 }
 
 View: cover from sfView* {
-    new: extern(sfView_Create) static func -> View
-    new: extern(sfView_CreateFromRect) static func ~fromRect (rect: FloatRect) -> View
-    copy: extern(sfView_Copy) func -> View
-    destroy: extern(sfView_Destroy) func
-    setCenter: extern(sfView_SetCenter) func (x: Float, y: Float)
-    setSize: extern(sfView_SetSize) func (width,height : Float)
-    setRotation: extern(sfView_SetRotation) func (angle : Float)
-    setViewport: extern(sfView_SetViewport) func(viewport : FloatRect)
-    reset: extern(sfView_Reset) func(rectangle : FloatRect)
-    getCenterX: extern(sfView_GetCenterX) func -> Float
-    getCenterY: extern(sfView_GetCenterY) func -> Float
-    getWidth: extern(sfView_GetWidth) func -> Float
-    getHeight: extern(sfView_GetHeight) func -> Float
-    getRotation: extern(sfView_GetRotation) func -> Float
-    getViewport: extern(sfView_GetViewport) func -> FloatRect
-    rotate: extern(sfView_Rotate) func(angle : Float)
-    move: extern(sfView_Move) func (offsetX: Float, offsetY: Float)
-    zoom: extern(sfView_Zoom) func (factor: Float)
+    new: extern(sfView_create) static func -> View
+    new: extern(sfView_createFromRect) static func ~fromRect (rect: FloatRect) -> View
+    copy: extern(sfView_copy) func -> View
+    destroy: extern(sfView_destroy) func
+    setCenter: extern(sfView_setCenter) func (x: Float, y: Float)
+    setSize: extern(sfView_setSize) func (width,height : Float)
+    setRotation: extern(sfView_setRotation) func (angle : Float)
+    setViewport: extern(sfView_setViewport) func(viewport : FloatRect)
+    reset: extern(sfView_reset) func(rectangle : FloatRect)
+    getCenterX: extern(sfView_getCenterX) func -> Float
+    getCenterY: extern(sfView_getCenterY) func -> Float
+    getWidth: extern(sfView_getWidth) func -> Float
+    getHeight: extern(sfView_getHeight) func -> Float
+    getRotation: extern(sfView_getRotation) func -> Float
+    getViewport: extern(sfView_getViewport) func -> FloatRect
+    rotate: extern(sfView_rotate) func(angle : Float)
+    move: extern(sfView_move) func (offsetX: Float, offsetY: Float)
+    zoom: extern(sfView_zoom) func (factor: Float)
 }
 
 sleep: extern(sfSleep) func (duration: Float)

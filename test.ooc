@@ -7,10 +7,11 @@ main: func {
     // Create a new window of 600*470 pixels, with title Hello World!.
     //Optional arguments: style of the window and context settings of the window
     win := RenderWindow new(VideoMode new(600,470), "Hello World!")
-    // load an image
-    image := Image new("data/cool_sprite.jpg")
     // make a sprite and load the image into it
-    sprite := Sprite new(image)
+    texture := Texture new("data/cool_sprite.jpg" toCString(), null)
+    sprite := Sprite new()
+    sprite setTexture(texture)
+
     // Equivalent to
     // sprite := Sprite new()
     // sprite setImage(image)
@@ -38,7 +39,7 @@ main: func {
             }
         }
     
-        clock getTime() toString() println()
+        clock getElapsedTime() toString() println()
     
         // clear the window, draw the sprite and display it :) 
         win clear()

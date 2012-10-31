@@ -1,8 +1,8 @@
 import sfml/System
 
-PausableClock : class {
+PausableClock: class {
     paused? := false
-    time : Float = 0
+    time : Int64 = 0
     clock := Clock new()
     
     init : func ~empty
@@ -11,27 +11,27 @@ PausableClock : class {
     pause : func {
         if(!paused?) {
             paused? = true
-            time += clock getTime()
+            time += clock getElapsedTime() microseconds
         }
     }
     
     start : func {
         if(paused?) {
             paused? = false
-            clock reset()
+            clock restart()
         }
     }
     
-    getTime : func -> Float {
-        (paused?) ? time : time + clock getTime()
+    getElapsedTime : func -> Float {
+        (paused?) ? time : time + clock getElapsedTime() microseconds
     }
     
-    reset : func ~withPaused(=paused?) {
+    restart : func ~withPaused(=paused?) {
         time = 0
-        clock reset()
+        clock restart()
     }
     
-    reset : func ~empty {
-        reset(false)
+    restart : func ~empty {
+        restart(false)
     }
 }

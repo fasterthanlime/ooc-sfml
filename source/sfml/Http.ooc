@@ -1,6 +1,6 @@
 import sfml/Network
 include SFML/Network/Http
-use csfml-network
+use sfml
 
 HttpMethod : cover from sfHttpMethod {
     get : extern(sfHttpGet) static Int

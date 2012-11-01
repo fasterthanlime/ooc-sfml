@@ -1,7 +1,7 @@
 import sfml/System
 
 include SFML/Network
-use csfml-network
+use sfml
 
 SocketStatus: cover from sfSocketStatus {
     done: extern(sfSocketDone) static Int

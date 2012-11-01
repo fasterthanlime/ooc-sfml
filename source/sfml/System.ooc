@@ -1,6 +1,6 @@
 include SFML/System
 
-use csfml-system
+use sfml
 
 UInt32: cover from sfUint32
 UInt8: cover from sfUint8

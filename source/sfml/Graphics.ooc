@@ -5,7 +5,7 @@ include SFML/Graphics
 include SFML/Graphics/Glyph
 include SFML/Graphics/Font
 
-use csfml-graphics
+use sfml
 
 BlendMode: cover from sfBlendMode {
     alpha: extern(sfBlendAlpha) static Int

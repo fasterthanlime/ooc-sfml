@@ -1,6 +1,6 @@
 import sfml/Network
 include SFML/Network/Ftp
-use csfml-network
+use sfml
 
 FtpTransferMode : cover from sfFtpTransferMode {
     binary: extern(sfFtpBinary) static Int

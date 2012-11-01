@@ -1,6 +1,6 @@
 include SFML/Audio
 
-use csfml-audio
+use sfml
 
 SoundStatus: cover from sfSoundStatus {
     stopped: extern(sfStopped) static Int

@@ -1,10 +1,9 @@
 import sfml/System
 import structs/ArrayList
-// SFML 2.0
 
 include SFML/Window
 
-use csfml-window
+use sfml
 
 WindowHandle: cover from sfWindowHandle
 

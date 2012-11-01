@@ -1,4 +1,4 @@
-use csfml-system, csfml-graphics
+use sfml
 
 import sfml/[Graphics, Windows, PausableClock]
  

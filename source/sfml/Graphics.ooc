@@ -1,5 +1,4 @@
-import sfml/Windows
-import sfml/Drawable
+import sfml/[Windows, Drawable, System]
 
 include SFML/Graphics
 include SFML/Graphics/Glyph
@@ -272,9 +271,9 @@ RenderWindow: cover from sfRenderWindow* {
 
 Shape: cover from sfShape* extends Drawable {
     new: extern(sfShape_create) static func -> This
-    new: extern(sfShape_createLine) static func ~line (p1X: Float, p1Y: Float, p2X: Float, p2Y: Float, thickness: Float, col: Color, outline: Float, outlineCol: Color) -> This
-    new: extern(sfShape_createRectangle) static func ~rectangle (p1X: Float, p1Y: Float, p2X: Float, p2Y: Float, col: Color, outline: Float, outlineCol: Color) -> This
-    new: extern(sfShape_createCircle) static func ~circle (x: Float, y: Float, radius: Float, col: Color, outline: Float, outlineCol: Color) -> This
+    line: extern(sfShape_createLine) static func ~line (p1X: Float, p1Y: Float, p2X: Float, p2Y: Float, thickness: Float, col: Color, outline: Float, outlineCol: Color) -> This
+    rectangle: extern(sfShape_createRectangle) static func ~rectangle (p1X: Float, p1Y: Float, p2X: Float, p2Y: Float, col: Color, outline: Float, outlineCol: Color) -> This
+    circle: extern(sfShape_createCircle) static func ~circle (x: Float, y: Float, radius: Float, col: Color, outline: Float, outlineCol: Color) -> This
     copy: extern(sfShape_copy) func -> This
     destroy: extern(sfShape_destroy) func
     setX: extern(sfShape_setX) func (x: Float)
@@ -315,6 +314,17 @@ Shape: cover from sfShape* extends Drawable {
     setPointOutlineColor: extern(sfShape_setPointOutlineColor) func (index: UInt, color: Color)
 }
 
+Circle: cover from sfCircleShape* extends Shape {
+    new: extern(sfCircleShape_create) static func -> This
+    setOrigin: extern(sfCircleShape_setOrigin) func (scale: Vector2f)
+    setScale: extern(sfCircleShape_setScale) func (scale: Vector2f)
+    setFillColor: extern(sfCircleShape_setFillColor) func (color: Color)
+    setOutlineColor: extern(sfCircleShape_setOutlineColor) func (color: Color)
+    setOutlineThickness: extern(sfCircleShape_setOutlineThickness) func (thickness: Float)
+    setRadius: extern(sfCircleShape_setRadius) func (radius: Float)
+    // TODO: other methods
+}
+
 Texture: cover from sfTexture* {
     new: extern(sfTexture_create) static func (width, height: Uint) -> Texture
     new: extern(sfTexture_createFromFile) static func (path: CString, area: IntRect*) -> Texture
@@ -322,8 +332,7 @@ Texture: cover from sfTexture* {
     // TODO: from memory / from stream
 }
 
-Sprite: cover from sfSprite* extends Drawable {
-    new: extern(sfSprite_create) static func -> Sprite
+Sprite: cover from sfSprite* {
     copy: extern(sfSprite_copy) func -> Sprite
     destroy: extern(sfSprite_destroy) func
     setX: extern(sfSprite_setX) func (x: Float)

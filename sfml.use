@@ -5,5 +5,5 @@ Name: SFML
 Description: Simple and Fast Multimedia Library
 Requires: 
 Version: 2.0
-Libs: -lcsfml-audio -lcsfml-graphics -lcsfml-network -lcsfml-system -lcsfml-window
+Libs: -lcsfml-audio, -lcsfml-graphics, -lcsfml-network, -lcsfml-system, -lcsfml-window
 SourcePath: source

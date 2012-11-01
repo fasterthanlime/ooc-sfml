@@ -6,12 +6,9 @@ main: func {
     clock := PausableClock new()
     win := RenderWindow new(VideoMode new(600,470), "Hello World!")
 
-    sprite := Sprite new()
-    "Got sprite %p" printfln(sprite)
-
-    texture := Texture new("data/ball.png" toCString(), null)
-    "Got texture %p" printfln(texture)
-    sprite setTexture(texture, true)
+    circle := Circle new()
+    circle setRadius(20)
+    circle setFillColor(Color Red)
 
     while(win open?()) {
         ev: Event
@@ -30,7 +27,7 @@ main: func {
         clock getElapsedTime() toString() println()
     
         win clear(Color Blue)
-        win draw(sprite, null)
+        win draw(circle, null)
         win display()
     }
 }

@@ -203,8 +203,6 @@ Shader: cover from sfShader* {
     setFloat2Parameter: extern(sfShader_setFloat2Parameter) func ~c (name: CString, x: Float, y: Float)
     setFloat3Parameter: extern(sfShader_setFloat3Parameter) func ~c (name: CString, x: Float, y: Float, z: Float)
     setFloat4Parameter: extern(sfShader_setFloat4Parameter) func ~c (name: CString, x: Float, y: Float, z: Float, w: Float)
-    setTexture: extern(sfShader_setTexture) func (name: Char*, texture: Image)
-    setCurrentTexture: extern(sfShader_setCurrentTexture) func (name: Char*)
     bind: extern(sfShader_bind) func
     unbind: extern(sfShader_unbind) func
     available?: extern(sfShader_isAvailable) func -> Bool
@@ -330,7 +328,7 @@ Sprite: cover from sfSprite* extends Drawable {
     destroy: extern(sfSprite_destroy) func
     setX: extern(sfSprite_setX) func (x: Float)
     setY: extern(sfSprite_setY) func (y: Float)
-    setTexture: extern(sfSprite_setTexture) func (tex: Texture)
+    setTexture: extern(sfSprite_setTexture) func (tex: Texture, resetRect: Bool)
     setPosition: extern(sfSprite_setPosition) func (x: Float, y: Float)
     setScaleX: extern(sfSprite_setScaleX) func (scale: Float)
     setScaleY: extern(sfSprite_setScaleY) func (scale: Float)

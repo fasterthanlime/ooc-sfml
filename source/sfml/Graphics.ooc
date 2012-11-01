@@ -1,6 +1,5 @@
 import sfml/Windows
 import sfml/Drawable
-import sfml/RenderTarget
 
 include SFML/Graphics
 include SFML/Graphics/Glyph
@@ -218,7 +217,7 @@ RenderStates: cover from sfRenderStates* {
     shader: extern Shader
 }
 
-RenderWindow: cover from sfRenderWindow* extends RenderTarget {
+RenderWindow: cover from sfRenderWindow* {
     new: extern(sfRenderWindow_create) static func ~allParams(mode: VideoMode, title: Char*, style: ULong, params: ContextSettings*) -> RenderWindow
     new: static func ~noSettings(mode: VideoMode, title: Char*, style: ULong) -> RenderWindow {
         new(mode,title,style,null)
@@ -267,6 +266,10 @@ RenderWindow: cover from sfRenderWindow* extends RenderTarget {
     draw: extern(sfRenderWindow_drawSprite) func ~sprite (sprite: Sprite, renderStates: RenderStates)
     draw: extern(sfRenderWindow_drawShape) func ~shape (shape: Shape, renderStates: RenderStates)
     draw: extern(sfRenderWindow_drawText) func ~text (text: Text, renderStates: RenderStates)
+
+    clear: func ~defaultColor {
+      this clear(Color Black)
+    }
 }
 
 Shape: cover from sfShape* extends Drawable {

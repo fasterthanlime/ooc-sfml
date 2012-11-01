@@ -10,7 +10,7 @@ main: func {
     // make a sprite and load the image into it
     texture := Texture new("data/cool_sprite.jpg" toCString(), null)
     sprite := Sprite new()
-    sprite setTexture(texture)
+    // sprite setTexture(texture)
 
     // Equivalent to
     // sprite := Sprite new()
@@ -43,7 +43,7 @@ main: func {
     
         // clear the window, draw the sprite and display it :) 
         win clear()
-        win draw(sprite)
+        //win draw(sprite, null)
         win display()
     }
 }

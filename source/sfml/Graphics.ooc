@@ -316,13 +316,51 @@ Shape: cover from sfShape* extends Drawable {
 
 Circle: cover from sfCircleShape* extends Shape {
     new: extern(sfCircleShape_create) static func -> This
-    setOrigin: extern(sfCircleShape_setOrigin) func (scale: Vector2f)
+    copy: extern(sfCircleShape_copy) func -> This
+    destroy: extern(sfCricleShape_destroy) func
+
+    getPosition: extern(sfCircleShape_getPosition) func -> Vector2f
+    setPosition: extern(sfCircleShape_setPosition) func (position: Vector2f)
+    move: extern(sfCircleShape_move) func (offset: Vector2f)
+
+    getRotation: extern(sfCircleShape_getRotation) func -> Float
+    setRotation: extern(sfCircleShape_setRotation) func (angle: Float)
+    rotate: extern(sfCircleShape_rotate) func (angle: Float)
+
+    getScale: extern(sfCircleShape_GetScale) func -> Vector2f
     setScale: extern(sfCircleShape_setScale) func (scale: Vector2f)
+    scale: extern(sfCircleShape_scale) func (scale: Vector2f)
+
+    getOrigin: extern(sfCircleShape_getOrigin) func -> Vector2f
+    setOrigin: extern(sfCircleShape_setOrigin) func (origin: Vector2f)
+
+    // Missing: transform / inverse transform
+
+    getTexture: extern(sfCircleShape_getTexture) func -> Texture
+    setTexture: extern(sfCircleShape_setTexture) func (texture: Texture, resetRect: Bool)
+
+    getTextureRect: extern(sfCircleShape_getTextureRect) func -> IntRect
+    setTextureRect: extern(sfCircleShape_setTextureRect) func (rect: IntRect)
+
+    getFillColor: extern(sfCircleShape_getFillColor) func -> Color
     setFillColor: extern(sfCircleShape_setFillColor) func (color: Color)
+
+    getOutlineColor: extern(sfCircleShape_getOutlineColor) func -> Color
     setOutlineColor: extern(sfCircleShape_setOutlineColor) func (color: Color)
+
+    getOutlineThickness: extern(sfCircleShape_getOutlineThickness) func -> Float
     setOutlineThickness: extern(sfCircleShape_setOutlineThickness) func (thickness: Float)
+
+    getPointCount: extern(sfCircleShape_getPointCount) func -> UInt
+    setPointCount: extern(sfCircleShape_setPointCount) func (pointCount: UInt)
+
+    getPoint: extern(sfCircleShape_getPoint) func -> Vector2f
+
+    getRadius: extern(sfCircleShape_getRadius) func -> Float
     setRadius: extern(sfCircleShape_setRadius) func (radius: Float)
-    // TODO: other methods
+
+    getLocalBounds: extern(sfCircleShape_getLocalBounds) func -> FloatRect
+    getGlobalBounds: extern(sfCircleShape_getGlobalBounds) func -> FloatRect
 }
 
 Texture: cover from sfTexture* {

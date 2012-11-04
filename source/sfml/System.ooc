@@ -10,14 +10,26 @@ Vector2i: cover from sfVector2i {
     y: extern Int
 }
 
+vec2i: func (x, y: Int) -> Vector2i {
+  (x, y) as Vector2i
+}
+
 Vector2u: cover from sfVector2u {
     x: extern UInt
     y: extern UInt
 }
 
+vec2u: func (x, y: UInt) -> Vector2u {
+  (x, y) as Vector2u
+}
+
 Vector2f: cover from sfVector2f {
     x: extern Float
     y: extern Float
+}
+
+vec2f: func (x, y: Float) -> Vector2f {
+  (x, y) as Vector2f
 }
 
 Mutex: cover from sfMutex* {

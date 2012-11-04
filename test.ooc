@@ -1,6 +1,6 @@
 use sfml
 
-import sfml/[Graphics, Windows, PausableClock]
+import sfml/[Graphics, Windows, PausableClock, System]
  
 main: func {
     clock := PausableClock new()
@@ -8,6 +8,8 @@ main: func {
 
     circle := Circle new()
     circle setRadius(20)
+
+    circle setPosition(vec2f(60, 30))
     circle setFillColor(Color Red)
 
     while(win open?()) {
